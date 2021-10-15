@@ -1,0 +1,43 @@
+.form {
+    height: 55vh;
+    
+    .ant-form {
+        padding: 0 5vh 0 5vh !important;
+        height: 82%;
+        width: 100%;
+        overflow: hidden;
+    
+        .ant-space {
+            width: 100% !important;
+    
+            .ant-space-item {
+                width: 100% !important;
+            }
+    
+            // .ant-space-item > .ant-form-item.or {
+            //   width: auto !important;
+            // }
+        }
+    
+        .ant-form-item {
+            margin-bottom: 3vh !important;
+            width: 100% !important;
+        }
+    
+        .or {
+            margin-bottom: 2vh !important;
+        }
+    
+        .ant-form-item-label {
+            display: flex !important;
+        }
+    
+        .mobile {
+            margin: 0 !important;
+        }
+    }
+    
+    .ant-form:hover {
+        overflow: auto;
+    }
+  }

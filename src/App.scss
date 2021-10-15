@@ -1,6 +1,6 @@
 .ant-layout {
   height: 100vh !important;
-  
+
   .ant-layout-header {
     height: 12vh !important;
     padding: 2vh 5vh !important;
@@ -11,12 +11,12 @@
     flex-direction: column !important;
     position: fixed !important;
     width: 100% !important;
-    border-bottom: 0.2px solid #777777;
-  
+    // border-bottom: 0.2px solid #777777;
+
     .header {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
-      text-decoration: underline;
+      // text-decoration: underline;
     }
   }
 
@@ -24,41 +24,20 @@
     height: 78vh !important;
     margin-top: 12vh !important;
     margin-bottom: 10vh !important;
-    /* padding: 2vh 0 5vh 25vh !important; */
     background-color: #ffffff !important;
-  
+
     .title {
+      padding: 0 0 0 5vh !important;
       font-weight: 700;
-      text-decoration: underline;
-    }
-  
-    .important-notes {
-      padding: 1vh 0 0 25vh !important;
-    }
-  
-    .form {
-      padding: 0 0 0 25vh !important;
-      height: 60vh;
-  
-      .ant-form {
-        height: 94%;
-        overflow: hidden;
-  
-        .ant-form-item-label {
-          display: flex !important;
-        }
-  
-        .mobile {
-          margin: 0 !important;
-        }
-      }
-  
-      .ant-form:hover {
-        overflow: auto;
-      }
+      background: #f2f2f2;
+      height: 8vh;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      margin-bottom: 2vh;
     }
   }
-  
+
   .ant-layout-footer {
     height: 10vh !important;
     padding: 2vh 5vh !important;
@@ -69,14 +48,15 @@
     position: fixed !important;
     width: 100% !important;
     bottom: 0 !important;
-    border-top: 0.2px solid #777777;
-  
+    border-top: 1px solid #cccccc;
+    z-index: 999;
+
     .footer-row {
       width: 100% !important;
       display: flex !important;
       align-items: center !important;
     }
-  
+
     .progress {
       padding-right: 2vh;
       display: flex;
