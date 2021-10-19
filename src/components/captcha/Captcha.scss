@@ -1,0 +1,56 @@
+.captcha.ant-layout {
+  height: 100vh !important;
+
+  .ant-layout-header {
+    height: 10vh !important;
+    padding: 2vh 5vh !important;
+    background: #f2f2f2 !important;
+    line-height: inherit !important;
+    display: flex !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    width: 100% !important;
+
+    .header {
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+
+  .ant-layout-content {
+    height: 90vh !important;
+    margin-top: 10vh !important;
+    margin-bottom: 0 !important;
+    background-color: #ffffff !important;
+
+    .block {
+      padding: 5vh 0 0 10vh !important;
+      width: 30% !important;
+      height: 45% !important;
+      display: flex !important;
+      justify-content: space-around !important;
+      flex-direction: column !important;
+
+      img {
+        width: 50% !important;
+      }
+
+      .captcha-input {
+        display: flex !important;
+
+        .ant-input {
+          width: 50% !important;
+        }
+
+        .ant-btn {
+          margin-left: 1vh !important;
+        }
+      }
+
+      .ant-btn-block {
+        width: 35% !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.update-booking {
+    padding: 5vh 0 0 5vh !important;
+
+    .ant-form-item {
+        margin: 0 !important;
+    }
+
+    .submit-btn {
+        background-color: #00a546 !important;
+        color: #ffffff !important;
+        width: 100% !important;
+    }
+
+    .submit-btn:disabled {
+        background-color: #00a54680 !important;
+      }
+}

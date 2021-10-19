@@ -1,0 +1,17 @@
+.ant-tabs-nav {
+  margin: 0 !important;
+  height: 8vh !important;
+  padding-left: 5vh !important;
+}
+
+.ant-tabs-content-holder {
+  height: 92vh !important;
+
+  .ant-tabs-content {
+    height: 100% !important;
+
+    .ant-tabs-tabpane-active {
+      height: 100% !important;
+    }
+  }
+}

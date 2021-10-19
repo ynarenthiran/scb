@@ -1,7 +1,7 @@
 import './form.scss';
 
 import { Row, Form, Input, Select, DatePicker, Space } from 'antd';
-import { Option } from 'antd/lib/mentions';
+const { Option } = Select;
 
 function Forms(props: any) {
     return (
