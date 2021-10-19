@@ -10,7 +10,7 @@ const { TabPane } = Tabs;
 class Tab extends Component {
     render() {
         return (
-            <Tabs defaultActiveKey="cancellationAndEnquiries">
+            <Tabs defaultActiveKey="new">
                 <TabPane tab="New Booking" key="new">
                     <NewBooking />
                 </TabPane>
