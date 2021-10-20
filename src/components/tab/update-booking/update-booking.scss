@@ -3,6 +3,11 @@
 
     .ant-form-item {
         margin: 0 !important;
+
+        .submit-button.ant-col {
+            display: flex !important;
+            justify-content: flex-end !important;
+        }
     }
 
     .submit-btn {
@@ -13,5 +18,5 @@
 
     .submit-btn:disabled {
         background-color: #00a54680 !important;
-      }
+    }
 }

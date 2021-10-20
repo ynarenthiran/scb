@@ -1,16 +1,22 @@
+import { Component } from 'react';
+import { withTranslation } from 'react-i18next';
 import './important-notes.scss';
 
-function ImportantNotes() {
-    return (
-        <div className='important-notes'>
-            <div className="title">Important Notes</div>
-            <ol>
-                <li>Each client can only submit one pre-order application</li>
-                <li>xxx xxx xxx</li>
-                <li>xxx xxx xxx</li>
-            </ol>
-        </div>
-    )
+class ImportantNotes extends Component {
+    render() {
+        const { t }: any = this.props;
+        return (
+            <div className='important-notes'>
+                <div className="title">{t('importantNotes.title')}</div>
+                <ol>
+                    <li>{t(`importantNotes.1`)}</li>
+                    <li>{t(`importantNotes.2`)}</li>
+                </ol>
+            </div>
+        )
+    }
 }
 
-export default ImportantNotes;
+const ImportantNotesTranslated = withTranslation()(ImportantNotes);
+
+export default ImportantNotesTranslated;

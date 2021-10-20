@@ -1,5 +1,9 @@
 .important-notes {
-    ol {
-      padding: 0 0 0 10vh !important;
-    }
+  height: 27vh;
+  position: fixed;
+  margin-top: 13vh;
+
+  ol {
+    padding: 0 0 0 10vh !important;
   }
+}

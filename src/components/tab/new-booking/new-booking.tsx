@@ -4,9 +4,9 @@ import { Layout, Button, Row, Col, Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
 import Forms from '../../form/form';
-import ImportantNotes from '../../important-notes/important-notes';
+import { withTranslation } from 'react-i18next';
 
-const { Header, Footer, Content } = Layout;
+const { Footer } = Layout;
 
 const formControls = [
     { name: ['title'], value: null, required: true, disabled: false },
@@ -37,16 +37,10 @@ class NewBooking extends Component {
         this.setState({ orderStatus: 'change' });
     }
     render() {
+        const { t }: any = this.props;
         return (
-            <Layout>
-                <Header>
-                    <div className='header'>Chinese New Year Banknotes Booking</div>
-                    <div>Please fill in the below ordering form to complete the registration</div>
-                </Header>
-                <Content>
-                    <ImportantNotes />
-                    <Forms form={this.form} fields={this.state.fields} status={this.state.orderStatus} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
-                </Content>
+            <span>
+                <Forms form={this.form} fields={this.state.fields} status={this.state.orderStatus} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
                 <Footer>
                     <Row className='footer-row'>
                         <Col span={4} offset={20}>
@@ -55,26 +49,28 @@ class NewBooking extends Component {
                                     this.state.orderStatus === 'review' &&
                                     <Space align='end'>
                                         <Col span={12}>
-                                            <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>Back</Button>
+                                            <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>{t('new_booking.button.back')}</Button>
                                         </Col>
                                         <Col span={12}>
-                                            <Button className='review-btn' type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder(this.state.fields)}>Submit</Button>
+                                            <Button className='review-btn' type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder(this.state.fields)}>{t('new_booking.button.submit')}</Button>
                                         </Col>
                                     </Space>
                                 }
                                 {
                                     this.state.orderStatus === 'change' &&
-                                    <Col span={12} offset={12}>
-                                        <Button className='submit-btn' type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>Review</Button>
+                                    <Col span={16} offset={8}>
+                                        <Button className='submit-btn' type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
                                     </Col>
                                 }
                             </Row>
                         </Col>
                     </Row>
                 </Footer>
-            </Layout>
+            </span>
         );
     }
 }
 
-export default NewBooking;
+const NewBookingTranslated = withTranslation()(NewBooking);
+
+export default NewBookingTranslated;
