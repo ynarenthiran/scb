@@ -31,6 +31,9 @@ const en = {
         email: 'Email Address',
         button: 'Submit'
     },
+    forms: {
+
+    },
     review_orders: {
 
     },

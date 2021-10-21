@@ -82,18 +82,22 @@ class Forms extends Component {
                             </Form.Item>
                         </Space>
                     </Row>
-                    <Form.Item label="Quantity">
-                        <Space direction='vertical'>
-                            <span className="ant-form-text">1</span>
-                            <span className="ant-form-text">Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)</span>
+                    <Row>
+                        <Space>
+                            <Form.Item label="Quantity">
+                                <Space direction='vertical'>
+                                    <span className="ant-form-text">1</span>
+                                    <span className="ant-form-text">Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)</span>
+                                </Space>
+                            </Form.Item>
+                            <Form.Item label="Declaration">
+                                <Space direction='vertical'>
+                                    <Checkbox checked={this.state.info} onChange={(e) => this.setState({ info: e.target.checked })}>I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted</Checkbox>
+                                    <Checkbox checked={this.state.termsCondition} onChange={(e) => this.setState({ termsCondition: e.target.checked })}>I have read, understood and agreed to the terms and conditions of this application</Checkbox>
+                                </Space>
+                            </Form.Item>
                         </Space>
-                    </Form.Item>
-                    <Form.Item label="Declaration">
-                        <Space direction='vertical'>
-                            <Checkbox checked={this.state.info} onChange={(e) => this.setState({ info: e.target.checked })}>I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted</Checkbox>
-                            <Checkbox checked={this.state.termsCondition} onChange={(e) => this.setState({ termsCondition: e.target.checked })}>I have read, understood and agreed to the terms and conditions of this application</Checkbox>
-                        </Space>
-                    </Form.Item>
+                    </Row>
                 </Form>
             </div>
         )
