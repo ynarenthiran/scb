@@ -1,12 +1,11 @@
 import './Captcha.scss';
 import { Component } from "react";
-import { Button, Input, Layout, Select } from 'antd';
+import { Button, Input, Layout } from 'antd';
 import { Redirect } from 'react-router-dom';
-import { ReloadOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ReloadOutlined, LoadingOutlined, GlobalOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
 const { Content } = Layout;
-const { Option } = Select;
 
 class Captcha extends Component {
     state: any = { navigate: false, captchaInput: '', verifyButtonLoader: false, reloadCaptchaLoader: false, captcha: 'https://www.technotification.com/wp-content/uploads/2014/12/captcha.jpg', lang: 'en' };
@@ -46,10 +45,7 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                 <Content>
-                    <Select defaultValue={this.state.lang} onChange={(event) => this.changeLanguageHandler(event)}>
-                        <Option value="en">{t('captcha.selectOptions.English')}</Option>
-                        <Option value="zh">{t('captcha.selectOptions.Chinese')}</Option>
-                    </Select>
+                    <Button icon={<GlobalOutlined />} className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
                     <div className="block">
                         <div>{t('captcha.header')}</div>
                         {
@@ -63,7 +59,7 @@ class Captcha extends Component {
                                 <Button className='img-reload' shape="circle" icon={<ReloadOutlined />} onClick={() => this.refreshCaptcha()}></Button>
                             </div>
                         }
-                        <Input placeholder={t('captcha.placeholder')} onChange={(e) => this.setState({ captchaInput: e.target.value })} />
+                        <Input placeholder={t('captcha.placeholder')} maxLength={6} onChange={(e) => this.setState({ captchaInput: e.target.value })} />
                         <Button block disabled={this.state.captchaInput?.length !== 6} loading={this.state.verifyButtonLoader} onClick={() => this.verifyCaptcha()}>{t('captcha.button')}</Button>
                     </div>
                 </Content>
