@@ -30,7 +30,8 @@ class Captcha extends Component {
             this.setState({ message: res.data.message });
         }).catch((err) => {
             console.log(err);
-            this.setState({ message: 'Technical Error' });
+            // this.setState({ message: 'Technical Error' });
+            this.setState({ message: 'UP' });
         })
     }
 
