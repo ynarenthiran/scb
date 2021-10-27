@@ -10,7 +10,6 @@ const { Footer } = Layout;
 
 const formControls = [
     { name: ['title'], value: null, required: true, disabled: false },
-    { name: ['firstName'], value: null, required: true, disabled: false },
     { name: ['lastName'], value: null, required: true, disabled: false },
     { name: ['mobileNumber'], value: null, required: true, disabled: false },
     { name: ['emailAddress'], value: null, required: true, disabled: false },

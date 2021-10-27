@@ -4,9 +4,11 @@ const en = {
         placeholder: 'Verification Code',
         button: 'Verify to Proceed',
         selectOptions: {
-            English: 'English',
+            English: 'En',
             Chinese: 'Chinese'
-        }
+        },
+        TechnicalError: 'Technical Error...!',
+        Maintenance: 'Maintenance...!'
     },
     tab: {
         new_booking: 'Booking',

@@ -6,7 +6,9 @@ const zh = {
         selectOptions: {
             English: '英语',
             Chinese: '中文'
-        }
+        },
+        TechnicalError: 'Technical Error...!',
+        Maintenance: 'Maintenance...!'
     },
     tab: {
         new_booking: '预订',

@@ -1,18 +1,65 @@
 .captcha.ant-layout {
   height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+
+  .ant-layout-header {
+    height: 12vh !important;
+    display: flex !important;
+    position: fixed !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    border-bottom: 1px solid #f2f2f2;
+
+    .sc-logo {
+      height: 100%;
+    }
+
+    .border {
+      display: flex;
+      flex-direction: column;
+      width: 1vh !important;
+      margin: 0 10vh;
+      height: 100% !important;
+
+      .border-top {
+        background-color: #00a546;
+        height: 100% !important;
+        width: 100% !important;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .border-bottom {
+        background-color: #0091ea;
+        height: 100% !important;
+        width: 100% !important;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
 
   .ant-layout-content {
-    height: 100vh !important;
-    margin: 0 !important;
+    margin: 12vh 0 0 0 !important;
+    height: 88vh !important;
+    // margin: 0 !important;
     background-color: #ffffff !important;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative !important;
 
     .lang {
       position: absolute;
       top: 2vh;
       right: 2vh;
+    }
+
+    .lang.ant-btn:hover,
+    .lang.ant-btn:focus {
+      color: #00a546 !important;
+      border-color: #00a546 !important;
     }
 
     .block {
@@ -39,7 +86,12 @@
 
       .ant-input {
         width: 70% !important;
-        border-color: #111111;
+        font-size: 15px;
+        font-weight: 400;
+        background: #fafafa;
+        height: 44px;
+        border: 1px solid #dddde2;
+        left: 0;
       }
 
       .ant-btn-block {
@@ -49,7 +101,7 @@
       }
 
       .ant-btn-block:disabled {
-        background-color: #00a54680 !important;
+        background-color: #d4d4d4 !important;
       }
     }
   }
