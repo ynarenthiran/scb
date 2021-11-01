@@ -20,7 +20,8 @@ class Forms extends Component {
 
     getBranchList() {
         this.service.get(`/branchlist/CNY-1635753999385-WNFAR5VJOOSV`).then((res) => {
-            this.setState({ branchList: _.groupBy(res, 'region') });
+            // this.setState({ branchList: _.groupBy(res, 'region') });
+            this.setState({ branchList: res });
         }).catch((err) => {
             console.log(err);
         });
@@ -78,7 +79,8 @@ class Forms extends Component {
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
                         <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(event) => this.getDateList(event)}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
-                                <OptGroup label={k}>
+                                _.size(v) &&
+                                <OptGroup label={k === 'regionOne' ? 'Hong Kong' : ((k === 'regionTwo' ? 'Kowloon' : 'New Territories'))}>
                                     {v.map((d: any) => (
                                         <Option value={d.code}>{(this.service.language === 'en') ? d.name : d.chineseName}</Option>
                                     ))}

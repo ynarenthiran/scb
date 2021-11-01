@@ -1,7 +1,7 @@
 import './Captcha.scss';
 import { Component } from "react";
 import { Button, Input, Layout } from 'antd';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
@@ -48,6 +48,7 @@ class Captcha extends Component {
             this.setState({ reloadCaptchaLoader: false });
             this.setState({ captcha: result.data.captcha });
             this.setState({ uuid: result.data.uuid });
+            this.service.setUUID(result.data.uuid);
         }, (error) => {
             this.setState({ reloadCaptchaLoader: false });
             this.setState({ captcha: null });
@@ -102,6 +103,7 @@ class Captcha extends Component {
                 </Header>
                 <Content>
                     <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
+                    <Link to="/booking">New Booking</Link>
                     {
                         !this.state.message &&
                         <div id="loader" className="loader"></div>

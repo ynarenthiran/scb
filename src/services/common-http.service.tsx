@@ -6,6 +6,7 @@ require('dotenv').config();
 const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/origination/api/v3/cnynotes`;
 export class CommonHttpService {
     language: any;
+    uuid: any;
     get(url: string) {
         return fetch(`${APPURL}${url}`, {
             method: 'GET',
@@ -51,6 +52,11 @@ export class CommonHttpService {
 
     setLanguage(lang: string) {
         this.language = lang;
+        i18n.changeLanguage(this.language);
+    }
+
+    setUUID(uuid: string) {
+        this.uuid = uuid;
         i18n.changeLanguage(this.language);
     }
 }
