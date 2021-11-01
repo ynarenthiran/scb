@@ -76,12 +76,21 @@
         justify-content: center;
 
         img {
-          width: 50% !important;
+          width: 60% !important;
         }
 
         .img-reload {
           margin-left: 1vh !important;
         }
+      }
+
+      .captcha-error{
+        color: #d0021b !important;
+        font-size: 13px;
+        font-family: "SCSans",sans-serif!important;
+        display: block;
+        line-height: normal;
+        font-weight: inherit;
       }
 
       .ant-input {

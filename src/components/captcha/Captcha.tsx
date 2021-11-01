@@ -1,55 +1,88 @@
 import './Captcha.scss';
 import { Component } from "react";
-import { Button, Empty, Input, Layout } from 'antd';
+import { Button, Input, Layout } from 'antd';
 import { Redirect } from 'react-router-dom';
-import { ReloadOutlined, LoadingOutlined, GlobalOutlined } from '@ant-design/icons';
+import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
-import axios from 'axios';
-import { apiVersion, APP_URL } from '../../environment'
+import { v4 as uuidv4 } from 'uuid';
+import { CommonHttpService } from '../../services/common-http.service';
 const { Header, Content } = Layout;
 
 class Captcha extends Component {
     state: any = { navigate: false, captchaInput: '', verifyButtonLoader: false, reloadCaptchaLoader: false, captcha: null, lang: 'en', message: null };
-
+    service = new CommonHttpService();
     constructor(props?: any) {
         super(props);
         this.changeLanguageHandler('en');
+
+    }
+
+    componentDidMount() {
         this.getStatus();
-        this.refreshCaptcha();
     }
 
     changeLanguageHandler(lang: any) {
         this.setState({ lang });
+        this.service.setLanguage(lang);
         i18n.changeLanguage(lang);
     }
 
     getStatus() {
-        this.setState({ message: null });
-        axios.get(`${APP_URL}/${apiVersion}/servicecheck`).then((res) => {
-            this.setState({ message: res.data.message });
-        }).catch((err) => {
-            console.log(err);
-            // this.setState({ message: 'Technical Error' });
-            this.setState({ message: 'UP' });
+        this.service.get('/servicecheck').then((result) => {
+            this.setState({ message: result.paramValue });
+            if (result.paramValue && result.paramValue.toLowerCase() === 'Up'.toLowerCase()) {
+                this.refreshCaptcha();
+            }
+        }, (error) => {
+            this.setState({ message: "Error" });
         })
     }
 
     refreshCaptcha() {
         this.setState({ reloadCaptchaLoader: true });
-        this.setState({ captcha: '' });
-        setTimeout(() => {
+        this.setState({ captchainvalid: false });
+        this.setState({ captchaInput: "" });
+        this.setState({ captcha: null });
+        this.service.get('/captcha').then((result) => {
             this.setState({ reloadCaptchaLoader: false });
-            this.setState({ captcha: 'https://www.technotification.com/wp-content/uploads/2014/12/captcha.jpg' });
-        }, 2000);
+            this.setState({ captcha: result.data.captcha });
+            this.setState({ uuid: result.data.uuid });
+        }, (error) => {
+            this.setState({ reloadCaptchaLoader: false });
+            this.setState({ captcha: null });
+            this.setState({ message: "Error" });
+        })
     }
 
     verifyCaptcha() {
         this.setState({ verifyButtonLoader: true });
-        setTimeout(() => {
+        let validateCaptcha = {
+            "data":
+            {
+                "id": 0,
+                "type": "CAPTCHAVALIDATION",
+                "attributes": { "unique-id": this.state.uuid, "captha-answer": this.state.captchaInput }
+            }
+        };
+        this.service.post('/captcha', validateCaptcha).then((result) => {
             this.setState({ verifyButtonLoader: false });
-            this.setState({ navigate: true });
-        }, 2000);
+            if (result.status === 404) {
+                this.setState({ navigate: false });
+                this.setState({ captchainvalid: true });
+                this.setState({ captchaInput: "" });
+            } else if (result.status === 200) {
+                this.setState({ navigate: true });
+            } else {
+                this.setState({ navigate: false });
+                this.setState({ captchainvalid: true });
+                this.setState({ captchaInput: "" });
+            }
+        }, (error) => {
+            this.setState({ captcha: null });
+            this.setState({ message: "Error" });
+            this.setState({ verifyButtonLoader: false });
+        });
     }
 
     render() {
@@ -60,7 +93,7 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                 <Header>
-                    <img className='sc-logo' src='assets/images/sc-logo.svg' alt="Logo" />
+                    <img className='sc-logo' src='../assets/images/sc-logo.svg' alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
@@ -71,40 +104,51 @@ class Captcha extends Component {
                     <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
                     {
                         !this.state.message &&
-                        <LoadingOutlined style={{ fontSize: 30 }} spin />
+                        <div id="loader" className="loader"></div>
                     }
                     {/* Technical Error */}
                     {
-                        this.state.message && this.state.message.toLowerCase() === 'technical error' &&
-                        <Empty image="https://image.flaticon.com/icons/png/512/237/237169.png" description={t('captcha.TechnicalError')}></Empty>
+                        this.state.message && this.state.message.toLowerCase() === 'Error'.toLowerCase() &&
+                        <div className='header'>{t('captcha.TechnicalError')}</div>
                     }
                     {/* System Maintenance */}
                     {
-                        this.state.message && this.state.message.toLowerCase() === 'system maintenance' &&
-                        <Empty image="https://www.searlesgraphics.com/Images/support-maintenance.png" description={t('captcha.Maintenance')}></Empty>
+                        this.state.message && this.state.message.toLowerCase() === 'Maintenance'.toLowerCase() &&
+                        <div className='header'>{t('captcha.Maintenance')}</div>
                     }
                     {/* Thank You */}
                     {
-                        this.state.message && this.state.message.toLowerCase() === 'thank you' &&
-                        <Empty image="https://www.pngall.com/wp-content/uploads/2016/04/Thank-You-PNG-Picture.png" description={''}></Empty>
+                        this.state.message && this.state.message.toLowerCase() === 'Thankyou'.toLowerCase() &&
+                        <div className='header'>{t('captcha.Thankyou')}</div>
                     }
                     {
-                        this.state.message && this.state.message.toLowerCase() === 'up' &&
+                        this.state.message && this.state.message.toLowerCase() === 'Up'.toLowerCase() &&
                         <div className="block">
                             <div>{t('captcha.header')}</div>
                             {
                                 this.state.reloadCaptchaLoader && !this.state.captcha &&
-                                <LoadingOutlined style={{ fontSize: 24 }} spin />
+                                <div id="loader" className="loader"></div>
                             }
                             {
                                 !this.state.reloadCaptchaLoader && this.state.captcha &&
                                 <div className='captcha-img'>
-                                    <img src={this.state.captcha} alt="Captcha" />
+                                    <img src={'data:image/png;base64,' + this.state.captcha} alt="Captcha" />
                                     <Button className='img-reload' shape="circle" icon={<ReloadOutlined />} onClick={() => this.refreshCaptcha()}></Button>
                                 </div>
                             }
-                            <Input placeholder={t('captcha.placeholder')} size="large" maxLength={6} onChange={(e) => this.setState({ captchaInput: e.target.value })} />
-                            <Button block disabled={this.state.captchaInput?.length !== 6} loading={this.state.verifyButtonLoader} onClick={() => this.verifyCaptcha()}>{t('captcha.button')}</Button>
+
+                            <Input placeholder={t('captcha.placeholder')} size="large" maxLength={7} value={this.state.captchaInput} autoFocus onChange={(e) => this.setState({ captchaInput: e.target.value })} onPressEnter={() => this.verifyCaptcha()} />
+                            {
+                                !this.state.reloadCaptchaLoader && this.state.captcha && this.state.captchainvalid &&
+                                <div className='captcha-error'>
+                                    {t('captcha.Error')}
+                                </div>
+                            }
+                            <Button block disabled={this.state.captchaInput?.length !== 7} onClick={() => this.verifyCaptcha()}>{t('captcha.button')}</Button>
+                            {
+                                this.state.verifyButtonLoader &&
+                                <div id="loader" className="loader"></div>
+                            }
                         </div>
                     }
                 </Content>
@@ -112,7 +156,5 @@ class Captcha extends Component {
         )
     }
 }
-
 const CaptchaTranslated = withTranslation()(Captcha);
-
 export default CaptchaTranslated;

@@ -3,7 +3,7 @@ import './new-booking.scss';
 import { Layout, Button, Row, Col, Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
-import Forms from '../../form/form';
+import FormsTranslated from '../../form/form';
 import { withTranslation } from 'react-i18next';
 
 const { Footer } = Layout;
@@ -39,7 +39,7 @@ class NewBooking extends Component {
         const { t }: any = this.props;
         return (
             <span>
-                <Forms form={this.form} fields={this.state.fields} status={this.state.orderStatus} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
+                <FormsTranslated form={this.form} fields={this.state.fields} status={this.state.orderStatus} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
                 <Footer>
                     <Row className='footer-row'>
                         <Col span={4} offset={20}>

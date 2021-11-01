@@ -1,26 +1,27 @@
 import './form.scss';
 
-import { Form, Input, InputNumber, Select, DatePicker, Space, Checkbox } from 'antd';
+import { Form, Input, Select, DatePicker, Space, Checkbox } from 'antd';
 import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
+import { withTranslation } from 'react-i18next';
 const { OptGroup, Option } = Select;
 
 
 class Forms extends Component {
     props: any = this.props;
+    form: any;
     state = { info: true, termsCondition: true, branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
     service = new CommonHttpService();
 
     componentDidMount() {
+        console.log(this.service.language);
         this.getBranchList();
     }
 
     getBranchList() {
-        this.service.get(`/branchlist`).then((res) => {
-            const keys = _.keys(res.data);
-            const initValue = (_.size(keys) && res.data && res.data[keys[0]] && res.data[keys[0]][0]) ? res.data[keys[0]][0].value : ''
-            this.setState({ branchList: res.data, branchSelected: initValue });
+        this.service.get(`/branchlist/CNY-1635753999385-WNFAR5VJOOSV`).then((res) => {
+            this.setState({ branchList: _.groupBy(res, 'region') });
         }).catch((err) => {
             console.log(err);
         });
@@ -48,72 +49,68 @@ class Forms extends Component {
     }
 
     render() {
+        const { t }: any = this.props;
         return (
             <div className='form'>
-                <div className="title">{this.props.status === 'review' ? 'Review of ' : ''}Order Details</div>
+                <div className="title">Order Details</div>
                 <Form layout="vertical" fields={this.props.fields}
                     onFieldsChange={(_, allFields) => {
                         this.props.onChange(allFields);
-                    }} form={this.props.form}>
-                    <Form.Item name='title' label="Title" rules={[{ required: true, message: 'Title is required!' }]}>
-                        <Select disabled={this.props.status === 'review'} size="large" placeholder="Please Select...">
+                    }} form={this.form}>
+                    <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')}>
                             <Option value="Mr.">Mr.</Option>
                             <Option value="Mrs.">Mrs.</Option>
+                            <Option value="Miss">Miss</Option>
                         </Select>
                     </Form.Item>
-                    <Form.Item name='lastName' label="Last Name" rules={[{ required: true, message: 'Last Name is required!' }]}>
-                        <Input disabled={this.props.status === 'review'} size="large" placeholder="Last Name" />
+                    <Form.Item name='lastName' label={t('forms.LastName')} rules={[{ required: true, message: `${t('forms.LastName')} is required!` }]}>
+                        <Input size="large" placeholder={t('forms.LastName')} />
                         {
                             false && <span className="ant-form-text">Last Name</span>
                         }
                     </Form.Item>
-                    <Form.Item name='mobileNumber' label="Mobile Number" rules={[{ required: true, message: 'Mobile Number is required!' }]}>
+                    <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <InputNumber style={{ width: '90%' }} min={1} max={99999999} value={undefined} size="large" placeholder="Mobile Number" />
+                            <Input style={{ width: '90%' }} min={1} max={99999999} value={undefined} size="large" placeholder={t('forms.MobileNumber')} />
                         </Input.Group>
                     </Form.Item>
-                    <Form.Item name='emailAddress' label="Email Address" rules={[{ required: true, message: 'Email Address is required!' }]}>
-                        <Input disabled={this.props.status === 'review'} size="large" placeholder="Email Address" />
-                        {
-                            false && <span className="ant-form-text">Email Address</span>
-                        }
-                    </Form.Item>
-                    <Form.Item name='collectionBranch' label="Collection Branch" rules={[{ required: true, message: 'Collection Branch is required!' }]}>
-                        <Select size="large" placeholder="Please Select..." onChange={(event) => this.getDateList(event)}>
+                    <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(event) => this.getDateList(event)}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 <OptGroup label={k}>
                                     {v.map((d: any) => (
-                                        <Option value={d.code}>Branch {d.name}</Option>
+                                        <Option value={d.code}>{(this.service.language === 'en') ? d.name : d.chineseName}</Option>
                                     ))}
                                 </OptGroup>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item name='collectionDate' label="Collection Date" rules={[{ required: true, message: 'Collection Date is required!' }]}>
+                    <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
                         <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(event) => this.disabledDate(event)} onChange={(event) => this.getTimeSlots(event)}
                             style={{
                                 width: '100%',
                             }}
                         />
                     </Form.Item>
-                    <Form.Item name='collectionTimeslot' label="Collection Timeslot" rules={[{ required: true, message: 'Collection Timeslot is required!' }]}>
-                        <Select disabled={this.props.status === 'review'} size="large" placeholder="Please Select...">
+                    <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')} rules={[{ required: true, message: `${t('forms.CollectionTimeslot')} is required!` }]}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}
                         </Select>
                     </Form.Item>
-                    <Form.Item label="Quantity">
+                    <Form.Item label={t('forms.Quantity')}>
                         <Space direction='vertical'>
                             <span className="ant-form-text">1</span>
-                            <span className="ant-form-text">Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)</span>
+                            <span className="ant-form-text">{t('forms.QuantityText')}</span>
                         </Space>
                     </Form.Item>
-                    <Form.Item label="Declaration">
+                    <Form.Item label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                            <Checkbox checked={this.state.info} onChange={(e) => this.setState({ info: e.target.checked })}>I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted</Checkbox>
-                            <Checkbox checked={this.state.termsCondition} onChange={(e) => this.setState({ termsCondition: e.target.checked })}>I have read, understood and agreed to the terms and conditions of this application</Checkbox>
+                            <Checkbox checked={this.state.info} onChange={(e) => this.setState({ info: e.target.checked })}>{t('forms.DeclarationPoints.1')}</Checkbox>
+                            <Checkbox checked={this.state.termsCondition} onChange={(e) => this.setState({ termsCondition: e.target.checked })}>{t('forms.DeclarationPoints.2')}</Checkbox>
                         </Space>
                     </Form.Item>
                 </Form>
@@ -121,4 +118,5 @@ class Forms extends Component {
         )
     }
 }
-export default Forms;
+const FormsTranslated: any = withTranslation()(Forms);
+export default FormsTranslated;

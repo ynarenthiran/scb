@@ -34,7 +34,20 @@ const en = {
         button: 'Submit'
     },
     forms: {
-
+        'SelectPlaceholder': 'Please Select...',
+        'Title': 'Title',
+        'LastName': 'Last Name',
+        'MobileNumber': 'Mobile Number',
+        'CollectionBranch': 'Collection Branch',
+        'CollectionDate': 'Collection Date',
+        'CollectionTimeslot': 'Collection Timeslot',
+        'Quantity': 'Quantity',
+        'Declaration': 'Declaration',
+        'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)',
+        'DeclarationPoints': {
+            1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
+            2: 'I have read, understood and agreed to the terms and conditions of this application'
+        }
     },
     review_orders: {
 

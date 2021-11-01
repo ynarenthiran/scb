@@ -1,33 +1,56 @@
+import { v4 as uuidv4 } from 'uuid';
+import i18n from '../wrappers/i18n/i18n';
+
 require('dotenv').config();
-const APPURL = `${process.env.APP_URL || 'http://localhost:8080'}/api/v3/cnynotes`;
+
+const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/origination/api/v3/cnynotes`;
 export class CommonHttpService {
-    async get(url: string, staticURL?: boolean) {
-        const ipAddr = await fetch('https://ipapi.co/json').then(response => response.json()).then((res) => {
-            return res;
-        }).catch((err) => {
-            return err;
-        })
-        console.log(ipAddr);
-        const URL = staticURL ? url : `${APPURL}${url}`;
-        return fetch(URL, {
+    language: any;
+    get(url: string) {
+        return fetch(`${APPURL}${url}`, {
             method: 'GET',
-            headers: {
-                reqId: "ae1d7f93-d141-486f-af4a-9b32c3c2c238",
-                Language: "EN",
-                Channel: "Web",
-                Country: "SG",
-                AppName: "RCWB",
-                ClientId: "WEB",
-                RumDevice: "devicebrowserversion",
-                HostIp: ipAddr.ip,
-                Version: "1.0",
-                InstanceCode: "CB_SG"
-            }
+            headers: this.headers()
         }).then(response => response.json()).then((res) => {
-            console.log(res);
             return res;
         }).catch((err) => {
             return err;
         })
+    }
+
+    post(url: string, body: any) {
+        return fetch(`${APPURL}${url}`, {
+            method: 'POST',
+            headers: this.headers(),
+            body: JSON.stringify(body)
+        }).then(response => response.json()).then((res) => {
+            return res;
+        }).catch((err) => {
+            return err;
+        })
+    }
+
+    headers() {
+        let headers: any = {};
+        headers["Content-Type"] = "application/json";
+        headers["Accept"] = "application/json";
+        let SC_CLIENT_CONTEXT = {
+            "reqId": `${uuidv4()}`,
+            "Channel": "Web",
+            "Country": "HK",
+            "Language": "EN",
+            "AppName": "RCWB",
+            "ClientId": "WEB",
+            "RumDevice": "devicebrowserversion",
+            "appVersion": "1.0",
+            "userId": "CNY-1635753999385-WNFAR5VJOOSV",
+            "releaseVersion": "cnynotes"
+        };
+        headers["SC-CLIENT-CONTEXT"] = JSON.stringify(SC_CLIENT_CONTEXT);
+        return headers;
+    };
+
+    setLanguage(lang: string) {
+        this.language = lang;
+        i18n.changeLanguage(this.language);
     }
 }
