@@ -15,7 +15,6 @@ class Forms extends Component {
     service = new CommonHttpService();
 
     componentDidMount() {
-        console.log(this.service.language);
         this.getBranchList();
     }
 
@@ -73,7 +72,7 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} min={1} max={99999999} value={undefined} size="large" placeholder={t('forms.MobileNumber')} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
