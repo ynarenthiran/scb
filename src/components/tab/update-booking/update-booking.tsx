@@ -4,30 +4,82 @@ import { Component } from "react";
 import { Button, Col, Form, Input, Row, Space, Table } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
+import { CommonHttpService } from '../../../services/common-http.service';
 
 class UpdateBooking extends Component {
-    state = { email: null, mobile: null, selectedRowKeys: [] };
+    state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
+    service = new CommonHttpService();
 
-    submitForm() {
-        console.log(this.state);
+    componentWillUnmount() {
+        this.setState({});
     }
 
+    submitForm() {
+        this.setState({ loadingAppointment: true });
+        let validateCaptcha = {
+            "data":
+            {
+                "id": 0,
+                "type": "APPOINTMENT",
+                "attributes": { "unique-id": this.props.uuid, "mobileNo": '852' + this.state.mobile }
+            }
+        };
+        this.service.post('/appointments', validateCaptcha, this.props.uuid, this.props.lang).then(res => {
+            this.setState({
+                status: res.status,
+            });
+            return res.json();
+        }).then((response) => {
+            console.log("result.status:" + this.state.status);
+            console.log("response:", response);
+            this.setState({ loadingAppointment: true });
+            if (this.state.status === 404) {
+                this.setState({ loadingAppointment: false });
+            } else if (this.state.status === 200) {
+                this.setState({ loadingAppointment: false });
+                this.setState({ appointmentData: response });
+                console.log("response:", this.state.appointmentData);
+            } else {
+                this.setState({ loadingAppointment: false });
+            }
+        }).catch((error) => {
+            this.setState({ loadingAppointment: false });
+        });
+    }
+
+    validate(e: any) {
+        const re = /^[0-9\b]+$/;
+        if (e.target.value === '' || re.test(e.target.value)) {
+            this.setState({ mobile: e.target.value })
+        }
+        console.log("check function 1" + this.state.mobile)
+    }
+
+
+    props: any = this.props;
+    constructor(props?: any) {
+        super(props);
+        props = this.props;
+        console.log("lanaguge:" + this.props.lang)
+        console.log("uuid:" + this.props.uuid)
+        // this.validate = this.validate.bind(this);
+    }
     columns = [
         {
             title: 'Collection Date',
-            dataIndex: 'collection_date'
+            dataIndex: 'appointment-date'
         },
         {
             title: 'Collection Timeslot',
-            dataIndex: 'collection_timeslot'
+            dataIndex: 'appointment-slot'
         },
         {
             title: 'Collection Branch',
-            dataIndex: 'collection_branch'
+            dataIndex: 'branch-name'
         },
         {
             title: 'Reference Number',
-            dataIndex: 'reference_number'
+            dataIndex: 'ref-id'
         }
     ];
 
@@ -40,21 +92,17 @@ class UpdateBooking extends Component {
 
     rowSelection = {
         selectedRowKeys: [],
-        onChange: this.onSelectChange,
-        selections: [
-            Table.SELECTION_ALL,
-            Table.SELECTION_NONE
-        ]
+        onChange: this.onSelectChange
     };
 
     render() {
         for (let i = 0; i < 150; i++) {
             this.data.push({
                 key: i,
-                reference_number: i,
-                collection_date: i,
-                collection_timeslot: `Edward King ${i}`,
-                collection_branch: 32
+                'appointment-date': i,
+                'appointment-slot': i,
+                'branch-name': `Edward King ${i}`,
+                'ref-id': 32
             });
         }
         const { t }: any = this.props;
@@ -64,26 +112,30 @@ class UpdateBooking extends Component {
                     <Form className='update-booking' layout="horizontal">
                         <Space direction="vertical">
                             <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>
-                                <Input size="large" placeholder={t('update_booking.mobile')} onChange={(e) => this.setState({ mobile: e.target.value })} />
-                            </Form.Item>
-                            or
-                            <Form.Item name='emailAddress' label={t('update_booking.email')}>
-                                <Input size="large" placeholder={t('update_booking.email')} onChange={(e) => this.setState({ email: e.target.value })} />
+                                <Input.Group compact>
+                                    <Input style={{ width: '15%' }} disabled={true} size="large" defaultValue="852" />
+                                    <Input style={{ width: '85%' }} size="large" maxLength={8} placeholder={t('update_booking.mobile')} value={this.state.mobile} onChange={(e) => this.validate(e)} autoFocus />
+                                </Input.Group>
                             </Form.Item>
                             <Col className='submit-button' span={8} offset={16}>
-                                <Button className='submit-btn' type="primary" disabled={!this.state.email && !this.state.mobile} icon={<ArrowRightOutlined />} onClick={() => this.submitForm()}>{t('update_booking.button')}</Button>
+                                <Button className='submit-btn' type="primary" disabled={this.state.mobile.length !== 8} icon={<ArrowRightOutlined />} onClick={() => this.submitForm()}>{t('update_booking.button')}</Button>
                             </Col>
                         </Space>
                     </Form>
                 </Col>
-                <Col span={14}>
-                    <Table rowSelection={this.rowSelection} columns={this.columns} dataSource={this.data} size="small" bordered pagination={{ pageSize: 10 }} scroll={{ y: 165 }} />
-                </Col>
+                {
+                    this.state.loadingAppointment &&
+                    <div id="loader" className="loader"></div>
+                }
+                {
+                    this.state.appointmentData != null &&
+                    <Col span={14}>
+                        <Table rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered pagination={{ pageSize: 10 }} scroll={{ y: 165 }} />
+                    </Col>
+                }
             </Row>
         );
     }
 }
-
 const UpdateBookingTranslated = withTranslation()(UpdateBooking);
-
 export default UpdateBookingTranslated;

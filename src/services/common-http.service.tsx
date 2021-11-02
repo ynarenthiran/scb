@@ -7,30 +7,24 @@ const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/ori
 export class CommonHttpService {
     language: any;
     uuid: any;
-    get(url: string) {
+    get(url: string,uuid: any,lang: any) {
+        console.log("language from captcha is:"+this.language)
         return fetch(`${APPURL}${url}`, {
             method: 'GET',
-            headers: this.headers()
-        }).then(response => response.json()).then((res) => {
-            return res;
-        }).catch((err) => {
-            return err;
-        })
+            headers: this.headers(uuid,lang)
+        }).then(response => response.json())
     }
 
-    post(url: string, body: any) {
+    post(url: string, body: any, uuid: any,lang: any) {
+        console.log("language from captcha is:"+this.language)
         return fetch(`${APPURL}${url}`, {
             method: 'POST',
-            headers: this.headers(),
+            headers: this.headers(uuid,lang),
             body: JSON.stringify(body)
-        }).then(response => response.json()).then((res) => {
-            return res;
-        }).catch((err) => {
-            return err;
-        })
+        }).then(response => response)
     }
 
-    headers() {
+    headers(uuid: any, lang: any) {
         let headers: any = {};
         headers["Content-Type"] = "application/json";
         headers["Accept"] = "application/json";
@@ -38,12 +32,12 @@ export class CommonHttpService {
             "reqId": `${uuidv4()}`,
             "Channel": "Web",
             "Country": "HK",
-            "Language": "EN",
+            "Language": lang,
             "AppName": "RCWB",
             "ClientId": "WEB",
             "RumDevice": "devicebrowserversion",
             "appVersion": "1.0",
-            "userId": "CNY-1635753999385-WNFAR5VJOOSV",
+            "userId": uuid,
             "releaseVersion": "cnynotes"
         };
         headers["SC-CLIENT-CONTEXT"] = JSON.stringify(SC_CLIENT_CONTEXT);

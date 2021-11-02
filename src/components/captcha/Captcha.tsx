@@ -1,13 +1,14 @@
 import './Captcha.scss';
 import { Component } from "react";
 import { Button, Input, Layout } from 'antd';
-import { Link, Redirect } from 'react-router-dom';
 import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
-import { v4 as uuidv4 } from 'uuid';
 import { CommonHttpService } from '../../services/common-http.service';
+import TabTranslated from '../tab/tab';
+
 const { Header, Content } = Layout;
+
 
 class Captcha extends Component {
     state: any = { navigate: false, captchaInput: '', verifyButtonLoader: false, reloadCaptchaLoader: false, captcha: null, lang: 'en', message: null };
@@ -29,12 +30,12 @@ class Captcha extends Component {
     }
 
     getStatus() {
-        this.service.get('/servicecheck').then((result) => {
+        this.service.get('/servicecheck',this.state.uuid,this.state.lang).then((result) => {
             this.setState({ message: result.paramValue });
             if (result.paramValue && result.paramValue.toLowerCase() === 'Up'.toLowerCase()) {
                 this.refreshCaptcha();
             }
-        }, (error) => {
+        }).catch((error) =>{
             this.setState({ message: "Error" });
         })
     }
@@ -44,12 +45,12 @@ class Captcha extends Component {
         this.setState({ captchainvalid: false });
         this.setState({ captchaInput: "" });
         this.setState({ captcha: null });
-        this.service.get('/captcha').then((result) => {
+        this.service.get('/captcha',this.state.uuid,this.state.lang).then((result) => {
             this.setState({ reloadCaptchaLoader: false });
             this.setState({ captcha: result.data.captcha });
             this.setState({ uuid: result.data.uuid });
             this.service.setUUID(result.data.uuid);
-        }, (error) => {
+        }).catch((error) =>{
             this.setState({ reloadCaptchaLoader: false });
             this.setState({ captcha: null });
             this.setState({ message: "Error" });
@@ -66,8 +67,9 @@ class Captcha extends Component {
                 "attributes": { "unique-id": this.state.uuid, "captha-answer": this.state.captchaInput }
             }
         };
-        this.service.post('/captcha', validateCaptcha).then((result) => {
+        this.service.post('/captcha', validateCaptcha,this.state.uuid,this.state.lang).then((result) => {
             this.setState({ verifyButtonLoader: false });
+            console.log("result.status:"+result.status)
             if (result.status === 404) {
                 this.setState({ navigate: false });
                 this.setState({ captchainvalid: true });
@@ -79,7 +81,7 @@ class Captcha extends Component {
                 this.setState({ captchainvalid: true });
                 this.setState({ captchaInput: "" });
             }
-        }, (error) => {
+        }).catch((error) =>{
             this.setState({ captcha: null });
             this.setState({ message: "Error" });
             this.setState({ verifyButtonLoader: false });
@@ -88,8 +90,14 @@ class Captcha extends Component {
 
     render() {
         const { t }: any = this.props;
+        let propsdata = {
+            lang: this.state.lang,
+            uuid: this.state.uuid
+        }
         if (this.state.navigate) {
-            return <Redirect to="/booking" path="/booking" exact={true} />
+            return (
+                <TabTranslated {...propsdata}/>
+              );
         }
         return (
             <Layout className="captcha">
@@ -103,7 +111,6 @@ class Captcha extends Component {
                 </Header>
                 <Content>
                     <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
-                    <Link to="/booking">New Booking</Link>
                     {
                         !this.state.message &&
                         <div id="loader" className="loader"></div>

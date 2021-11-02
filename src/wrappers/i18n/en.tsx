@@ -7,8 +7,13 @@ const en = {
             English: 'En',
             Chinese: 'Chinese'
         },
-        TechnicalError: 'Technical Error...!',
-        Maintenance: 'Maintenance...!'
+        TechnicalError: 'This service is temporarily unavailable for system maintenance. Please try again later. Apologies for the'
+        +' inconvenience caused',
+        Maintenance: 'This service is temporarily unavailable for system maintenance. Please try again later. Apologies for the'
+        +' inconvenience caused',
+        Thankyou: 'Thank you for your interest for this service, however our new banknotes reservation are fully booked. Please visit our branches'
+        +' for assistance.',
+        Error: "Please enter valid captcha"
     },
     tab: {
         new_booking: 'Booking',
@@ -47,7 +52,10 @@ const en = {
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
-        }
+        },
+        "regionThree": "---- New Territories ----",
+        "regionTwo": "---- Kowloon  ----",
+        "regionOne": "---- Hong Kong ----"
     },
     review_orders: {
 

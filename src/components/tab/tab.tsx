@@ -11,6 +11,15 @@ const { Header, Content } = Layout;
 const { TabPane } = Tabs;
 
 class Tab extends Component {
+    props: any = this.props;
+    constructor(props?: any) {
+        super(props);
+        props = this.props;
+        console.log("lanaguge:"+this.props.lang)
+        console.log("uuid:"+this.props.uuid)
+    }
+
+
     render() {
         const { t }: any = this.props;
         return (
@@ -23,10 +32,10 @@ class Tab extends Component {
                     <ImportantNotesTranslated />
                     <Tabs defaultActiveKey="new">
                         <TabPane tab={t('tab.new_booking')} key="new">
-                            <NewBooking />
+                            <NewBooking {...this.props}/>
                         </TabPane>
                         <TabPane tab={t('tab.update_booking')} key="cancellationAndEnquiries">
-                            <UpdateBooking />
+                            <UpdateBooking {...this.props}/>
                         </TabPane>
                     </Tabs>
                 </Content>

@@ -32,8 +32,7 @@ const zh = {
         mobile: '移动号码',
         email: '电子邮件地址',
         button: '提交'
-    },
-    forms: {
+    },forms: {
         'SelectPlaceholder': 'Please Select...',
         'Title': 'Title',
         'LastName': 'Last Name',
@@ -47,7 +46,10 @@ const zh = {
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
-        }
+        },
+        "regionThree": "---- New Territories ----",
+        "regionTwo": "---- Kowloon  ----",
+        "regionOne": "---- Hong Kong ----"
     },
     review_orders: {
 

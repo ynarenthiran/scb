@@ -1,0 +1,17 @@
+.review-booking {
+    height: 100%;
+
+    .prop-list {
+        height: 76% !important;
+        width: 100%;
+        overflow: hidden;
+
+        .prop-li {
+            margin-bottom: 2vh !important;
+        }
+    }
+
+    .prop-list:hover {
+        overflow: auto;
+    }
+}

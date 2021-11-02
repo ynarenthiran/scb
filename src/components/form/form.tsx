@@ -14,13 +14,21 @@ class Forms extends Component {
     state = { info: true, termsCondition: true, branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
     service = new CommonHttpService();
 
+    constructor(props?: any) {
+        super(props);
+        props = this.props;
+        console.log("uuid in constructor:"+this.props.uuid)
+    }
+    
+    
     componentDidMount() {
+        this.setState({ info: true, termsCondition: true, branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
         this.getBranchList();
     }
 
     getBranchList() {
-        this.service.get(`/branchlist/CNY-1635753999385-WNFAR5VJOOSV`).then((res) => {
-            // this.setState({ branchList: _.groupBy(res, 'region') });
+        console.log("uuid is:"+this.props.uuid)
+        this.service.get(`/branchlist/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
             this.setState({ branchList: res });
         }).catch((err) => {
             console.log(err);
@@ -29,7 +37,7 @@ class Forms extends Component {
 
     getDateList(event: any) {
         console.log(event);
-        this.service.get(`/slots/${this.state.branchSelected}`).then((res) => {
+        this.service.get(`/slots/${event}/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
             this.setState({ dateList: res.data.slots });
         }).catch((err) => {
             console.log(err);
@@ -38,7 +46,7 @@ class Forms extends Component {
 
     disabledDate(event: any) {
         const date: any = event ? _.find(this.state.dateList, ['slot-date', event.format('DD/MM/YYYY')]) : null;
-        return date && !date.status;
+        return !date || (date && !date.status);
     }
 
     getTimeSlots(event: any) {
@@ -80,9 +88,9 @@ class Forms extends Component {
                         <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(event) => this.getDateList(event)}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 _.size(v) &&
-                                <OptGroup label={k === 'regionOne' ? 'Hong Kong' : ((k === 'regionTwo' ? 'Kowloon' : 'New Territories'))}>
+                                <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
                                     {v.map((d: any) => (
-                                        <Option value={d.code}>{(this.service.language === 'en') ? d.name : d.chineseName}</Option>
+                                        <Option value={d.code}>{(this.props.language === 'en') ? d.name : d.chineseName}</Option>
                                     ))}
                                 </OptGroup>
                             ))}
