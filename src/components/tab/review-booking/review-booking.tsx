@@ -18,7 +18,6 @@ class ReviewBooking extends Component {
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log(this.props);
     }
 
     getValue(key: any) {

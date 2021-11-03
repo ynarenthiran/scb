@@ -10,13 +10,13 @@ import { withTranslation } from 'react-i18next';
 const { Footer } = Layout;
 
 const formControls = [
-    { label: 'Title', name: ['title'], value: null, required: true, disabled: false },
-    { label: 'Last Name', name: ['lastName'], value: null, required: true, disabled: false },
-    { label: 'Mobile Number', name: ['mobileNumber'], value: null, required: true, disabled: false },
-    // { label: 'emailAddress', name: ['emailAddress'], value: null, required: true, disabled: false },
-    { label: 'Collection Branch', name: ['collectionBranch'], value: null, required: true, disabled: false },
-    { label: 'Collection Date', name: ['collectionDate'], value: null, required: true, disabled: false },
-    { label: 'Collection Timeslot', name: ['collectionTimeslot'], value: null, required: true, disabled: false }
+    { label: 'Title', name: 'title', value: null, required: true, disabled: false },
+    { label: 'Last Name', name: 'lastName', value: null, required: true, disabled: false },
+    { label: 'Mobile Number', name: 'mobileNumber', value: null, required: true, disabled: false },
+    // { label: 'emailAddress', name: 'emailAddress', value: null, required: true, disabled: false },
+    { label: 'Collection Branch', name: 'collectionBranch', value: null, required: true, disabled: false },
+    { label: 'Collection Date', name: 'collectionDate', value: null, required: true, disabled: false },
+    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true, disabled: false }
 ]
 
 class NewBooking extends Component {

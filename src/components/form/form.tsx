@@ -56,6 +56,16 @@ class Forms extends Component {
         }
     }
 
+    allFields: any = this.props.fields;
+
+    setData(e: any, field: any) {
+        const fieldData = _.find(this.allFields, ['name[0]', field]);
+        if (fieldData) {
+            fieldData.value = e.target.value;
+        }
+        this.props.onChange(this.allFields);
+    }
+
     render() {
         const { t }: any = this.props;
         return (
@@ -63,6 +73,7 @@ class Forms extends Component {
                 <div className="title">Order Details</div>
                 <Form layout="vertical" fields={this.props.fields}
                     onFieldsChange={(_, allFields) => {
+                        console.log('Fields Change', _, allFields);
                         this.props.onChange(allFields);
                     }} form={this.form}>
                     <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
@@ -73,7 +84,7 @@ class Forms extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')} rules={[{ required: true, message: `${t('forms.LastName')} is required!` }]}>
-                        <Input size="large" placeholder={t('forms.LastName')} />
+                        <Input size="large" placeholder={t('forms.LastName')} onChange={(e) => this.setData(e, 'lastName')} />
                         {
                             false && <span className="ant-form-text">Last Name</span>
                         }
@@ -81,7 +92,7 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} onChange={(e) => this.setData(e, 'mobileNumber')} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>

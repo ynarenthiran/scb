@@ -5,6 +5,7 @@ import { Button, Col, Form, Input, Row, Space, Table } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
+import _ from 'lodash';
 
 class UpdateBooking extends Component {
     state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
@@ -37,6 +38,9 @@ class UpdateBooking extends Component {
                 this.setState({ loadingAppointment: false });
             } else if (this.state.status === 200) {
                 this.setState({ loadingAppointment: false });
+                _.each(response, (r) => {
+                    r.key = r['ref-id'];
+                })
                 this.setState({ appointmentData: response });
                 console.log("response:", this.state.appointmentData);
             } else {
@@ -96,15 +100,15 @@ class UpdateBooking extends Component {
     };
 
     render() {
-        for (let i = 0; i < 150; i++) {
-            this.data.push({
-                key: i,
-                'appointment-date': i,
-                'appointment-slot': i,
-                'branch-name': `Edward King ${i}`,
-                'ref-id': 32
-            });
-        }
+        // for (let i = 0; i < 150; i++) {
+        //     this.data.push({
+        //         key: i,
+        //         'appointment-date': i,
+        //         'appointment-slot': i,
+        //         'branch-name': `Edward King ${i}`,
+        //         'ref-id': 32
+        //     });
+        // }
         const { t }: any = this.props;
         return (
             <Row>
