@@ -22,7 +22,7 @@ class Forms extends Component {
     
     
     componentDidMount() {
-        this.setState({ info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
+        // this.setState({ info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
         this.getBranchList();
     }
 
@@ -59,7 +59,8 @@ class Forms extends Component {
     allFields: any = this.props.fields;
 
     setData(e: any, field: any) {
-        const fieldData = _.find(this.allFields, ['name[0]', field]);
+        const fieldData = _.find(this.allFields, ['name', field]);
+        console.log(fieldData);
         if (fieldData) {
             fieldData.value = e;
             this.props.onChange(this.allFields);
@@ -78,13 +79,9 @@ class Forms extends Component {
         return (
             <div className='form'>
                 <div className="title">Order Details</div>
-                <Form layout="vertical" fields={this.props.fields}
-                    onFieldsChange={(_, allFields) => {
-                        console.log('Fields Change', _, allFields);
-                        this.props.onChange(allFields);
-                    }} form={this.form}>
+                <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.setData(e, 'title')}>
                             <Option value="Mr.">Mr.</Option>
                             <Option value="Mrs.">Mrs.</Option>
                             <Option value="Miss">Miss</Option>
@@ -103,7 +100,7 @@ class Forms extends Component {
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.getDateList(e)}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => { this.getDateList(e); this.setData(e, 'collectionBranch'); }}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 _.size(v) &&
                                 <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
@@ -115,14 +112,14 @@ class Forms extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
-                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => this.getTimeSlots(e)}
+                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
                                 width: '100%',
                             }}
                         />
                     </Form.Item>
                     <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')} rules={[{ required: true, message: `${t('forms.CollectionTimeslot')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}

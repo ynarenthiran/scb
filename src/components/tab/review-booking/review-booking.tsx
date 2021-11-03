@@ -21,9 +21,13 @@ class ReviewBooking extends Component {
         props = this.props;
     }
 
+    componentDidMount() {
+        console.log(this.props.fields);
+    }
+
     getValue(key: any) {
-        const data = _.find(this.props.fields, (pf) => { return (key === pf.name[0]) });
-        if (data) {
+        const data = _.find(this.props.fields, ['name', key]);
+        if (data && data.value) {
             return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : data.value;
         }
         return '-';
@@ -35,6 +39,22 @@ class ReviewBooking extends Component {
             <div className='review-booking'>
                 <div className="title">Review Order Details</div>
                 <div className='prop-list'>
+                    {/* {_.each(this.props.fields, (pf) => (
+                        <Col className='prop-li' span={16} push={4} pull={4}>
+                            <Row>
+                                <Col span={5}>{t(`forms['${pf.label}']`)}</Col>
+                                <Col span={1}>:</Col>
+                                <Col span={16}>{this.getValue(pf.name) || '-'}</Col>
+                            </Row>
+                        </Col>
+                    ))} */}
+                    <Col className='prop-li' span={16} push={4} pull={4}>
+                            <Row>
+                                <Col span={5}>{t(`forms.Title`)}</Col>
+                                <Col span={1}>:</Col>
+                                <Col span={16}>{this.getValue('title') || '-'}</Col>
+                            </Row>
+                        </Col>
                     <Col className='prop-li' span={16} push={4} pull={4}>
                         <Row>
                             <Col span={5}>{t('forms.Title')}</Col>

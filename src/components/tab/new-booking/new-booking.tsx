@@ -10,13 +10,12 @@ import { withTranslation } from 'react-i18next';
 const { Footer } = Layout;
 
 const formControls = [
-    { label: 'Title', name: ['title'], value: null, required: true, disabled: false },
-    { label: 'Last Name', name: ['lastName'], value: null, required: true, disabled: false },
-    { label: 'Mobile Number', name: ['mobileNumber'], value: null, required: true, disabled: false },
-    // { label: 'emailAddress', name: ['emailAddress'], value: null, required: true, disabled: false },
-    { label: 'Collection Branch', name: ['collectionBranch'], value: null, required: true, disabled: false },
-    { label: 'Collection Date', name: ['collectionDate'], value: null, required: true, disabled: false },
-    { label: 'Collection Timeslot', name: ['collectionTimeslot'], value: null, required: true, disabled: false }
+    { label: 'Title', name: 'title', value: null, required: true },
+    { label: 'Last Name', name: 'lastName', value: null, required: true },
+    { label: 'Mobile Number', name: 'mobileNumber', value: null, required: true },
+    { label: 'Collection Branch', name: 'collectionBranch', value: null, required: true },
+    { label: 'Collection Date', name: 'collectionDate', value: null, required: true },
+    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true }
 ]
 
 class NewBooking extends Component {
@@ -53,7 +52,7 @@ class NewBooking extends Component {
             <span>
                 {
                     this.state.orderStatus === 'change' &&
-                    <FormsTranslated {...this.props} form={this.form} fields={this.state.fields} status={this.state.orderStatus} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
+                    <FormsTranslated {...this.props} form={this.form} fields={this.state.fields} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
                 }
                 {
                     this.state.orderStatus === 'review' &&
