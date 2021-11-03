@@ -11,7 +11,7 @@ const { OptGroup, Option } = Select;
 class Forms extends Component {
     props: any = this.props;
     form: any;
-    state = { info: true, termsCondition: true, branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
+    state = { info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
     service = new CommonHttpService();
 
     constructor(props?: any) {
@@ -22,7 +22,7 @@ class Forms extends Component {
     
     
     componentDidMount() {
-        this.setState({ info: true, termsCondition: true, branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
+        this.setState({ info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
         this.getBranchList();
     }
 
@@ -61,9 +61,16 @@ class Forms extends Component {
     setData(e: any, field: any) {
         const fieldData = _.find(this.allFields, ['name[0]', field]);
         if (fieldData) {
-            fieldData.value = e.target.value;
+            fieldData.value = e;
+            this.props.onChange(this.allFields);
         }
-        this.props.onChange(this.allFields);
+    }
+
+    validate(e: any) {
+        const re = /^[0-9\b]+$/;
+        if (e.target.value === '' || re.test(e.target.value)) {
+            this.setState({ mobile: e.target.value })
+        }
     }
 
     render() {
@@ -84,7 +91,7 @@ class Forms extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')} rules={[{ required: true, message: `${t('forms.LastName')} is required!` }]}>
-                        <Input size="large" placeholder={t('forms.LastName')} onChange={(e) => this.setData(e, 'lastName')} />
+                        <Input size="large" placeholder={t('forms.LastName')} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
                             false && <span className="ant-form-text">Last Name</span>
                         }
@@ -92,11 +99,11 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} onChange={(e) => this.setData(e, 'mobileNumber')} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(event) => this.getDateList(event)}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.getDateList(e)}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 _.size(v) &&
                                 <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
@@ -108,7 +115,7 @@ class Forms extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
-                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(event) => this.disabledDate(event)} onChange={(event) => this.getTimeSlots(event)}
+                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => this.getTimeSlots(e)}
                             style={{
                                 width: '100%',
                             }}

@@ -7,19 +7,19 @@ const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/ori
 export class CommonHttpService {
     language: any;
     uuid: any;
-    get(url: string,uuid: any,lang: any) {
-        console.log("language from captcha is:"+this.language)
+    get(url: string, uuid: any, lang: any) {
+        console.log("language from captcha is:" + this.language)
         return fetch(`${APPURL}${url}`, {
             method: 'GET',
-            headers: this.headers(uuid,lang)
+            headers: this.headers(uuid, lang)
         }).then(response => response.json())
     }
 
-    post(url: string, body: any, uuid: any,lang: any) {
-        console.log("language from captcha is:"+this.language)
+    post(url: string, body: any, uuid: any, lang: any) {
+        console.log("language from captcha is:" + this.language)
         return fetch(`${APPURL}${url}`, {
             method: 'POST',
-            headers: this.headers(uuid,lang),
+            headers: this.headers(uuid, lang),
             body: JSON.stringify(body)
         }).then(response => response)
     }

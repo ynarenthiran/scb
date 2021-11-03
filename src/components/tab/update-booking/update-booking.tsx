@@ -59,7 +59,6 @@ class UpdateBooking extends Component {
         console.log("check function 1" + this.state.mobile)
     }
 
-
     props: any = this.props;
     constructor(props?: any) {
         super(props);

@@ -5,6 +5,7 @@ import { Col, Row } from 'antd';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import _ from 'lodash';
+import moment from 'moment';
 
 class ReviewBooking extends Component {
     state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
@@ -23,7 +24,7 @@ class ReviewBooking extends Component {
     getValue(key: any) {
         const data = _.find(this.props.fields, (pf) => { return (key === pf.name[0]) });
         if (data) {
-            return data.value;
+            return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : data.value;
         }
         return '-';
     }
