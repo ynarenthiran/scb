@@ -5,6 +5,7 @@ import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
+import moment from 'moment';
 const { OptGroup, Option } = Select;
 
 
@@ -30,6 +31,9 @@ class Forms extends Component {
         console.log("uuid is:"+this.props.uuid)
         this.service.get(`/branchlist/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
             this.setState({ branchList: res });
+            if (this.getValue('collectionBranch')) {
+                this.getDateList(this.getValue('collectionBranch'));
+            }
         }).catch((err) => {
             console.log(err);
         });
@@ -37,7 +41,7 @@ class Forms extends Component {
 
     getDateList(event: any) {
         console.log(event);
-        this.service.get(`/slots/${event}/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
+        this.service.get(`/slots/${event.value}/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
             this.setState({ dateList: res.data.slots });
         }).catch((err) => {
             console.log(err);
@@ -60,7 +64,6 @@ class Forms extends Component {
 
     setData(e: any, field: any) {
         const fieldData = _.find(this.allFields, ['name', field]);
-        console.log(fieldData);
         if (fieldData) {
             fieldData.value = e;
             this.props.onChange(this.allFields);
@@ -74,6 +77,14 @@ class Forms extends Component {
         }
     }
 
+    getValue(key: string) {
+        const data = _.find(this.props.fields, ['name', key]);
+        if (data && data.value) {
+            return data.value;
+        }
+        return '';
+    }
+
     render() {
         const { t }: any = this.props;
         return (
@@ -81,14 +92,14 @@ class Forms extends Component {
                 <div className="title">Order Details</div>
                 <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.setData(e, 'title')}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} onChange={(e) => this.setData(e, 'title')}>
                             <Option value="Mr.">Mr.</Option>
                             <Option value="Mrs.">Mrs.</Option>
                             <Option value="Miss">Miss</Option>
                         </Select>
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')} rules={[{ required: true, message: `${t('forms.LastName')} is required!` }]}>
-                        <Input size="large" placeholder={t('forms.LastName')} onChange={(e) => this.setData(e.target.value, 'lastName')} />
+                        <Input size="large" placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
                             false && <span className="ant-form-text">Last Name</span>
                         }
@@ -96,11 +107,11 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => { this.getDateList(e); this.setData(e, 'collectionBranch'); }}>
+                        <Select labelInValue size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionBranch')} onChange={(e) => { this.getDateList(e); this.setData(e, 'collectionBranch'); }}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 _.size(v) &&
                                 <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
@@ -112,14 +123,14 @@ class Forms extends Component {
                         </Select>
                     </Form.Item>
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
-                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
+                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
                                 width: '100%',
                             }}
                         />
                     </Form.Item>
                     <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')} rules={[{ required: true, message: `${t('forms.CollectionTimeslot')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionTimeslot')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}

@@ -28,7 +28,7 @@ class ReviewBooking extends Component {
     getValue(key: any) {
         const data = _.find(this.props.fields, ['name', key]);
         if (data && data.value) {
-            return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : data.value;
+            return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : (key === 'collectionBranch' && data.value && data.value.label) ? data.value.label : data.value;
         }
         return '-';
     }
