@@ -2,13 +2,14 @@ import './update-booking.scss';
 
 import { Component } from "react";
 import { Button, Col, Form, Input, Row, Space, Table } from 'antd';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowRightOutlined, CheckCircleTwoTone } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import _ from 'lodash';
+import ModalComponentTranslated from '../../modal';
 
 class UpdateBooking extends Component {
-    state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
+    state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null, showModal: false };
     service = new CommonHttpService();
 
     componentWillUnmount() {
@@ -17,6 +18,7 @@ class UpdateBooking extends Component {
 
     submitForm() {
         this.setState({ loadingAppointment: true });
+        this.setState({ showModal: true });
         let validateCaptcha = {
             "data":
             {
@@ -136,6 +138,15 @@ class UpdateBooking extends Component {
                         <Table rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered pagination={{ pageSize: 10 }} scroll={{ y: 165 }} />
                     </Col>
                 }
+                <ModalComponentTranslated visible={this.state.showModal} body={
+                    <Col>
+                        <Space>
+                            <CheckCircleTwoTone style={{ fontSize: '30px' }} twoToneColor="#52c41a" />
+                            <div>Your booking cancelled successfully: A sms for cancellation will be sent to your mobile number provided in this form.</div>
+                        </Space>
+                        <div>Your Reference Number is <b>A0003</b></div>
+                    </Col>
+                } onChange={(event: any) => this.setState({ showModal: event })}></ModalComponentTranslated>
             </Row>
         );
     }

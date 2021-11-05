@@ -1,11 +1,12 @@
 import './new-booking.scss';
 
 import { Layout, Button, Row, Col, Space } from 'antd';
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined, CheckCircleTwoTone } from '@ant-design/icons';
 import { Component } from 'react';
 import FormsTranslated from '../../form/form';
 import ReviewBookingTranslated from '../review-booking/review-booking';
 import { withTranslation } from 'react-i18next';
+import ModalComponentTranslated from '../../modal';
 
 const { Footer } = Layout;
 
@@ -20,13 +21,13 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { fields: formControls, orderStatus: "change" };
+    state = { fields: formControls, orderStatus: "change", showModal: false };
     props: any = this.props;
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log("lanaguge:"+this.props.lang)
-        console.log("uuid:"+this.props.uuid)
+        console.log("lanaguge:" + this.props.lang)
+        console.log("uuid:" + this.props.uuid)
     }
 
     componentWillUnmount() {
@@ -35,6 +36,7 @@ class NewBooking extends Component {
 
     submitOrder(fields: any) {
         console.log(fields);
+        this.setState({ showModal: true });
     }
 
     reviewOrder(fields: any) {
@@ -83,6 +85,15 @@ class NewBooking extends Component {
                         </Col>
                     </Row>
                 </Footer>
+                <ModalComponentTranslated visible={this.state.showModal} body={
+                    <Col>
+                        <Space>
+                            <CheckCircleTwoTone style={{ fontSize: '30px' }} twoToneColor="#52c41a" />
+                            <div>Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.</div>
+                        </Space>
+                        <div>Your Reference Number is <b>A0003</b></div>
+                    </Col>
+                } onChange={(event: any) => this.setState({ showModal: event })}></ModalComponentTranslated>
             </span>
         );
     }
