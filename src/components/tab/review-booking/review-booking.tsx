@@ -5,7 +5,7 @@ import { Col, Row } from 'antd';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import _ from 'lodash';
-import moment from 'moment';
+import moment from 'moment'
 
 class ReviewBooking extends Component {
     state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
@@ -14,22 +14,25 @@ class ReviewBooking extends Component {
     componentWillUnmount() {
         this.setState({ mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null });
     }
+    
+    componentDidMount() {
+        console.log(this.props.fields);
+    }
 
     props: any = this.props;
     constructor(props?: any) {
         super(props);
         props = this.props;
-    }
-
-    componentDidMount() {
-        console.log(this.props.fields);
+        console.log(this.props);
+        console.log(this.props.fields[0].title);
     }
 
     getValue(key: any) {
         const data = _.find(this.props.fields, ['name', key]);
+        console.log("data is:",data);
         if (data && data.value) {
             return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : (key === 'collectionBranch' && data.value && data.value.label) ? data.value.label : data.value;
-        }
+        }        
         return '-';
     }
 
@@ -39,22 +42,6 @@ class ReviewBooking extends Component {
             <div className='review-booking'>
                 <div className="title">Review Order Details</div>
                 <div className='prop-list'>
-                    {/* {_.each(this.props.fields, (pf) => (
-                        <Col className='prop-li' span={16} push={4} pull={4}>
-                            <Row>
-                                <Col span={5}>{t(`forms['${pf.label}']`)}</Col>
-                                <Col span={1}>:</Col>
-                                <Col span={16}>{this.getValue(pf.name) || '-'}</Col>
-                            </Row>
-                        </Col>
-                    ))} */}
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                            <Row>
-                                <Col span={5}>{t(`forms.Title`)}</Col>
-                                <Col span={1}>:</Col>
-                                <Col span={16}>{this.getValue('title') || '-'}</Col>
-                            </Row>
-                        </Col>
                     <Col className='prop-li' span={16} push={4} pull={4}>
                         <Row>
                             <Col span={5}>{t('forms.Title')}</Col>

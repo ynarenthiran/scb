@@ -31,7 +31,12 @@ class Captcha extends Component {
 
     getStatus() {
         this.service.get('/servicecheck',this.state.uuid,this.state.lang).then((result) => {
-            this.setState({ message: result.paramValue });
+            console.log("param value:", result.paramValue)
+            if(result.paramValue===undefined){
+                this.setState({ message: "Error" });
+            }else{
+                this.setState({ message: result.paramValue });
+            }
             if (result.paramValue && result.paramValue.toLowerCase() === 'Up'.toLowerCase()) {
                 this.refreshCaptcha();
             }
@@ -55,6 +60,14 @@ class Captcha extends Component {
             this.setState({ captcha: null });
             this.setState({ message: "Error" });
         })
+    }
+
+    validate(e: any) {
+        console.log("test in validate"+e.target.value.toUpperCase());
+        const re = /^[0-9a-zA-Z\b]+$/;
+        if (e.target.value === '' || re.test(e.target.value)) {
+            this.setState({ captchaInput: e.target.value.toUpperCase() })
+        }
     }
 
     verifyCaptcha() {
@@ -102,7 +115,7 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                 <Header>
-                    <img className='sc-logo' src='../assets/images/sc-logo.svg' alt="Logo" />
+                    <img className='sc-logo' src='/origination/hkcnybook/static/images/sc-logo.svg' alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
@@ -146,7 +159,7 @@ class Captcha extends Component {
                                 </div>
                             }
 
-                            <Input placeholder={t('captcha.placeholder')} size="large" maxLength={7} value={this.state.captchaInput} autoFocus onChange={(e) => this.setState({ captchaInput: e.target.value })} onPressEnter={() => this.verifyCaptcha()} />
+                            <Input placeholder={t('captcha.placeholder')} size="large" maxLength={7} value={this.state.captchaInput} autoFocus onChange={(e) => {this.validate(e);}} onPressEnter={() => this.verifyCaptcha()} />
                             {
                                 !this.state.reloadCaptchaLoader && this.state.captcha && this.state.captchainvalid &&
                                 <div className='captcha-error'>

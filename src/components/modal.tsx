@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { Modal, Button } from 'antd';
-import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 
 class ModalComponent extends Component {
@@ -16,7 +15,7 @@ class ModalComponent extends Component {
         return (
             <Modal title={t('new_booking.header')} visible={this.props.visible} onCancel={() => this.props.onChange(false)} footer={[
                 <Button key="submit" type="primary" onClick={() => this.props.onChange(false)}>
-                    Ok
+                    {t('model.okbutton')}
                 </Button>
             ]}>
                 {this.props.body}

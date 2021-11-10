@@ -5,14 +5,13 @@ import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
-import moment from 'moment';
 const { OptGroup, Option } = Select;
 
 
 class Forms extends Component {
     props: any = this.props;
     form: any;
-    state = { info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
+    state = {datesLoaded: false, datesLoading: false , info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
     service = new CommonHttpService();
 
     constructor(props?: any) {
@@ -40,9 +39,11 @@ class Forms extends Component {
     }
 
     getDateList(event: any) {
-        console.log(event);
+        this.setState({datesLoading: true})
         this.service.get(`/slots/${event.value}/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
+            this.setState({datesLoading: false})
             this.setState({ dateList: res.data.slots });
+            this.setState({datesLoaded: true});
         }).catch((err) => {
             console.log(err);
         });
@@ -73,7 +74,7 @@ class Forms extends Component {
     validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
-            this.setState({ mobile: e.target.value })
+            this.setState({ mobile: e.target.value });
         }
     }
 
@@ -89,6 +90,10 @@ class Forms extends Component {
         const { t }: any = this.props;
         return (
             <div className='form'>
+                {
+                    this.state.datesLoading && 
+                    <div id="loader" className="loader"></div>
+                }
                 <div className="title">Order Details</div>
                 <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
@@ -107,7 +112,7 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} value={this.state.mobile} onChange={(e) => {this.validate(e); this.setData(e.target.value, 'mobileNumber');}} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
@@ -116,12 +121,16 @@ class Forms extends Component {
                                 _.size(v) &&
                                 <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
                                     {v.map((d: any) => (
-                                        <Option value={d.code}>{(this.props.language === 'en') ? d.name : d.chineseName}</Option>
+                                        <Option value={d.code}>{(this.props.lang === 'en') ? d.name : d.chineseName}</Option>
                                     ))}
                                 </OptGroup>
                             ))}
                         </Select>
                     </Form.Item>
+                    {
+                        this.state.dateList.length===0 && this.state.datesLoaded &&
+                        <span className="field-error">{t('forms.noslotsavailable')}</span>
+                    }
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
                         <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
@@ -130,7 +139,7 @@ class Forms extends Component {
                         />
                     </Form.Item>
                     <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')} rules={[{ required: true, message: `${t('forms.CollectionTimeslot')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionTimeslot')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
+                        <Select size="large" disabled={_.size(this.state.dateList) < 1} placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionTimeslot')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}

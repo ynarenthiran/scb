@@ -32,6 +32,11 @@
       background-color: #00a546 !important;
       color: #ffffff !important;
     }
+
+    .review-btn:disabled,
+    .submit-btn:disabled {
+      background-color: #d4d4d4 !important;
+    }
   }
 
   .progress {

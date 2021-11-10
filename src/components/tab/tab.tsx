@@ -15,8 +15,6 @@ class Tab extends Component {
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log("lanaguge:"+this.props.lang)
-        console.log("uuid:"+this.props.uuid)
     }
 
 
