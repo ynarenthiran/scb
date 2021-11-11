@@ -1,0 +1,13 @@
+.ant-modal {
+    width: 50vh !important;
+
+    .ant-modal-content {
+        .anticon {
+            display: none !important;
+        }
+
+        .ant-modal-confirm-content {
+            margin: 0 !important;
+        }
+    }
+}

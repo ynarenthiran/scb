@@ -35,6 +35,7 @@ class UpdateBooking extends Component {
     
     getAppointments() {
         this.setState({ loadingAppointment: true });
+        this.setState({ appointmentData: null });
         this.rowSelection = {
             selectedRowKeys: [],
             onChange: this.onSelectChange
@@ -163,8 +164,18 @@ class UpdateBooking extends Component {
 
     
     render() {
+        for (let i = 0; i < 150; i++) {
+            this.data.push({
+                key: i,
+                reference_number: i,
+                collection_date: i,
+                collection_timeslot: `Edward King ${i}`,
+                collection_branch: 32
+            });
+        }
         const { t }: any = this.props;
         return (
+            <div className='update-booking'>
             <Row>
                 <Col span={9}>
                     <Form className='update-booking' layout="horizontal">
@@ -191,6 +202,8 @@ class UpdateBooking extends Component {
                         </Space>
                     </Form>
                 </Col>
+                </Row>
+                <Row className='update-booking'>
                 {
                     this.state.loadingAppointment && 
                     <div id="loader" className="loader"></div>
@@ -214,6 +227,7 @@ class UpdateBooking extends Component {
                     </Col>
                 } onChange={(event: any) => { this.setState({ showModal: event }); this.getAppointments();}}></ModalComponentTranslated>                
             </Row>
+            </div>
         );
     }
 }

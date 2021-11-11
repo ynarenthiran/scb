@@ -10,10 +10,31 @@
     justify-content: flex-start !important;
     align-items: center !important;
     flex-direction: row !important;
-    border-bottom: 1px solid #f2f2f2;
+    border-bottom: 1px groove #f2f2f2;
+
+    // .ant-row {
+    //   display: flex;
+    //   align-items: center;
+    // }
 
     .sc-logo {
-      height: 100%;
+      width: 30%;
+    }
+
+    .header-title {
+      font-size: 15px;
+    }
+
+    .lang {
+      position: absolute;
+      top: 2vh;
+      right: 2vh;
+    }
+
+    .lang.ant-btn:hover,
+    .lang.ant-btn:focus {
+      color: #00a546 !important;
+      border-color: #00a546 !important;
     }
 
     .border {
@@ -43,75 +64,104 @@
   .ant-layout-content {
     margin: 12vh 0 0 0 !important;
     height: 88vh !important;
-    // margin: 0 !important;
-    background-color: #ffffff !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative !important;
 
-    .lang {
-      position: absolute;
-      top: 2vh;
-      right: 2vh;
-    }
-
-    .lang.ant-btn:hover,
-    .lang.ant-btn:focus {
-      color: #00a546 !important;
-      border-color: #00a546 !important;
+    .captcha-validation {
+      height: 40vh;
+      margin: 0 !important;
+      background-color: #ffffff !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative !important;
     }
 
     .block {
-      width: 30% !important;
-      height: 40% !important;
+      width: 60% !important;
+      height: 95% !important;
       display: flex !important;
       justify-content: space-around !important;
       align-items: center !important;
       flex-direction: column !important;
-      margin-bottom: 15vh;
+      margin-bottom: 1vh;
+      border-color: #00a546 !important;
+      border-style: solid;
 
       .captcha-img {
         display: flex;
         justify-content: center;
 
         img {
-          width: 60% !important;
+          width: 25% !important;
         }
 
         .img-reload {
-          margin-left: 1vh !important;
+          margin-left: 2vh !important;
+          margin-top: 3vh !important;
         }
       }
 
-      .captcha-error{
+      .captcha-error {
         color: #d0021b !important;
         font-size: 13px;
-        font-family: "SCSans",sans-serif!important;
+        font-family: "SCSans", sans-serif !important;
         display: block;
         line-height: normal;
         font-weight: inherit;
       }
 
       .ant-input {
-        width: 70% !important;
+        width: 37% !important;
         font-size: 15px;
         font-weight: 400;
         background: #fafafa;
-        height: 44px;
+        height: 35px;
         border: 1px solid #dddde2;
         left: 0;
+        // margin-right: 13vh !important;
       }
 
       .ant-btn-block {
-        width: 45% !important;
+        width: 37% !important;
         background-color: #00a546 !important;
         color: #ffffff !important;
+        // margin-right: 13vh !important;
       }
 
       .ant-btn-block:disabled {
         background-color: #d4d4d4 !important;
       }
     }
+  }
+}
+
+// Tablet
+@media screen and (min-width: 426px) and (max-width: 769px) {
+  .captcha.ant-layout .ant-layout-content .block {
+    width: 80% !important;
+  }
+}
+
+// Mobiles
+@media screen and (max-width: 426px) {
+  .captcha.ant-layout .ant-layout-content .block {
+    width: 100% !important;
+
+    .ant-input, .ant-btn-block {
+      width: 70% !important;
+    }
+  }
+
+  .lang {
+    .anticon {
+      display: none;
+    }
+
+    .anticon + span {
+      margin: 0 !important;
+    }
+  }
+
+  .header-title {
+    font-size: 12px !important;
   }
 }

@@ -4,7 +4,7 @@ const en = {
         placeholder: 'Verification Code',
         button: 'Verify to Proceed',
         selectOptions: {
-            English: 'En',
+            English: '中文',
             Chinese: 'Chinese'
         },
         TechnicalError: 'This service is temporarily unavailable for system maintenance. Please try again later. Apologies for the'
@@ -13,7 +13,7 @@ const en = {
         +' inconvenience caused',
         Thankyou: 'Thank you for your interest for this service, however our new banknotes reservation are fully booked. Please visit our branches'
         +' for assistance.',
-        Error: "Please enter valid captcha"
+        Error: 'The verification code you entered is incorrect, please retry.'
     },
     tab: {
         new_booking: 'Booking',
@@ -21,22 +21,32 @@ const en = {
     },
     importantNotes: {
         title: 'Important Notes',
-        1: 'Each client can only submit one pre-order application.',
-        2: 'A confirmation email or SMS will be sent to the client upon successful registration; The client is required to present the Confirmation Email or SMS of the reservation upon arrival at the selected branch at specified collection timeslot for identification and verification purposes. The Bank reserves the right to reject the confirmed reservation if the customer is not able to present the Email or SMS. The reservation will be cancelled if the client who arrives 10 minutes late for the banknotes exchange services.'
+        1: ' All Online Pre-orders, once submitted, cannot be amended.',
+        2: ' No express queue will be arranged for the collection of banknotes pre-ordered online.',
+        3: 'Clients, when collecting the banknote(s), may instruct the Bank to debit the total sum from the his/her personal bank account or by exchanging the same amount of old banknote(s) (in Hong Kong currency) at the collection counters.',
+        4: 'Clients must check the conditions of the banknote(s) at the counters of the Designated Collection Branch as shown above. Replacement of the banknote(s) will only be arranged if found damaged at the time of collection. Requests for replacement of the banknote(s) will not be accepted after the clients have left the collection counters.',
+        5: 'lf a client does not collect the banknote(s) at the Designated Collection Branch and on the Designated Collection Date, or fails to collect the banknote(s)in accordance with the terms and conditions provided, the Bank will not keep the banknote(s) for the client. The client shall be deemed to have forgone the right to collect the banknote(s) and that the Bank will dispose of the uncollected banknote(s) at its absolute discretion.',
+        6: 'Unless otherwise stated, any reference to a date in the terms and conditions only refers to the normal business hours of the Bank on such date, and does not include any time within which a tropical cyclone warning signal number 8 or above, a Black Rainstorm warning signal, is in force in Hong Kong.',
+        7: 'Every mobile number can only register for one pack of new banknotes per day.'
     },
     new_booking: {
-        header: 'Chinese New Year Banknotes Booking',
+        header: 'Chinese New Year New Banknotes Booking',
         hint: 'Please fill in the below ordering form to complete the registration',
         button: {
             back: 'Back',
             submit: 'Submit',
             review: 'Review Order'
-        }
+        },
+        refnumber: 'Your Reference Number is',
+        booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.'
     },
     update_booking: {
         mobile: 'Mobile Number',
         email: 'Email Address',
-        button: 'Submit'
+        button: 'Submit',
+        cancelbutton: 'Cancel Appointment',
+        cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
+        norecordfound: 'No Appointments found for this mobile number : '
     },
     forms: {
         'SelectPlaceholder': 'Please Select...',
@@ -53,9 +63,17 @@ const en = {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
         },
-        "regionThree": "---- New Territories ----",
-        "regionTwo": "---- Kowloon  ----",
-        "regionOne": "---- Hong Kong ----"
+        "regionThree": "---- New Territories ---- ",
+        "regionTwo": "---- Kowloon  ---- ",
+        "regionOne": "---- Hong Kong ----",
+        "salutationOne": "Mr.",
+        "salutationTwo": "Mrs.",
+        "salutationThree": "Miss",
+        'noslotsavailable': 'All slots are full please select different branch'
+
+    },
+    modal:{
+        'okbutton': 'Ok'
     },
     review_orders: {
 

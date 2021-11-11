@@ -5,7 +5,6 @@ import NewBooking from './new-booking/new-booking';
 import UpdateBooking from './update-booking/update-booking';
 import { withTranslation } from 'react-i18next';
 import { Component } from 'react';
-import ImportantNotesTranslated from '../important-notes/important-notes';
 
 const { Header, Content } = Layout;
 const { TabPane } = Tabs;
@@ -27,7 +26,6 @@ class Tab extends Component {
                     <div>{t('new_booking.hint')}</div>
                 </Header>
                 <Content>
-                    <ImportantNotesTranslated />
                     <Tabs defaultActiveKey="new">
                         <TabPane tab={t('tab.new_booking')} key="new">
                             <NewBooking {...this.props}/>

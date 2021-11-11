@@ -74,7 +74,7 @@ class Forms extends Component {
     validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
-            this.setState({ mobile: e.target.value });
+            this.setState({ mobile: e.target.value })
         }
     }
 
@@ -112,7 +112,7 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} value={this.state.mobile} onChange={(e) => {this.validate(e); this.setData(e.target.value, 'mobileNumber');}} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} value={this.state.mobile} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
                         </Input.Group>
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>

@@ -58,6 +58,10 @@ class NewBooking extends Component {
         return '-';
     }
 
+    get disableButton(): boolean {
+        return (!!_.find(this.state.fields, ['value', null]) || !!_.find(this.state.fields, ['value', undefined]));
+    }
+
     submitOrder() {
         this.setState({ status: null });
         this.setState({ bookingProgress: true });
@@ -107,15 +111,12 @@ class NewBooking extends Component {
     }
 
     reviewOrder(fields: any) {
+        //this.setState({ fields });
         this.setState({ orderStatus: 'review' });
     }
 
     backToChange() {
         this.setState({ orderStatus: 'change' });
-    }
-
-    get disableButton(): boolean {
-        return (!!_.find(this.state.fields, ['value', null]) || !!_.find(this.state.fields, ['value', undefined]));
     }
 
     render() {
@@ -145,14 +146,14 @@ class NewBooking extends Component {
                                             <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>{t('new_booking.button.back')}</Button>
                                         </Col>
                                         <Col span={12}>
-                                            <Button className='review-btn' type='primary' icon={<ArrowRightOutlined />} disabled={this.disableButton} onClick={() => this.submitOrder()}>{t('new_booking.button.submit')}</Button>
+                                            <Button className='review-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder()}>{t('new_booking.button.submit')}</Button>
                                         </Col>
                                     </Space>
                                 }
                                 {
                                     this.state.orderStatus === 'change' &&
                                     <Col span={16} offset={8}>
-                                        <Button className='submit-btn' type='primary' icon={<ArrowRightOutlined />} disabled={this.disableButton} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                        <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
                                     </Col>
                                 }
                             </Row>

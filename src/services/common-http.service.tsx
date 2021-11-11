@@ -1,7 +1,9 @@
+import { Empty, Modal } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import i18n from '../wrappers/i18n/i18n';
 
 require('dotenv').config();
+
 
 const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/origination/api/v3/cnynotes`;
 export class CommonHttpService {
@@ -43,6 +45,17 @@ export class CommonHttpService {
         headers["SC-CLIENT-CONTEXT"] = JSON.stringify(SC_CLIENT_CONTEXT);
         return headers;
     };
+
+
+    modal(method: 'info' | 'success' | 'error' | 'warning' | 'confirm', title: any, content: any) {
+        Modal[method]({
+            title,
+            content: (
+                <Empty image="assets/modal/info.svg" />
+            ),
+            onOk() { console.log('on Ok') }
+          });
+    }
 
     setLanguage(lang: string) {
         this.language = lang;
