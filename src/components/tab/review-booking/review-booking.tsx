@@ -14,7 +14,7 @@ class ReviewBooking extends Component {
     componentWillUnmount() {
         this.setState({ mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null });
     }
-    
+
     componentDidMount() {
         console.log(this.props.fields);
     }
@@ -29,10 +29,10 @@ class ReviewBooking extends Component {
 
     getValue(key: any) {
         const data = _.find(this.props.fields, ['name', key]);
-        console.log("data is:",data);
+        console.log("data is:", data);
         if (data && data.value) {
             return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : (key === 'collectionBranch' && data.value && data.value.label) ? data.value.label : data.value;
-        }        
+        }
         return '-';
     }
 
@@ -42,60 +42,24 @@ class ReviewBooking extends Component {
             <div className='review-booking'>
                 <div className="title">Review Order Details</div>
                 <div className='prop-list'>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.Title')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('title') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.LastName')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('lastName') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.MobileNumber')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('mobileNumber') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.CollectionBranch')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('collectionBranch') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.CollectionDate')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('collectionDate') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.CollectionTimeslot')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>{this.getValue('collectionTimeslot') || '-'}</Col>
-                        </Row>
-                    </Col>
-                    <Col className='prop-li' span={16} push={4} pull={4}>
-                        <Row>
-                            <Col span={5}>{t('forms.Quantity')}</Col>
-                            <Col span={1}>:</Col>
-                            <Col span={16}>
-                                <Col span={24}>
-                                    <div className="ant-form-text">1</div>
-                                    <div className="ant-form-text">{t('forms.QuantityText')}</div>
-                                </Col>
-                            </Col>
-                        </Row>
-                    </Col>
+                    {
+                        this.props.fields.map((pf: any) => (
+                            <div className='prop-li'>
+                                <div className='pl-label'>{t(`forms.${pf.label.replace(' ', '')}`)}</div>
+                                <div className='pl-divider'>:</div>
+                                <div className='pl-value'>{this.getValue(pf.name) || '-'}</div>
+                            </div>
+                        ))
+
+                    }
+                    <div className='prop-li'>
+                        <div className='pl-label'>{t('forms.Quantity')}</div>
+                        <div className='pl-divider'>:</div>
+                        <div className='pl-value'>
+                            <div className="ant-form-text">1</div>
+                            <div className="ant-form-text">{t('forms.QuantityText')}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

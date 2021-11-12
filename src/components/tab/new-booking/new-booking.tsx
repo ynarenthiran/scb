@@ -147,7 +147,8 @@ class NewBooking extends Component {
                         {
                             this.state.orderStatus === 'change' &&
                             <Space align='end'>
-                                <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                {/* disabled={this.disableButton} */}
+                                <Button className='submit-btn'  type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
                             </Space>
                         }
                         {/* <Col span={4} offset={20}>

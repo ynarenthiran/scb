@@ -131,7 +131,7 @@ class Forms extends Component {
                         }
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')}>
-                        <Input size="large" placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
+                        <Input size="large" maxLength={30} placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
                             this.getMessage('lastName') && <span className="field-error">{this.getMessage('lastName')}</span>
                         }
