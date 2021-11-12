@@ -11,24 +11,24 @@ const { OptGroup, Option } = Select;
 class Forms extends Component {
     props: any = this.props;
     form: any;
-    state = {datesLoaded: false, datesLoading: false , info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] };
+    validationMessages: any = {};
+    state = { datesLoaded: false, datesLoading: false, info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [], validation: this.validationMessages };
     service = new CommonHttpService();
 
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log("uuid in constructor:"+this.props.uuid)
+        console.log("uuid in constructor:" + this.props.uuid)
     }
-    
-    
+
+
     componentDidMount() {
-        // this.setState({ info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [] });
         this.getBranchList();
     }
 
     getBranchList() {
-        console.log("uuid is:"+this.props.uuid)
-        this.service.get(`/branchlist/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
+        console.log("uuid is:" + this.props.uuid)
+        this.service.get(`/branchlist/${this.props.uuid}`, this.props.uuid, this.props.lang).then((res) => {
             this.setState({ branchList: res });
             if (this.getValue('collectionBranch')) {
                 this.getDateList(this.getValue('collectionBranch'));
@@ -39,11 +39,11 @@ class Forms extends Component {
     }
 
     getDateList(event: any) {
-        this.setState({datesLoading: true})
-        this.service.get(`/slots/${event.value}/${this.props.uuid}`,this.props.uuid,this.props.lang).then((res) => {
-            this.setState({datesLoading: false})
+        this.setState({ datesLoading: true })
+        this.service.get(`/slots/${event.value}/${this.props.uuid}`, this.props.uuid, this.props.lang).then((res) => {
+            this.setState({ datesLoading: false })
             this.setState({ dateList: res.data.slots });
-            this.setState({datesLoaded: true});
+            this.setState({ datesLoaded: true });
         }).catch((err) => {
             console.log(err);
         });
@@ -67,6 +67,15 @@ class Forms extends Component {
         const fieldData = _.find(this.allFields, ['name', field]);
         if (fieldData) {
             fieldData.value = e;
+            this.validation(field, fieldData.label);
+            this.props.onChange(this.allFields);
+        }
+    }
+
+    setTouched(field: any) {
+        const fieldData = _.find(this.allFields, ['name', field]);
+        if (fieldData) {
+            fieldData.touched = true;
             this.props.onChange(this.allFields);
         }
     }
@@ -86,37 +95,58 @@ class Forms extends Component {
         return '';
     }
 
+    validation(field: any, title: any) {
+        const validation: any = this.state.validation;
+        if (!this.getValue(field)) {
+            validation[field] = `${title} is required...`;
+        } else {
+            validation[field] = null;
+        }
+        console.log(this.state.validation);
+        this.setState({ validation });
+    }
+
+    getMessage(field: string) {
+        return this.state.validation[field] as string;
+    }
+
     render() {
         const { t }: any = this.props;
         return (
             <div className='form'>
                 {
-                    this.state.datesLoading && 
+                    this.state.datesLoading &&
                     <div id="loader" className="loader"></div>
                 }
                 <div className="title">Order Details</div>
                 <Form layout="vertical">
-                    <Form.Item name='title' label={t('forms.Title')} rules={[{ required: true, message: `${t('forms.Title')} is required!` }]}>
-                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} onChange={(e) => this.setData(e, 'title')}>
+                    <Form.Item name='title' label={t('forms.Title')}>
+                        <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} onFocus={() => this.setTouched('title')} onBlur={() => this.validation('title', t('forms.Title'))} onChange={(e) => this.setData(e, 'title')}>
                             <Option value="Mr.">Mr.</Option>
                             <Option value="Mrs.">Mrs.</Option>
                             <Option value="Miss">Miss</Option>
                         </Select>
-                    </Form.Item>
-                    <Form.Item name='lastName' label={t('forms.LastName')} rules={[{ required: true, message: `${t('forms.LastName')} is required!` }]}>
-                        <Input size="large" placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
-                            false && <span className="ant-form-text">Last Name</span>
+                            this.getMessage('title') && <span className="field-error">{this.getMessage('title')}</span>
                         }
                     </Form.Item>
-                    <Form.Item name='mobileNumber' label={t('forms.MobileNumber')} rules={[{ required: true, message: `${t('forms.MobileNumber')} is required!` }]}>
+                    <Form.Item name='lastName' label={t('forms.LastName')}>
+                        <Input size="large" placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
+                        {
+                            this.getMessage('lastName') && <span className="field-error">{this.getMessage('lastName')}</span>
+                        }
+                    </Form.Item>
+                    <Form.Item name='mobileNumber' label={t('forms.MobileNumber')}>
                         <Input.Group compact>
                             <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} value={this.state.mobile} onChange={(e) => {this.setData(e.target.value, 'mobileNumber'); this.validate(e);}} />
+                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} value={this.state.mobile} onChange={(e) => { this.setData(e.target.value, 'mobileNumber'); this.validate(e); }} />
                         </Input.Group>
+                        {
+                            this.getMessage('mobileNumber') && <span className="field-error">{this.getMessage('mobileNumber')}</span>
+                        }
                     </Form.Item>
-                    <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')} rules={[{ required: true, message: `${t('forms.CollectionBranch')} is required!` }]}>
-                        <Select labelInValue size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionBranch')} onChange={(e) => { this.getDateList(e); this.setData(e, 'collectionBranch'); }}>
+                    <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')}>
+                        <Select labelInValue size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionBranch')} onFocus={() => this.setTouched('collectionBranch')} onBlur={() => this.validation('collectionBranch', t('forms.CollectionBranch'))} onChange={(e) => { this.getDateList(e); this.setData(e, 'collectionBranch'); }}>
                             {Object.entries(this.state.branchList).map(([k, v]: any) => (
                                 _.size(v) &&
                                 <OptGroup label={k === 'regionOne' ? t('forms.regionOne') : ((k === 'regionTwo' ? t('forms.regionTwo') : t('forms.regionThree')))}>
@@ -126,24 +156,33 @@ class Forms extends Component {
                                 </OptGroup>
                             ))}
                         </Select>
+                        {
+                            this.getMessage('collectionBranch') && <span className="field-error">{this.getMessage('collectionBranch')}</span>
+                        }
                     </Form.Item>
                     {
-                        this.state.dateList.length===0 && this.state.datesLoaded &&
+                        this.state.dateList.length === 0 && this.state.datesLoaded &&
                         <span className="field-error">{t('forms.noslotsavailable')}</span>
                     }
-                    <Form.Item name='collectionDate' label={t('forms.CollectionDate')} rules={[{ required: true, message: `${t('forms.CollectionDate')} is required!` }]}>
-                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
+                    <Form.Item name='collectionDate' label={t('forms.CollectionDate')}>
+                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} onFocus={() => this.setTouched('collectionDate')} onBlur={() => this.validation('collectionDate', t('forms.CollectionDate'))} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
                                 width: '100%',
                             }}
                         />
+                        {
+                            this.getMessage('collectionDate') && <span className="field-error">{this.getMessage('collectionDate')}</span>
+                        }
                     </Form.Item>
-                    <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')} rules={[{ required: true, message: `${t('forms.CollectionTimeslot')} is required!` }]}>
-                        <Select size="large" disabled={_.size(this.state.dateList) < 1} placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionTimeslot')} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
+                    <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')}>
+                        <Select size="large" disabled={_.size(this.state.dateList) < 1} placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('collectionTimeslot')} onFocus={() => this.setTouched('collectionTimeslot')} onBlur={() => this.validation('collectionTimeslot', t('forms.CollectionTimeslot'))} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}
                         </Select>
+                        {
+                            this.getMessage('collectionTimeslot') && <span className="field-error">{this.getMessage('collectionTimeslot')}</span>
+                        }
                     </Form.Item>
                     <Form.Item label={t('forms.Quantity')}>
                         <Space direction='vertical'>

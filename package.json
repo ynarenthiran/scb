@@ -33,7 +33,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "homepage": "/scb",
+  "homepage": "/public",
   "eslintConfig": {
     "extends": [
       "react-app",

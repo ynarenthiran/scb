@@ -14,12 +14,12 @@ import moment from 'moment'
 const { Footer } = Layout;
 
 const formControls = [
-    { label: 'Title', name: 'title', value: null, required: true },
-    { label: 'Last Name', name: 'lastName', value: null, required: true },
-    { label: 'Mobile Number', name: 'mobileNumber', value: null, required: true },
-    { label: 'Collection Branch', name: 'collectionBranch', value: null, required: true },
-    { label: 'Collection Date', name: 'collectionDate', value: null, required: true },
-    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true }
+    { label: 'Title', name: 'title', value: null, required: true, touched: false },
+    { label: 'Last Name', name: 'lastName', value: null, required: true, touched: false },
+    { label: 'Mobile Number', name: 'mobileNumber', value: null, required: true, touched: false },
+    { label: 'Collection Branch', name: 'collectionBranch', value: null, required: true, touched: false },
+    { label: 'Collection Date', name: 'collectionDate', value: null, required: true, touched: false },
+    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true, touched: false }
 ]
 
 class NewBooking extends Component {

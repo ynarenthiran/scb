@@ -18,7 +18,13 @@
     // }
 
     .sc-logo {
+      display: initial !important;
       height: 100%;
+    }
+
+    .sc-mobile-logo {
+      height: 100%;
+      display: none !important;
     }
 
     .header-title {
@@ -40,7 +46,7 @@
 
     .border {
       width: 10%;
-      display: flex;
+      display: flex !important;
       flex-direction: column;
       width: 1vh !important;
       margin: 0 5vh;
@@ -141,6 +147,33 @@
   .captcha.ant-layout .ant-layout-content .block {
     width: 80% !important;
   }
+
+  .captcha.ant-layout .ant-layout-header {
+    .sc-mobile-logo {
+      margin-right: 3vh;
+      display: initial !important;
+    }
+
+    .header-title {
+      width: 70% !important;
+    }
+
+    .sc-logo {
+      display: none !important;
+    }
+
+    .border {
+      display: none !important;
+    }
+  }
+
+  .captcha-validation {
+    padding: 3vh;
+
+    .header {
+      text-align: center;
+    }
+  }
 }
 
 // Mobiles
@@ -150,6 +183,33 @@
 
     .ant-input, .ant-btn-block {
       width: 70% !important;
+    }
+  }
+
+  .captcha.ant-layout .ant-layout-header {
+    .sc-mobile-logo {
+      margin-right: 3vh;
+      display: initial !important;
+    }
+
+    .header-title {
+      width: 70% !important;
+    }
+
+    .sc-logo {
+      display: none !important;
+    }
+
+    .border {
+      display: none !important;
+    }
+  }
+
+  .captcha-validation {
+    padding: 3vh;
+
+    .header {
+      text-align: center;
     }
   }
 
@@ -164,6 +224,6 @@
   }
 
   .header-title {
-    font-size: 12px !important;
+    width: 70% !important;
   }
 }
