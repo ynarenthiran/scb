@@ -1,8 +1,8 @@
 import './update-booking.scss';
 
 import { Component } from "react";
-import { Button, Col, Form, Input, Row, Space, Table} from 'antd';
-import { ArrowRightOutlined, CheckCircleTwoTone  } from '@ant-design/icons';
+import { Button, Col, Form, Input, Row, Space, Table } from 'antd';
+import { ArrowRightOutlined, CheckCircleTwoTone } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import * as _ from 'lodash';
@@ -12,9 +12,9 @@ var dateFormat = require('dateformat');
 
 
 class UpdateBooking extends Component {
-    state = { modalMsg: '', refNo: '' , showModal: false, mobile: '',mobileNumber:'' , rowSelected: false ,selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment:false, appointmentData: null, status: null };
+    state = { modalMsg: '', refNo: '', showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
     service = new CommonHttpService();
-    
+
 
     componentWillMount() {
         console.log("tereeeee");
@@ -22,6 +22,16 @@ class UpdateBooking extends Component {
         this.setState({ selectedRows: null });
         this.setState({ selectedRowKeys: null });
         this.setState({ rowSelected: false });
+        for (let i = 0; i < 150; i++) {
+            this.data.push({
+                key: i,
+                'appointmentdate': i,
+                'branch-name': i,
+                'appointment-slot': `Edward King ${i}`,
+                'ref-id': Date.now()
+            });
+        }
+        this.setState({ appointmentData: this.data });
     }
 
     componentDidUnMount() {
@@ -32,7 +42,7 @@ class UpdateBooking extends Component {
         this.setState({ rowSelected: false });
     }
 
-    
+
     getAppointments() {
         this.setState({ loadingAppointment: true });
         this.setState({ appointmentData: null });
@@ -45,30 +55,30 @@ class UpdateBooking extends Component {
             {
                 "id": 0,
                 "type": "APPOINTMENT",
-                "attributes": { "unique-id": this.props.uuid, "mobileNo":'852'+this.state.mobileNumber}
+                "attributes": { "unique-id": this.props.uuid, "mobileNo": '852' + this.state.mobileNumber }
             }
         };
-        this.service.post('/appointments', getAppointmentData,this.props.uuid,this.props.lang).then(res => {
+        this.service.post('/appointments', getAppointmentData, this.props.uuid, this.props.lang).then(res => {
             this.setState({
-                status:res.status,
+                status: res.status,
             });
             return res.json();
-        }).then((response) =>{ 
+        }).then((response) => {
             this.setState({ mobile: '' });
             if (this.state.status === 404) {
                 this.setState({ loadingAppointment: false });
             } else if (this.state.status === 200) {
                 this.setState({ loadingAppointment: false });
-                _.each(response, (el:any)  => {
+                _.each(response, (el: any) => {
                     console.log("test:");
-                    el["appointmentdate"] = dateFormat(el["appointment-date"],"dd-mm-yyyy")
-                    el["appointment-date"] = dateFormat(el["appointment-date"],"dd/mm/yyyy")
+                    el["appointmentdate"] = dateFormat(el["appointment-date"], "dd-mm-yyyy")
+                    el["appointment-date"] = dateFormat(el["appointment-date"], "dd/mm/yyyy")
                 })
-                this.setState({ appointmentData: response});                
+                this.setState({ appointmentData: response });
             } else {
                 this.setState({ loadingAppointment: false });
             }
-        }).catch((error) =>{
+        }).catch((error) => {
             this.setState({ loadingAppointment: false });
         });
     }
@@ -84,13 +94,13 @@ class UpdateBooking extends Component {
             }
         } as any;
         delete cancelAppointment.data.attributes['booked-date']
-        cancelAppointment.data.attributes['unique-id']=this.props.uuid;
-        cancelAppointment.data.attributes['id']=0;
-        cancelAppointment.data.attributes['status']='cancelled';
-        cancelAppointment.data.attributes['language-code']=this.props.lang;
-        this.service.post('', cancelAppointment,this.props.uuid,this.props.lang).then((result) => {
+        cancelAppointment.data.attributes['unique-id'] = this.props.uuid;
+        cancelAppointment.data.attributes['id'] = 0;
+        cancelAppointment.data.attributes['status'] = 'cancelled';
+        cancelAppointment.data.attributes['language-code'] = this.props.lang;
+        this.service.post('', cancelAppointment, this.props.uuid, this.props.lang).then((result) => {
             this.setState({ verifyButtonLoader: false });
-            console.log("result.status:"+result.status)
+            console.log("result.status:" + result.status)
             if (result.status === 404) {
                 this.setState({ loadingAppointment: false });
             } else if (result.status === 200) {
@@ -102,7 +112,7 @@ class UpdateBooking extends Component {
             } else {
                 this.setState({ loadingAppointment: false });
             }
-        }).catch((error) =>{
+        }).catch((error) => {
             this.setState({ loadingAppointment: false });
         });
     }
@@ -121,11 +131,11 @@ class UpdateBooking extends Component {
     };
 
 
-    validate(e: any){
+    validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
-            this.setState({mobile: e.target.value})
-            this.setState({mobileNumber: e.target.value})
+            this.setState({ mobile: e.target.value })
+            this.setState({ mobileNumber: e.target.value })
             this.setState({ rowSelected: false });
         }
     }
@@ -135,8 +145,8 @@ class UpdateBooking extends Component {
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log("lanaguge:"+this.props.lang)
-        console.log("uuid:"+this.props.uuid)
+        console.log("lanaguge:" + this.props.lang)
+        console.log("uuid:" + this.props.uuid)
         this.validate = this.validate.bind(this);
     }
     columns = [
@@ -160,73 +170,53 @@ class UpdateBooking extends Component {
 
     data: any = [];
 
-    
 
-    
+
+
     render() {
-        for (let i = 0; i < 150; i++) {
-            this.data.push({
-                key: i,
-                reference_number: i,
-                collection_date: i,
-                collection_timeslot: `Edward King ${i}`,
-                collection_branch: 32
-            });
-        }
         const { t }: any = this.props;
         return (
-            <div className='update-booking'>
-            <Row>
-                <Col span={9}>
-                    <Form className='update-booking' layout="horizontal">
-                        <Space direction="vertical">
-                            <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>
-                                <Input.Group compact>
-                                    <Input style={{ width: '15%' }} disabled={true} size="large" defaultValue="852" />
-                                    <Input style={{ width: '85%' }} size="large" maxLength={8} placeholder={t('update_booking.mobile')}  value={this.state.mobile} onChange={this.validate} autoFocus onPressEnter={() => this.getAppointments()}/>
-                                </Input.Group>
-                            </Form.Item>
+            <div>
+                <Form className='update-booking' layout="horizontal">
+                    <Space direction="vertical">
+                        <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>
+                            <Input.Group compact>
+                                <Input className='country-code' disabled={true} size="large" defaultValue="852" />
+                                <Input className='mobile-number' size="large" maxLength={8} placeholder={t('update_booking.mobile')} value={this.state.mobile} onChange={this.validate} autoFocus onPressEnter={() => this.getAppointments()} />
+                            </Input.Group>
+                        </Form.Item>
+                        <div className='buttons'>
                             {
-                            !this.state.rowSelected &&
-                            <Col className='submit-button' span={8} offset={8}>
+                                !this.state.rowSelected &&
                                 <Button className='submit-btn' type="primary" disabled={this.state.mobile.length !== 8} icon={<ArrowRightOutlined />} onClick={() => this.getAppointments()}>{t('update_booking.button')}</Button>
-                            </Col>
                             }
                             {
-                            this.state.rowSelected &&
-                            <Col className='submit-button' span={10} offset={8}>
+                                this.state.rowSelected &&
                                 <Button className='submit-btn' type="primary" icon={<ArrowRightOutlined />} onClick={() => this.cancelAppointment()}>{t('update_booking.cancelbutton')}</Button>
-                            </Col>
                             }
-                            
-                        </Space>
-                    </Form>
-                </Col>
-                </Row>
-                <Row className='update-booking'>
+                        </div>
+                    </Space>
+                </Form>
                 {
-                    this.state.loadingAppointment && 
+                    this.state.loadingAppointment &&
                     <div id="loader" className="loader"></div>
                 }
                 {
-                    this.state.appointmentData!==null &&
-                    <Col span={15}>
-                        <Table locale={ { emptyText:t('update_booking.norecordfound')+'852'+this.state.mobileNumber}} rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered scroll={{ y: 165 }} />
-                    </Col>
+                    this.state.appointmentData !== null &&
+                    <Table locale={{ emptyText: t('update_booking.norecordfound') + '852' + this.state.mobileNumber }} rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered />
                 }
                 <ModalComponentTranslated visible={this.state.showModal} body={
                     <Col>
                         <Space>
                             <CheckCircleTwoTone style={{ fontSize: '30px' }} twoToneColor="#52c41a" />
-                            <div>{t('update_booking.'+this.state.modalMsg)}</div>
+                            <div>{t('update_booking.' + this.state.modalMsg)}</div>
                         </Space>
                         {
-                            this.state.refNo!=='' &&
-                                <div> {t('new_booking.refnumber')} <b>{this.state.refNo}</b></div>
+                            this.state.refNo !== '' &&
+                            <div> {t('new_booking.refnumber')} <b>{this.state.refNo}</b></div>
                         }
                     </Col>
-                } onChange={(event: any) => { this.setState({ showModal: event }); this.getAppointments();}}></ModalComponentTranslated>                
-            </Row>
+                } onChange={(event: any) => { this.setState({ showModal: event }); this.getAppointments(); }}></ModalComponentTranslated>
             </div>
         );
     }

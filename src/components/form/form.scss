@@ -1,41 +1,92 @@
 .form {
     height: 100%;
-    
+
     .ant-form {
         padding: 0 70vh 0 30vh !important;
         height: 82%;
         width: 100%;
         overflow: hidden;
-    
+
         .ant-form-item {
             margin-bottom: 3vh !important;
             width: 100% !important;
+
+            .country-code {
+                width: 10%;
+            }
+
+            .mobile-number {
+                width: 90%;
+            }
         }
-    
+
         .or {
             margin-bottom: 2vh !important;
         }
-    
+
         .ant-form-item-label {
             display: flex !important;
         }
-    
+
         .mobile {
             margin: 0 !important;
         }
     }
 
-    .field-error{
+    .field-error {
         color: #d0021b !important;
         font-size: 13px;
-        font-family: "SCSans",sans-serif!important;
+        font-family: "SCSans", sans-serif !important;
         display: block;
         line-height: normal;
         font-weight: inherit;
-      }
+    }
 
-    
     .ant-form:hover {
         overflow: auto;
+    }
+}
+
+// Tablet
+@media screen and (min-width: 426px) and (max-width: 769px) {
+    .form {
+        height: auto !important;
+
+        .ant-form {
+            padding: 0 25vh !important;
+            height: auto !important;
+
+            .ant-form-item {
+                .country-code {
+                    width: 15%;
+                }
+    
+                .mobile-number {
+                    width: 85%;
+                }
+            }
+        }
+    }
+  }
+  
+  // Mobiles
+  @media screen and (max-width: 426px) {
+    .form {
+        height: auto !important;
+
+        .ant-form {
+            padding: 0 5vh !important;
+            height: auto !important;
+
+            .ant-form-item {
+                .country-code {
+                    width: 25%;
+                }
+    
+                .mobile-number {
+                    width: 75%;
+                }
+            }
+        }
     }
   }

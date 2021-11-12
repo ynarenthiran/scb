@@ -23,7 +23,7 @@ class Tab extends Component {
             <Layout>
                 <Header>
                     <div className='header'>{t('new_booking.header')}</div>
-                    <div>{t('new_booking.hint')}</div>
+                    <div className='hint'>{t('new_booking.hint')}</div>
                 </Header>
                 <Content>
                     <Tabs defaultActiveKey="new">

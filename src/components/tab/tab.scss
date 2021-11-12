@@ -11,18 +11,15 @@
     flex-direction: column !important;
     position: fixed !important;
     width: 100% !important;
-    // border-bottom: 0.2px solid #777777;
 
     .header {
       font-size: 20px;
       font-weight: 700;
-      // text-decoration: underline;
     }
   }
 
   .ant-layout-content {
     height: 77% !important;
-    // margin-bottom: 10vh !important;
     background-color: #ffffff !important;
 
     .ant-tabs {
@@ -46,6 +43,43 @@
           }
         }
       }
+    }
+  }
+}
+
+// Tablet
+@media screen and (min-width: 426px) and (max-width: 769px) {
+  .ant-layout .ant-layout-content .ant-tabs {
+    height: 87vh !important;
+
+    .ant-tabs-content {
+      height: auto !important;
+      overflow-y: auto !important;
+    }
+  }
+}
+
+// Mobiles
+@media screen and (max-width: 426px) {
+  .ant-layout .ant-layout-content .ant-tabs {
+    margin-top: 16vh !important;
+    height: 84vh !important;
+
+    .ant-tabs-content {
+      height: auto !important;
+      overflow-y: auto !important;
+    }
+  }
+
+  .ant-layout .ant-layout-header {
+    height: 16% !important;
+
+    .header {
+      font-size: 12px;
+    }
+
+    .hint {
+      font-size: 12px;
     }
   }
 }

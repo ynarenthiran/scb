@@ -138,8 +138,8 @@ class Forms extends Component {
                     </Form.Item>
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')}>
                         <Input.Group compact>
-                            <Input style={{ width: '10%' }} disabled={true} size="large" defaultValue="852" />
-                            <Input style={{ width: '90%' }} maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} value={this.state.mobile} onChange={(e) => { this.setData(e.target.value, 'mobileNumber'); this.validate(e); }} />
+                            <Input className='country-code' disabled={true} size="large" defaultValue="852" />
+                            <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} value={this.state.mobile} onChange={(e) => { this.setData(e.target.value, 'mobileNumber'); this.validate(e); }} />
                         </Input.Group>
                         {
                             this.getMessage('mobileNumber') && <span className="field-error">{this.getMessage('mobileNumber')}</span>

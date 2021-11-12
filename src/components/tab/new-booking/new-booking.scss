@@ -27,6 +27,8 @@
     display: flex !important;
     align-items: center !important;
 
+    justify-content: flex-end !important;
+
     .review-btn,
     .submit-btn {
       background-color: #00a546 !important;
@@ -43,5 +45,20 @@
     padding-right: 2vh;
     display: flex;
     align-items: center;
+  }
+}
+
+
+// Tablet
+@media screen and (min-width: 426px) and (max-width: 769px) {
+  .ant-layout-footer {
+    position: initial !important;
+  }
+}
+
+// Mobiles
+@media screen and (max-width: 426px) {
+  .ant-layout-footer {
+    position: initial !important;
   }
 }
