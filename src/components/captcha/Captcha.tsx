@@ -1,6 +1,6 @@
 import './Captcha.scss';
 import { Component } from "react";
-import { Button, Col, Input, Layout, Row } from 'antd';
+import { Button,  Input, Layout } from 'antd';
 import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
@@ -115,29 +115,14 @@ class Captcha extends Component {
         }
         return (
             <Layout className="captcha">
-                <Header>
-                    {/* <Row>
-                        <img className='sc-logo' src='/assets/images/sc-logo.svg' alt="Logo" />
-                        <div className='header'>{t('new_booking.header')}</div>
-                    </Row> */}
-                    <div className='containter'>
-                        <div className='row'>
-                            <div className='col'>
-                                <img className='sc-logo' src='/assets/images/sc-logo.svg' alt="Logo" />
-                            </div>
-                            <div className='col'>
-                                <div className='border'>
-                                    <div className='border-top'></div>
-                                    <div className='border-bottom'></div>
-                                </div>
-                            </div>
-                            <div className='col'>
-                                <div className='header-title'>{t('new_booking.header')}</div>
-                            </div>
-                            <div className='col'>
-                                <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
-                            </div>
-                        </div>
+               <Header>
+               <img className='sc-logo' src='/origination/hkcnybook/static/images/sc-logo.svg' alt="Logo" />
+                    <div className='border'>
+                        <div className='border-top'></div>
+                        <div className='border-bottom'></div>
+                    </div>
+                    <div className='header-title'>{t('new_booking.header')}
+                    <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
                     </div>
                 </Header>
                 <Content>
