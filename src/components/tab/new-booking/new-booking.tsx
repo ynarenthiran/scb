@@ -147,31 +147,9 @@ class NewBooking extends Component {
                         {
                             this.state.orderStatus === 'change' &&
                             <Space align='end'>
-                                {/* disabled={this.disableButton} */}
-                                <Button className='submit-btn'  type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
                             </Space>
                         }
-                        {/* <Col span={4} offset={20}>
-                            <Row>
-                                {
-                                    this.state.orderStatus === 'review' &&
-                                    <Space align='end'>
-                                        <Col span={12}>
-                                            <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>{t('new_booking.button.back')}</Button>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Button className='review-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder()}>{t('new_booking.button.submit')}</Button>
-                                        </Col>
-                                    </Space>
-                                }
-                                {
-                                    this.state.orderStatus === 'change' &&
-                                    <Col span={16} offset={8}>
-                                        <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
-                                    </Col>
-                                }
-                            </Row>
-                        </Col> */}
                     </Row>
                 </Footer>
                 <ModalComponentTranslated visible={this.state.showModal} body={
