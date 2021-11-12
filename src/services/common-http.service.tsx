@@ -51,7 +51,7 @@ export class CommonHttpService {
         Modal[method]({
             title,
             content: (
-                <Empty image="assets/modal/info.svg" />
+                <Empty image="/assets/images/modal/info.svg" />
             ),
             onOk() { console.log('on Ok') }
           });
