@@ -83,7 +83,7 @@ class Forms extends Component {
     validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
-            this.setState({ mobile: e.target.value })
+            this.setState({ mobile: e.target.value });
         }
     }
 
@@ -99,6 +99,14 @@ class Forms extends Component {
         const validation: any = this.state.validation;
         if (!this.getValue(field)) {
             validation[field] = `${title} is required...`;
+        } else if (field === 'mobileNumber') {
+            if (this.getValue(field).length !== 8) {
+                validation[field] = `${title} length must be 8`;
+            } else if (!Number(this.getValue(field))) {
+                validation[field] = `${title} should not be 0`;
+            } else {
+                validation[field] = null;
+            }
         } else {
             validation[field] = null;
         }

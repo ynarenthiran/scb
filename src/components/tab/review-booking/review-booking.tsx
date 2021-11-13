@@ -1,7 +1,6 @@
 import './review-booking.scss';
 
 import { Component } from "react";
-import { Col, Row } from 'antd';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import _ from 'lodash';

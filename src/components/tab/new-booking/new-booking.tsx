@@ -59,7 +59,10 @@ class NewBooking extends Component {
     }
 
     get disableButton(): boolean {
-        return (!!_.find(this.state.fields, ['value', null]) || !!_.find(this.state.fields, ['value', undefined]));
+        const overallvalidation: boolean = (!!_.find(this.state.fields, ['value', null]) || !!_.find(this.state.fields, ['value', undefined]));
+        const mobileNumber: any = _.find(this.state.fields, ['name', 'mobileNumber']);
+        const mobileNumberValidation: boolean = ((mobileNumber.value && mobileNumber.value.length !== 8) || !Number(mobileNumber.value));
+        return overallvalidation || mobileNumberValidation;
     }
 
     submitOrder() {
