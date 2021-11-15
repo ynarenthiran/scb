@@ -23,7 +23,6 @@ class ReviewBooking extends Component {
         super(props);
         props = this.props;
         console.log(this.props);
-        console.log(this.props.fields[0].title);
     }
 
     getValue(key: any) {

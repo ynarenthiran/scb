@@ -1,7 +1,7 @@
 import './new-booking.scss';
 
 import { Layout, Button, Row, Col, Space } from 'antd';
-import { ArrowLeftOutlined, ArrowRightOutlined, CheckCircleTwoTone } from '@ant-design/icons';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
 import FormsTranslated from '../../form/form';
 import ReviewBookingTranslated from '../review-booking/review-booking';
@@ -10,6 +10,7 @@ import { CommonHttpService } from '../../../services/common-http.service';
 import ModalComponentTranslated from '../../modal';
 import * as _ from 'lodash';
 import moment from 'moment'
+import { Redirect } from 'react-router-dom';
 
 const { Footer } = Layout;
 
@@ -24,7 +25,7 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null };
+    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null };
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -32,12 +33,18 @@ class NewBooking extends Component {
         props = this.props;
         console.log("lanaguge:" + this.props.lang)
         console.log("uuid:" + this.props.uuid)
+        this.setState({ fields: this.props.fields});
     }
 
     componentWillUnmount() {
         // this.setState({ fields: formControls, orderStatus: "change" });
     }
 
+    componentDidMount() {
+        console.log("component mounted");
+    }
+
+    
     getValue(key: any) {
         const data: any = _.find(this.state.fields, ['name', key]);
         console.log("data is:", data);
@@ -99,9 +106,13 @@ class NewBooking extends Component {
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
             if (this.state.status === 404) {
-
-            } else if (this.state.status === 200) {
-                this.setState({ navigate: true });
+                console.log("the error code:",response['code'])
+                if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
+                    this.setState({ showModal: true });
+                    this.setState({ modalMsg: "booking_duplicatemobile" });
+                    this.setState({ refNo: '' });
+                }
+            }else if (this.state.status === 200) {
                 this.setState({ showModal: true });
                 this.setState({ modalMsg: "booking_success" });
                 this.setState({ refNo: response['tp-ref'] });
@@ -122,13 +133,19 @@ class NewBooking extends Component {
         this.setState({ orderStatus: 'change' });
     }
 
-    modalClosed(event: any) {
+    modalClosed(event: any){
         this.setState({ fields: _.cloneDeep(formControls), showModal: event });
         this.backToChange();
     }
 
     render() {
         const { t }: any = this.props;
+        if (this.state.navigate) {
+            console.log("test");
+            return (
+                 <Redirect to={'/captcha'} /> 
+              );
+        }else{
         return (
             <span>
                 {
@@ -162,18 +179,18 @@ class NewBooking extends Component {
                 </Footer>
                 <ModalComponentTranslated visible={this.state.showModal} body={
                     <Col>
-                        <Space>
-                            <CheckCircleTwoTone style={{ fontSize: '30px' }} twoToneColor="#52c41a" />
+                            
                             <div>{t('new_booking.' + this.state.modalMsg)}</div>
-                        </Space>
+                        
                         {
                             this.state.refNo !== '' &&
                             <div> {t('new_booking.refnumber')} <b>{this.state.refNo}</b></div>
                         }
                     </Col>
-                } onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
+                } onChange={(event: any) => this.modalClosed(event) }></ModalComponentTranslated>
             </span>
         );
+        }
     }
 }
 

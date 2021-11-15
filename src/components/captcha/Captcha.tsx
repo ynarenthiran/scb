@@ -116,8 +116,8 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                <Header>
-               <img className='sc-logo' src='/assets/images/sc-logo.svg' alt="Logo" />
-               <img className='sc-mobile-logo' src='/assets/images/sc-mobile-logo.svg' alt="Logo" />
+               <img className='sc-logo' src='/origination/hkcnybook/static/images/sc-logo.svg' alt="Logo" />
+               <img className='sc-mobile-logo' src='/origination/hkcnybook/static/images/sc-mobile-logo.svg' alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
@@ -164,14 +164,14 @@ class Captcha extends Component {
                                     </div>
                                 }
 
-                                <Input placeholder={t('captcha.placeholder')} size="large" maxLength={7} value={this.state.captchaInput} autoFocus onChange={(e) => { this.validate(e); }} onPressEnter={() => this.verifyCaptcha()} />
+                                <Input placeholder={t('captcha.placeholder')} size="large" maxLength={6} value={this.state.captchaInput} autoFocus onChange={(e) => { this.validate(e); }} onPressEnter={() => this.verifyCaptcha()} />
                                 {
                                     !this.state.reloadCaptchaLoader && this.state.captcha && this.state.captchainvalid &&
                                     <div className='captcha-error'>
                                         {t('captcha.Error')}
                                     </div>
                                 }
-                                <Button block disabled={this.state.captchaInput?.length !== 7} onClick={() => this.verifyCaptcha()}>{t('captcha.button')}</Button>
+                                <Button block disabled={this.state.captchaInput?.length !== 6} onClick={() => this.verifyCaptcha()}>{t('captcha.button')}</Button>
                                 {
                                     this.state.verifyButtonLoader &&
                                     <div id="loader" className="loader"></div>
