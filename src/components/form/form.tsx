@@ -24,6 +24,7 @@ class Forms extends Component {
 
     componentDidMount() {
         this.getBranchList();
+        this.setState({ mobile: this.getValue('mobileNumber') });
     }
 
     getBranchList() {
@@ -44,6 +45,10 @@ class Forms extends Component {
             this.setState({ datesLoading: false })
             this.setState({ dateList: res.data.slots });
             this.setState({ datesLoaded: true });
+            if (this.getValue('collectionDate')) {
+                this.setState({ selectedDate: this.getValue('collectionDate') });
+                this.getTimeSlots(this.getValue('collectionDate'));
+            }
         }).catch((err) => {
             console.log(err);
         });
@@ -58,6 +63,9 @@ class Forms extends Component {
         const date: any = event ? _.find(this.state.dateList, ['slot-date', event.format('DD/MM/YYYY')]) : null;
         if (date && date.status) {
             this.setState({ collectionTimeSlots: date.slotTime });
+            if (this.getValue('collectionTimeSlot')) {
+                this.setState({ selectedTimeSlot: this.getValue('collectionTimeSlot') });
+            }
         }
     }
 
@@ -92,7 +100,7 @@ class Forms extends Component {
         if (data && data.value) {
             return data.value;
         }
-        return '';
+        return null;
     }
 
     validation(field: any, title: any) {

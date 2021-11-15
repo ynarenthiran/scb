@@ -24,7 +24,7 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { bookingProgress: false, status: null, refNo: '', fields: formControls, orderStatus: "change", showModal: false, modalMsg: null };
+    state = { bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null };
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -122,6 +122,11 @@ class NewBooking extends Component {
         this.setState({ orderStatus: 'change' });
     }
 
+    modalClosed(event: any) {
+        this.setState({ fields: _.cloneDeep(formControls), showModal: event });
+        this.backToChange();
+    }
+
     render() {
         const { t }: any = this.props;
         return (
@@ -166,7 +171,7 @@ class NewBooking extends Component {
                             <div> {t('new_booking.refnumber')} <b>{this.state.refNo}</b></div>
                         }
                     </Col>
-                } onChange={(event: any) => this.setState({ showModal: event })}></ModalComponentTranslated>
+                } onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
             </span>
         );
     }
