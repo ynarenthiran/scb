@@ -42,6 +42,7 @@ class NewBooking extends Component {
     }
 
     componentDidMount() {
+        // this.setState({ showModal: true, modalMethod: 'info' });
         console.log("component mounted");
     }
 
