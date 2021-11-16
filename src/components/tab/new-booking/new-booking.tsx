@@ -20,12 +20,13 @@ const formControls = [
     { label: 'Mobile Number', name: 'mobileNumber', value: null, required: true, touched: false },
     { label: 'Collection Branch', name: 'collectionBranch', value: null, required: true, touched: false },
     { label: 'Collection Date', name: 'collectionDate', value: null, required: true, touched: false },
-    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true, touched: false }
+    { label: 'Collection Timeslot', name: 'collectionTimeslot', value: null, required: true, touched: false },
+    { label: 'Declaration', name: 'declaration', info: false, termsCondition: false, required: true, touched: false, hide: true }
 ]
 
 class NewBooking extends Component {
     form: any;
-    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null };
+    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null, modalMethod: null };
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -33,7 +34,7 @@ class NewBooking extends Component {
         props = this.props;
         console.log("lanaguge:" + this.props.lang)
         console.log("uuid:" + this.props.uuid)
-        this.setState({ fields: this.props.fields});
+        this.setState({ fields: this.props.fields });
     }
 
     componentWillUnmount() {
@@ -44,7 +45,7 @@ class NewBooking extends Component {
         console.log("component mounted");
     }
 
-    
+
     getValue(key: any) {
         const data: any = _.find(this.state.fields, ['name', key]);
         console.log("data is:", data);
@@ -69,12 +70,16 @@ class NewBooking extends Component {
         const overallvalidation: boolean = (!!_.find(this.state.fields, ['value', null]) || !!_.find(this.state.fields, ['value', undefined]));
         const mobileNumber: any = _.find(this.state.fields, ['name', 'mobileNumber']);
         const mobileNumberValidation: boolean = ((mobileNumber.value && mobileNumber.value.length !== 8) || !Number(mobileNumber.value));
-        return overallvalidation || mobileNumberValidation;
+        const declaration: any = _.find(this.state.fields, ['name', 'declaration']);
+        const declarationValidation: boolean = !declaration.info || !declaration.termsCondition;
+        console.log(declarationValidation);
+        return overallvalidation || mobileNumberValidation || declarationValidation;
     }
 
     submitOrder() {
         this.setState({ status: null });
         this.setState({ bookingProgress: true });
+        this.setState({ modalMethod: null });
         let validateCaptcha = {
             "data":
             {
@@ -106,13 +111,15 @@ class NewBooking extends Component {
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
             if (this.state.status === 404) {
-                console.log("the error code:",response['code'])
-                if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
+                console.log("the error code:", response['code'])
+                if (response['code'] !== undefined && response['code'] === 'FORMS-API-CNYNOTES001') {
+                    this.setState({ modalMethod: 'error' });
                     this.setState({ showModal: true });
                     this.setState({ modalMsg: "booking_duplicatemobile" });
                     this.setState({ refNo: '' });
                 }
-            }else if (this.state.status === 200) {
+            } else if (this.state.status === 200) {
+                this.setState({ modalMethod: 'success' });
                 this.setState({ showModal: true });
                 this.setState({ modalMsg: "booking_success" });
                 this.setState({ refNo: response['tp-ref'] });
@@ -125,7 +132,6 @@ class NewBooking extends Component {
     }
 
     reviewOrder(fields: any) {
-        //this.setState({ fields });
         this.setState({ orderStatus: 'review' });
     }
 
@@ -133,19 +139,13 @@ class NewBooking extends Component {
         this.setState({ orderStatus: 'change' });
     }
 
-    modalClosed(event: any){
+    modalClosed(event: any) {
         this.setState({ fields: _.cloneDeep(formControls), showModal: event });
         this.backToChange();
     }
 
     render() {
         const { t }: any = this.props;
-        if (this.state.navigate) {
-            console.log("test");
-            return (
-                 <Redirect to={'/captcha'} /> 
-              );
-        }else{
         return (
             <span>
                 {
@@ -177,20 +177,15 @@ class NewBooking extends Component {
                         }
                     </Row>
                 </Footer>
-                <ModalComponentTranslated visible={this.state.showModal} body={
-                    <Col>
-                            
-                            <div>{t('new_booking.' + this.state.modalMsg)}</div>
-                        
-                        {
-                            this.state.refNo !== '' &&
-                            <div> {t('new_booking.refnumber')} <b>{this.state.refNo}</b></div>
-                        }
-                    </Col>
-                } onChange={(event: any) => this.modalClosed(event) }></ModalComponentTranslated>
+                <ModalComponentTranslated
+                    visible={this.state.showModal}
+                    // title={'Are you Sure?'}
+                    message={[this.state.modalMsg ? t('new_booking.' + this.state.modalMsg) : null, this.state.refNo ? `${t('new_booking.refnumber')}: ${this.state.refNo}` : null]}
+                    // Method: 'info' | 'error' | 'success'
+                    method={this.state.modalMethod}
+                    onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
             </span>
         );
-        }
     }
 }
 

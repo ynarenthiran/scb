@@ -12,7 +12,7 @@ class Forms extends Component {
     props: any = this.props;
     form: any;
     validationMessages: any = {};
-    state = { datesLoaded: false, selectedDate: null, selectedTimeSlot: null, datesLoading: false, info: true, termsCondition: true, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [], validation: this.validationMessages };
+    state = { datesLoaded: false, selectedDate: null, selectedTimeSlot: null, datesLoading: false, info: false, termsCondition: false, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [], validation: this.validationMessages };
     service = new CommonHttpService();
 
     constructor(props?: any) {
@@ -74,9 +74,14 @@ class Forms extends Component {
 
     allFields: any = this.props.fields;
 
-    setData(e: any, field: any) {
+    setData(e: any, field: any, prop?: any) {
         const fieldData = _.find(this.allFields, ['name', field]);
-        if (fieldData) {
+        if (field === 'declaration') {
+            fieldData[prop] = e;
+            this.setState({ [prop]: e });
+            this.validation(field, fieldData.label);
+            this.props.onChange(this.allFields);
+        } else if (fieldData) {
             fieldData.value = e;
             this.validation(field, fieldData.label);
             this.props.onChange(this.allFields);
@@ -104,15 +109,16 @@ class Forms extends Component {
         }
     }
 
-    getValue(key: string) {
+    getValue(key: string, prop?: string) {
         const data = _.find(this.props.fields, ['name', key]);
-        if (data && data.value) {
+        if (data) {
+            const value = data[prop || 'value'] || null;
             /*if(key==='collectionDate'){
-                this.setState({ selectedDate: data.value })
+                this.setState({ selectedDate: value })
             }if(key==='collectionTimeslot'){
-                this.setState({ selectedTimeSlot: data.value })
+                this.setState({ selectedTimeSlot: value })
             } */
-            return data.value;
+            return value;
         }
         return null;
     }
@@ -120,7 +126,15 @@ class Forms extends Component {
     validation(field: any, title: any) {
         const validation: any = this.state.validation;
         if (!this.getValue(field)) {
-            validation[field] = `${title} is required.`;
+            if (field === 'declaration') {
+                if (!this.getValue(field, 'info') || !this.getValue(field, 'termsCondition')) {
+                    validation[field] = `${title} is required.`;    
+                } else {
+                    validation[field] = null;    
+                }
+            } else {
+                validation[field] = `${title} is required.`;
+            }
         } else if (field === 'mobileNumber') {
             if (this.getValue(field).length !== 8) {
                 validation[field] = `${title} should be 8 digits`;
@@ -132,7 +146,6 @@ class Forms extends Component {
         }else {
             validation[field] = null;
         }
-        console.log(this.state.validation);
         this.setState({ validation });
     }
 
@@ -222,9 +235,12 @@ class Forms extends Component {
                     </Form.Item>
                     <Form.Item label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                            <Checkbox checked={this.state.info} onChange={(e) => this.setState({ info: e.target.checked })}>{t('forms.DeclarationPoints.1')}</Checkbox>
-                            <Checkbox checked={this.state.termsCondition} onChange={(e) => this.setState({ termsCondition: e.target.checked })}>{t('forms.DeclarationPoints.2')}</Checkbox>
+                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
+                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
                         </Space>
+                        {
+                            this.getMessage('declaration') && <span className="field-error">{this.getMessage('declaration')}</span>
+                        }
                     </Form.Item>
                 </Form>
             </div>

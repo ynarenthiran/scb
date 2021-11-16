@@ -46,17 +46,6 @@ export class CommonHttpService {
         return headers;
     };
 
-
-    modal(method: 'info' | 'success' | 'error' | 'warning' | 'confirm', title: any, content: any) {
-        Modal[method]({
-            title,
-            content: (
-                <Empty image="/assets/images/modal/info.svg" />
-            ),
-            onOk() { console.log('on Ok') }
-          });
-    }
-
     setLanguage(lang: string) {
         this.language = lang;
         i18n.changeLanguage(this.language);

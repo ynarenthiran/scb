@@ -16,22 +16,12 @@ class Tab extends Component {
     constructor(props?: any) {
         super(props);
         props = this.props;
-        this.modalClosed= this.modalClosed.bind(this);
     }
 
-    state = { navigate: false};
-    modalClosed(event: any){
-        this.setState({navigate: true})
-    }
+    state = { tabChange: false };
 
     render() {
         const { t }: any = this.props;
-        if (this.state.navigate) {
-            console.log("test");
-            return (
-                 <Captcha /> 
-              );
-        }
         return (
             <Layout>
                 <Header>
@@ -39,12 +29,12 @@ class Tab extends Component {
                     <div className='hint'>{t('new_booking.hint')}</div>
                 </Header>
                 <Content>
-                    <Tabs defaultActiveKey="new">
+                    <Tabs defaultActiveKey="new" onChange={(event: any) => this.setState({ tabChange: event === 'new' })}>
                         <TabPane tab={t('tab.new_booking')} key="new">
-                            <NewBooking {...this.props} modalClosed = {this.modalClosed}/>
+                            <NewBooking {...this.props} tabChange={this.state.tabChange} />
                         </TabPane>
                         <TabPane tab={t('tab.update_booking')} key="cancellationAndEnquiries">
-                            <UpdateBooking {...this.props}/>
+                            <UpdateBooking {...this.props} />
                         </TabPane>
                     </Tabs>
                 </Content>

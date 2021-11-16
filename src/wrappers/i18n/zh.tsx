@@ -39,7 +39,8 @@ const zh = {
         mobile: '移动号码',
         email: '电子邮件地址',
         button: '提交'
-    },forms: {
+    },
+    forms: {
         'SelectPlaceholder': 'Please Select...',
         'Title': 'Title',
         'LastName': 'Last Name',
@@ -57,6 +58,9 @@ const zh = {
         "regionThree": "---- New Territories ---- ",
         "regionTwo": "---- Kowloon  ---- ",
         "regionOne": "---- Hong Kong ----"
+    },
+    modal:{
+        'okbutton': 'Ok'
     },
     review_orders: {
 
