@@ -2,7 +2,7 @@
     width: 400px !important;
 
     .ant-modal-content {
-        border-top: 5px solid #757575;
+        // border-top: 5px solid #757575;
 
         .ant-modal-header {
             display: none;
@@ -27,10 +27,10 @@
                 .modal-title {
                     margin-top: 1vh;
                     text-align: center;
-                    color: #555;
                     font-size: 30px;
                     font-weight: 300;
                 }
+
                 .modal-message {
                     margin-top: 1vh;
                     text-align: center;
@@ -44,6 +44,11 @@
             display: flex;
             justify-content: center;
             // border-radius: 0 0 10px 10px !important;
+
+            .ant-btn {
+                width: 100%;
+                background-color: #00a546;
+            }
         }
 
         .anticon {
@@ -55,10 +60,27 @@
         }
     }
 }
-  
-  // Mobiles
-  @media screen and (max-width: 426px) {
-    .ant-modal {
-        width: 300px !important;    
+
+.error {
+    .ant-modal-content {
+        border-top: 5px solid #d0021b;
     }
-  }
+}
+
+.info {
+    .ant-modal-content {
+        border-top: 5px solid #757575;
+    }
+}
+
+.success {
+    .ant-modal-content {
+        border-top: 5px solid #00a546;
+    }
+}
+// Mobiles
+@media screen and (max-width: 426px) {
+    .ant-modal {
+        width: 300px !important;
+    }
+}

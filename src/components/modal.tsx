@@ -15,7 +15,7 @@ class ModalComponent extends Component {
     render() {
         const { t }: any = this.props;
         return (
-            <Modal visible={this.props.visible} onCancel={() => this.props.onChange(false)} footer={[
+            <Modal className={this.props.method} visible={this.props.visible} onCancel={() => this.props.onChange(false)} footer={[
                 <Button key="submit" type="primary" onClick={() => this.props.onChange(false)}>
                     {t('modal.okbutton')}
                 </Button>

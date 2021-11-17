@@ -12,7 +12,7 @@ class App extends Component {
       <HashRouter>
         <Route path="/captcha" component={Captcha} />
         <Route path="/booking" component={Tab} />
-        <Redirect to="/captcha" />
+        <Redirect to="/booking" />
       </HashRouter>
     );
   }
