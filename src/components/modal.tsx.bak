@@ -24,7 +24,7 @@ class ModalComponent extends Component {
                     {
                         (this.props.method === 'info' || this.props.method === 'error' || this.props.method === 'success') &&
                         // Method: 'info' | 'error' | 'success'
-                        <Empty image={`${this.service.BASEURL}/images/modal/${this.props.method}.svg`} description={false} />
+                        <Empty image={`${this.service.baseURL}/images/modal/${this.props.method}.svg`} description={false} />
                     }
                     {
                         this.props.title &&
