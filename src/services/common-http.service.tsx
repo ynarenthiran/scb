@@ -47,9 +47,9 @@ export class CommonHttpService {
 
     get baseURL(): string {
         // Development
-        return process.env.BASE_URL || '/assets';
+        // return process.env.BASE_URL || '/assets';
         // Internal Demo
-        // return process.env.BASE_URL || '/scb/assets';
+        return process.env.BASE_URL || '/scb/assets';
         // UAT
         // return process.env.BASE_URL || '/origination/hkcnybook/static';
     }
