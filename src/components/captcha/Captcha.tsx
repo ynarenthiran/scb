@@ -116,8 +116,8 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                <Header>
-               <img className='sc-logo' src='/origination/hkcnybook/static/images/sc-logo.svg' alt="Logo" />
-               <img className='sc-mobile-logo' src='/origination/hkcnybook/static/images/sc-mobile-logo.svg' alt="Logo" />
+               <img className='sc-logo' src='/assets/images/sc-logo.svg' alt="Logo" />
+               <img className='sc-mobile-logo' src='/assets/images/sc-mobile-logo.svg' alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
