@@ -1,10 +1,12 @@
 import { Component } from "react";
 import { Modal, Button, Empty } from 'antd';
 import { withTranslation } from 'react-i18next';
+import { CommonHttpService } from "../services/common-http.service";
 
 class ModalComponent extends Component {
     props: any = this.props;
     state = { isModalVisible: false };
+    service = new CommonHttpService();
 
     componentWillUnmount() {
         this.setState({ isModalVisible: false });
@@ -22,7 +24,7 @@ class ModalComponent extends Component {
                     {
                         (this.props.method === 'info' || this.props.method === 'error' || this.props.method === 'success') &&
                         // Method: 'info' | 'error' | 'success'
-                        <Empty image={`/assets/images/modal/${this.props.method}.svg`} description={false} />
+                        <Empty image={`${this.service.baseURL}/images/modal/${this.props.method}.svg`} description={false} />
                     }
                     {
                         this.props.title &&

@@ -1,7 +1,7 @@
 import './update-booking.scss';
 
 import { Component } from "react";
-import { Button, Col, Form, Input, Space, Table } from 'antd';
+import { Button, Form, Input, Space, Table } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';

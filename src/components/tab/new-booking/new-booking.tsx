@@ -1,6 +1,6 @@
 import './new-booking.scss';
 
-import { Layout, Button, Row, Col, Space } from 'antd';
+import { Layout, Button, Row, Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
 import FormsTranslated from '../../form/form';
@@ -10,7 +10,6 @@ import { CommonHttpService } from '../../../services/common-http.service';
 import ModalComponentTranslated from '../../modal';
 import * as _ from 'lodash';
 import moment from 'moment'
-import { Redirect } from 'react-router-dom';
 
 const { Footer } = Layout;
 

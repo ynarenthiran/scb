@@ -1,4 +1,3 @@
-import { Empty, Modal } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import i18n from '../wrappers/i18n/i18n';
 
@@ -45,6 +44,10 @@ export class CommonHttpService {
         headers["SC-CLIENT-CONTEXT"] = JSON.stringify(SC_CLIENT_CONTEXT);
         return headers;
     };
+
+    get baseURL(): string {
+        return process.env.BASE_URL || '/scb';
+    }
 
     setLanguage(lang: string) {
         this.language = lang;

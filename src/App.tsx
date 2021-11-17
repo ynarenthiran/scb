@@ -4,7 +4,7 @@ import { Component } from 'react';
 import Tab from './components/tab/tab';
 import Captcha from './components/captcha/Captcha';
 
-import { BrowserRouter, HashRouter, Redirect, Route } from 'react-router-dom';
+import { HashRouter, Redirect, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {

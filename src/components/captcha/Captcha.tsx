@@ -9,6 +9,8 @@ import TabTranslated from '../tab/tab';
 import ImportantNotesTranslated from '../important-notes/important-notes';
 const { Header, Content } = Layout;
 
+require('dotenv').config();
+
 
 class Captcha extends Component {
     state: any = { navigate: false, captchaInput: '', verifyButtonLoader: false, reloadCaptchaLoader: false, captcha: null, lang: 'en', message: null };
@@ -116,8 +118,8 @@ class Captcha extends Component {
         return (
             <Layout className="captcha">
                <Header>
-               <img className='sc-logo' src='/assets/images/sc-logo.svg' alt="Logo" />
-               <img className='sc-mobile-logo' src='/assets/images/sc-mobile-logo.svg' alt="Logo" />
+               <img className='sc-logo' src={`${this.service.baseURL}/images/sc-logo.svg`} alt="Logo" />
+               <img className='sc-mobile-logo' src={`${this.service.baseURL}/images/sc-mobile-logo.svg`} alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
