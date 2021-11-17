@@ -143,6 +143,16 @@ class NewBooking extends Component {
 
     backToChange() {
         this.setState({ orderStatus: 'change' });
+        const fields: any = this.state.fields;
+        // Remove Date Selection
+        if (_.find(fields, ['name', 'collectionDate'])) {
+            _.find(fields, ['name', 'collectionDate']).value = null;
+        }
+        // Remove Time slot Selection
+        if (_.find(fields, ['name', 'collectionTimeslot'])) {
+            _.find(fields, ['name', 'collectionTimeslot']).value = null;
+        }
+        this.setState({ fields });
     }
 
     modalClosed(event: any) {

@@ -45,13 +45,13 @@ export class CommonHttpService {
         return headers;
     };
 
-    get baseURL(): string {
+    get BASEURL(): string {
         // Development
-        return process.env.BASE_URL || '/assets';
+        return process.env.REACT_APP_BASE_URL || '/assets';
         // Internal Demo
-        // return process.env.BASE_URL || '/scb/assets';
+        // return process.env.REACT_APP_BASE_URL || '/scb/assets';
         // UAT
-        // return process.env.BASE_URL || '/origination/hkcnybook/static';
+        // return process.env.REACT_APP_BASE_URL || '/origination/hkcnybook/static';
     }
 
     setLanguage(lang: string) {
