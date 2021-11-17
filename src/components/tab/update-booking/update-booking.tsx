@@ -12,7 +12,7 @@ var dateFormat = require('dateformat');
 
 
 class UpdateBooking extends Component {
-    state = { modalMsg: '', refNo: '', modalMethod: null, showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
+    state = { cancellationDone: false, modalMsg: '', refNo: '', modalMethod: null, showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
     service = new CommonHttpService();
 
 
@@ -36,6 +36,7 @@ class UpdateBooking extends Component {
     getAppointments() {
         this.setState({ loadingAppointment: true });
         this.setState({ appointmentData: null });
+        this.setState({ refNo: '' });
         this.rowSelection = {
             selectedRowKeys: [],
             onChange: this.onSelectChange
@@ -55,9 +56,7 @@ class UpdateBooking extends Component {
             return res.json();
         }).then((response) => {
             this.setState({ mobile: '' });
-            if (this.state.status === 404) {
-                this.setState({ loadingAppointment: false });
-            } else if (this.state.status === 200) {
+            if (this.state.status === 200) {
                 this.setState({ loadingAppointment: false });
                 _.each(response, (el: any) => {
                     el["appointmentdate"] = dateFormat(el["appointment-date"], "dd-mm-yyyy")
@@ -66,14 +65,21 @@ class UpdateBooking extends Component {
                 this.setState({ appointmentData: response });
             } else {
                 this.setState({ loadingAppointment: false });
+                this.setState({ modalMethod: 'error', showModal: true });
+                this.setState({ modalMsg: "cancel_failure" });
             }
         }).catch((error) => {
             this.setState({ loadingAppointment: false });
+            this.setState({ modalMethod: 'error', showModal: true });
+            this.setState({ modalMsg: "cancel_failure" });
         });
     }
 
     cancelAppointment() {
         this.setState({ loadingAppointment: true });
+        this.setState({ cancellationDone: false });
+        this.setState({ modalMethod: null });
+        this.setState({ refNo: '' });
         let cancelAppointment = {
             "data":
             {
@@ -90,20 +96,23 @@ class UpdateBooking extends Component {
         this.service.post('', cancelAppointment, this.props.uuid, this.props.lang).then((result) => {
             this.setState({ verifyButtonLoader: false });
             console.log("result.status:" + result.status)
-            if (result.status === 404) {
-                this.setState({ loadingAppointment: false });
-            } else if (result.status === 200) {
+            if (result.status === 200) {
                 this.setState({ loadingAppointment: false });
                 this.setState({ modalMethod: 'success', showModal: true });
                 this.setState({ modalMsg: "cancel_success" });
                 this.setState({ rowSelected: true });
+                this.setState({ cancellationDone: true });
                 this.setState({ refNo: cancelAppointment.data.attributes['ref-id'] });
-                this.getAppointments();
             } else {
                 this.setState({ loadingAppointment: false });
+                this.setState({ showModal: true });
+                this.setState({ modalMethod: 'error', showModal: true });
+                this.setState({ modalMsg: "cancel_failure" });
             }
         }).catch((error) => {
             this.setState({ loadingAppointment: false });
+            this.setState({ modalMethod: 'error', showModal: true });
+            this.setState({ modalMsg: "cancel_failure" });
         });
     }
 
@@ -129,6 +138,14 @@ class UpdateBooking extends Component {
             this.setState({ rowSelected: false });
         }
     }
+
+    modalClosed(event: any) {
+        this.setState({ showModal: event });
+        if (this.state.cancellationDone) { // call get appointments only after cancellation is success
+            this.getAppointments();
+        }
+    }
+
 
 
     props: any = this.props;
@@ -199,7 +216,7 @@ class UpdateBooking extends Component {
                     message={[this.state.modalMsg ? t('update_booking.' + this.state.modalMsg) : null, this.state.refNo ? `${t('new_booking.refnumber')}: ${this.state.refNo}` : null]}
                     // Method: 'info' | 'error' | 'success'
                     method={this.state.modalMethod}
-                    onChange={(event: any) => this.setState({ showModal: event })}></ModalComponentTranslated>
+                    onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
             </div>
         );
     }

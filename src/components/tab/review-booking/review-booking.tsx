@@ -9,6 +9,7 @@ import moment from 'moment'
 class ReviewBooking extends Component {
     state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
     service = new CommonHttpService();
+    
     fields: any = [];
 
     componentWillUnmount() {
