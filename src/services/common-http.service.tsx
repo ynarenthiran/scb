@@ -46,7 +46,7 @@ export class CommonHttpService {
     };
 
     get baseURL(): string {
-        return process.env.BASE_URL || '/scb';
+        return process.env.BASE_URL || '/scb/assets';
     }
 
     setLanguage(lang: string) {
