@@ -38,22 +38,25 @@ const en = {
             review: 'Review Order'
         },
         refnumber: 'Your Reference Number is',
-        booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.'
+        booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
+        booking_duplicatemobile: 'Same mobile number is registered.  Every mobile number can only register for 1 slot per day, please enter another mobile number or register with another collection date for the booking.',
+        booking_noslotavaialble: '* The quota is out for this branch, please pick another date or branch'
     },
     update_booking: {
         mobile: 'Mobile Number',
         email: 'Email Address',
         button: 'Submit',
-        cancelbutton: 'Cancel Appointment',
+        cancelbutton: 'Cancel selected booking',
         cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
-        norecordfound: 'No Appointments found for this mobile number : '
+        norecordfound: 'The mobile number you entered is not registered for this service, please retry ',
+        cancel_failure: 'We are unable to process your request right now. Please retry later.'
     },
     forms: {
         'SelectPlaceholder': 'Please Select...',
         'Title': 'Title',
         'LastName': 'Last Name',
         'MobileNumber': 'Mobile Number',
-        'CollectionBranch': 'Collection Branch',
+        'CollectionBranch': 'Designated Collection Branch',
         'CollectionDate': 'Collection Date',
         'CollectionTimeslot': 'Collection Timeslot',
         'Quantity': 'Quantity',

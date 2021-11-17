@@ -33,12 +33,19 @@ const zh = {
             back: '返回',
             submit: '提交',
             review: '审核订单'
-        }
+        },
+        booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
+        booking_duplicatemobile: '手機號碼已登記此服務。每個手機號碼在每天只能預訂一套套裝新鈔票。請登記另一個領鈔日期或使用另一個手機號碼進行預訂。',
+        booking_noslotavaialble: '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。'
     },
     update_booking: {
         mobile: '移动号码',
         email: '电子邮件地址',
-        button: '提交'
+        button: '提交',
+        cancelbutton: '取消已選擇的預訂',
+        cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
+        norecordfound: 'The mobile number you entered is not registered for this service, please retry ',
+        cancel_failure: '我們未能處理您的指示。請稍後再試。'
     },
     forms: {
         'SelectPlaceholder': 'Please Select...',

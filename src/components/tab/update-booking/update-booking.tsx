@@ -1,7 +1,7 @@
 import './update-booking.scss';
 
 import { Component } from "react";
-import { Button, Form, Input, Space, Table } from 'antd';
+import { Button, Empty, Form, Input, Space, Table } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
@@ -146,7 +146,9 @@ class UpdateBooking extends Component {
         }
     }
 
-
+    get disableButton(): boolean {
+        return ((this.state.mobile && this.state.mobile.length !== 8) || !Number(this.state.mobile));
+    }
 
     props: any = this.props;
     constructor(props?: any) {
@@ -193,7 +195,7 @@ class UpdateBooking extends Component {
                         <div className='buttons'>
                             {
                                 !this.state.rowSelected &&
-                                <Button className='submit-btn' type="primary" disabled={this.state.mobile.length !== 8} icon={<ArrowRightOutlined />} onClick={() => this.getAppointments()}>{t('update_booking.button')}</Button>
+                                <Button className='submit-btn' type="primary" disabled={this.disableButton} icon={<ArrowRightOutlined />} onClick={() => this.getAppointments()}>{t('update_booking.button')}</Button>
                             }
                             {
                                 this.state.rowSelected &&
@@ -208,7 +210,8 @@ class UpdateBooking extends Component {
                 }
                 {
                     this.state.appointmentData !== null &&
-                    <Table locale={{ emptyText: t('update_booking.norecordfound') + '852' + this.state.mobileNumber }} rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered />
+                    // <Table locale={{ emptyText: t('update_booking.norecordfound') + '852' + this.state.mobileNumber }} rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered />
+                    <Table locale={{ emptyText: (<Empty description={`${t('update_booking.norecordfound')} 852-${this.state.mobileNumber}`}></Empty>) }} rowSelection={{ type: 'radio', ...this.rowSelection }} columns={this.columns} dataSource={this.state.appointmentData} size="small" bordered />
                 }
                 <ModalComponentTranslated
                     visible={this.state.showModal}

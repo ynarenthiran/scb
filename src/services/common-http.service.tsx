@@ -46,7 +46,12 @@ export class CommonHttpService {
     };
 
     get baseURL(): string {
-        return process.env.BASE_URL || '/scb/assets';
+        // Development
+        return process.env.BASE_URL || '/assets';
+        // Internal Demo
+        // return process.env.BASE_URL || '/scb/assets';
+        // UAT
+        // return process.env.BASE_URL || '/origination/hkcnybook/static';
     }
 
     setLanguage(lang: string) {
