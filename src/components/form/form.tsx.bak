@@ -52,7 +52,7 @@ class Forms extends Component {
                 this.getTimeSlots(this.getValue('collectionDate'));
             }*/
         }).catch((err) => {
-			this.setState({ datesLoading: false })
+			this.setState({ datesLoading: false }) 
             this.setState({ datesLoaded: true });
             console.log(err);
         });
@@ -115,6 +115,11 @@ class Forms extends Component {
         const data = _.find(this.props.fields, ['name', key]);
         if (data) {
             const value = data[prop || 'value'] || null;
+            /*if(key==='collectionDate'){
+                this.setState({ selectedDate: value })
+            }if(key==='collectionTimeslot'){
+                this.setState({ selectedTimeSlot: value })
+            } */
             return value;
         }
         return null;

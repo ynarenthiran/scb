@@ -132,9 +132,7 @@ class NewBooking extends Component {
 
             }
         }).catch((error) => {
-            this.setState({ modalMethod: 'error' });
-            this.setState({ showModal: true });
-            this.setState({ modalMsg: "cancel_failure" });
+            //TODO:
         });
     }
 
