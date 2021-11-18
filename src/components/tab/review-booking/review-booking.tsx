@@ -31,9 +31,23 @@ class ReviewBooking extends Component {
         const data = _.find(this.props.fields, ['name', key]);
         console.log("data is:", data);
         if (data && data.value) {
-            return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : (key === 'collectionBranch' && data.value && data.value.label) ? data.value.label : data.value;
+            if (key === 'collectionDate') {
+                return moment(data.value).format('DD/MM/YYYY');
+            } else if (key === 'collectionBranch') {
+                if (data.data) {
+                    return `${data.data[this.language === 'zh' ? 'chineseName' : 'name'] || '-'}, ${(data.data) ? data.data[this.language === 'zh' ? 'chineseAddress' : 'address'] : '-'}`;
+                } else {
+                    return '-';
+                }
+            } else {
+                return data.value;
+            }
         }
         return '-';
+    }
+
+    get language() {
+        return this.props.i18n.language;
     }
 
     render() {

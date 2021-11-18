@@ -1,20 +1,91 @@
 .ant-layout {
   height: 100% !important;
 
+  // .ant-layout-header {
+  //   height: 13% !important;
+  //   padding: 2vh 5vh !important;
+  //   background-color: #ffffff !important;
+  //   line-height: inherit !important;
+  //   display: flex !important;
+  //   justify-content: center !important;
+  //   flex-direction: column !important;
+  //   position: fixed !important;
+  //   width: 100% !important;
+
+  //   .header {
+  //     font-size: 20px;
+  //     font-weight: 700;
+  //   }
+  // }
+
   .ant-layout-header {
     height: 13% !important;
-    padding: 2vh 5vh !important;
-    background-color: #ffffff !important;
-    line-height: inherit !important;
     display: flex !important;
-    justify-content: center !important;
-    flex-direction: column !important;
     position: fixed !important;
-    width: 100% !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    border-bottom: 1px groove #f2f2f2;
+    background-color: #ffffff !important;
+    width: 100%;
+    padding: 0 5vh !important;
 
-    .header {
+    // .ant-row {
+    //   display: flex;
+    //   align-items: center;
+    // }
+
+    .sc-logo {
+      display: initial !important;
+      height: 80%;
+    }
+
+    .sc-mobile-logo {
+      height: 80%;
+      display: none !important;
+    }
+
+    .header-title {
+      width: 80%;
       font-size: 20px;
       font-weight: 700;
+      line-height: initial;
+    }
+
+    .lang {
+      position: absolute;
+      top: 2vh;
+      right: 2vh;
+    }
+
+    .lang.ant-btn:hover,
+    .lang.ant-btn:focus {
+      color: #00a546 !important;
+      border-color: #00a546 !important;
+    }
+
+    .border {
+      //width: 10%;
+      display: flex !important;
+      flex-direction: column;
+      width: 1vh !important;
+      margin: 0 5vh;
+      height: 100% !important;
+
+      .border-top {
+        background-color: #00a546;
+        height: 100% !important;
+        width: 100% !important;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+      .border-bottom {
+        background-color: #0091ea;
+        height: 100% !important;
+        width: 100% !important;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
     }
   }
 
@@ -25,6 +96,31 @@
     .ant-tabs {
       margin-top: 13vh;
       height: 80vh !important;
+
+      .ant-tabs-tab {
+        padding: 0 2vh;
+        display: flex;
+        margin-top: 1vh;
+        justify-content: center;
+        background-color: #ffffff !important;
+        border-radius: 4px;
+
+        .ant-tabs-tab-btn {
+          color: #1890ff !important;
+        }
+      }
+
+      // .ant-tabs-ink-bar {
+      //   display: none !important;
+      // }
+
+      .ant-tabs-tab-active {
+        background-color: #1890ff !important;
+
+        .ant-tabs-tab-btn {
+          color: #ffffff !important;
+        }
+      }
 
       .ant-tabs-nav {
         margin: 0 !important;
@@ -57,6 +153,23 @@
       overflow-y: auto !important;
     }
   }
+
+  .ant-layout .ant-layout-header {
+    padding: 0 4vh !important;
+
+    .sc-mobile-logo {
+      margin-right: 3vh;
+      display: initial !important;
+    }
+
+    .sc-logo {
+      display: none !important;
+    }
+
+    .border {
+      display: none !important;
+    }
+  }
 }
 
 // Mobiles
@@ -71,15 +184,38 @@
     }
   }
 
-  .ant-layout .ant-layout-header {
-    height: 16% !important;
+  // .ant-layout .ant-layout-header {
+  //   height: 16% !important;
 
-    .header {
-      font-size: 12px;
+  //   .header {
+  //     font-size: 12px;
+  //   }
+
+  //   .hint {
+  //     font-size: 12px;
+  //   }
+  // }
+
+  .ant-layout .ant-layout-header {
+    padding: 0 3vh !important;
+
+    .sc-mobile-logo {
+      margin-right: 3vh;
+      display: initial !important;
     }
 
-    .hint {
-      font-size: 12px;
+    .header-title {
+      width: 70% !important;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .sc-logo {
+      display: none !important;
+    }
+
+    .border {
+      display: none !important;
     }
   }
 }

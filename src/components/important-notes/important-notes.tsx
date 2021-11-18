@@ -7,7 +7,7 @@ class ImportantNotes extends Component {
         const { t }: any = this.props;
         return (
             <div className='important-notes'>
-                <div className="title">{t('importantNotes.title')}</div>
+                <div className="title">{t('importantNotes.title')}:</div>
                 <ol>
                     <li>{t(`importantNotes.1`)}</li>
                     <li>{t(`importantNotes.2`)}</li>

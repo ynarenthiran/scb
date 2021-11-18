@@ -63,6 +63,8 @@ const zh = {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
             2: '我已閱讀、明白及同意本申請的條款和條件。'
         },
+        'Note': 'Note',
+        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
         'QuantityValue':'一',
         'countrycode':'八百五十二',
         "regionThree": "---- 新界 ----",

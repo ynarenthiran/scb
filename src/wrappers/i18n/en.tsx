@@ -68,6 +68,8 @@ const en = {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
         },
+        'Note': 'Note',
+        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
         "regionThree": "---- New Territories ---- ",
         "regionTwo": "---- Kowloon  ---- ",
         "regionOne": "---- Hong Kong ----",

@@ -5,12 +5,14 @@
 
   .ant-layout-header {
     height: 12vh !important;
+    width: 100%;
     display: flex !important;
     position: fixed !important;
     justify-content: flex-start !important;
     align-items: center !important;
     flex-direction: row !important;
     border-bottom: 1px groove #f2f2f2;
+    padding: 0 5vh !important;
 
     // .ant-row {
     //   display: flex;
@@ -19,17 +21,19 @@
 
     .sc-logo {
       display: initial !important;
-      height: 100%;
+      height: 80%;
     }
 
     .sc-mobile-logo {
-      height: 100%;
+      height: 80%;
       display: none !important;
     }
 
     .header-title {
-      font-size: 15px;
-      width: 60%;
+      width: 80%;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: initial;
     }
 
     .lang {
@@ -45,7 +49,7 @@
     }
 
     .border {
-      width: 10%;
+      //width: 10%;
       display: flex !important;
       flex-direction: column;
       width: 1vh !important;
@@ -149,6 +153,8 @@
   }
 
   .captcha.ant-layout .ant-layout-header {
+    padding: 0 4vh !important;
+    
     .sc-mobile-logo {
       margin-right: 3vh;
       display: initial !important;
@@ -157,7 +163,7 @@
     .header-title {
       width: 70% !important;
     }
-
+    
     .sc-logo {
       display: none !important;
     }
@@ -187,6 +193,8 @@
   }
 
   .captcha.ant-layout .ant-layout-header {
+    padding: 0 3vh !important;
+
     .sc-mobile-logo {
       margin-right: 3vh;
       display: initial !important;
@@ -194,6 +202,8 @@
 
     .header-title {
       width: 70% !important;
+      font-size: 15px;
+      font-weight: 700;
     }
 
     .sc-logo {
@@ -221,9 +231,5 @@
     .anticon + span {
       margin: 0 !important;
     }
-  }
-
-  .header-title {
-    width: 70% !important;
   }
 }
