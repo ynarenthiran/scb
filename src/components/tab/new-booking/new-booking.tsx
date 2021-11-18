@@ -1,6 +1,6 @@
 import './new-booking.scss';
 
-import { Layout, Button, Row, Space } from 'antd';
+import { Layout, Button, Row,  Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
 import FormsTranslated from '../../form/form';
@@ -9,7 +9,9 @@ import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import ModalComponentTranslated from '../../modal';
 import * as _ from 'lodash';
-import moment from 'moment'
+//import moment from 'moment'
+import moment from 'moment-timezone'
+import { Redirect } from 'react-router-dom';
 
 const { Footer } = Layout;
 
@@ -25,7 +27,7 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null, modalMethod: null };
+    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null , modalMethod: null};
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -33,7 +35,7 @@ class NewBooking extends Component {
         props = this.props;
         console.log("lanaguge:" + this.props.lang)
         console.log("uuid:" + this.props.uuid)
-        this.setState({ fields: this.props.fields });
+        this.setState({ fields: this.props.fields});
     }
 
     componentWillUnmount() {
@@ -41,26 +43,16 @@ class NewBooking extends Component {
     }
 
     componentDidMount() {
-        // this.setState({ showModal: true, modalMethod: 'info' });
         console.log("component mounted");
     }
 
+    
     getValue(key: any) {
         const data: any = _.find(this.state.fields, ['name', key]);
         console.log("data is:", data);
         if (data && data.value) {
             return (key === 'collectionDate') ? moment(data.value).format('DD/MM/YYYY') : (key === 'collectionBranch' && data.value && data.value.label) ? data.value.label : data.value;
 
-        }
-        return '-';
-    }
-
-    getBranchCode(key: any) {
-        console.log("data for branch code:", this.state.fields)
-        const data: any = _.find(this.state.fields, ['name', key]);
-        console.log("data is:", data);
-        if (data && data.value) {
-            return (key === 'collectionBranch') ? data.value.value : '-';
         }
         return '-';
     }
@@ -75,6 +67,17 @@ class NewBooking extends Component {
         return overallvalidation || mobileNumberValidation || declarationValidation;
     }
 
+    getBranchCode(key: any) {
+        console.log("data for branch code:", this.state.fields)
+        const data: any = _.find(this.state.fields, ['name', key]);
+        console.log("data is:", data);
+        if (data && data.value) {
+            return (key === 'collectionBranch') ? data.value.value : '-';
+        }
+        return '-';
+    }
+
+    
     submitOrder() {
         this.setState({ status: null });
         this.setState({ bookingProgress: true });
@@ -93,7 +96,7 @@ class NewBooking extends Component {
                     "mobileNo": '852' + this.getValue('mobileNumber'),
                     "appointment-date": this.getValue('collectionDate'),
                     "quantity": 1,
-                    "booked-date": moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+                    "booked-date": moment().tz('Asia/Hong_Kong').format('YYYY-MM-DD HH:mm:ss.SSS'),
                     "status": 'booked',
                     "language-code": this.props.lang,
                     "branch-name": this.getValue('collectionBranch'),
@@ -110,7 +113,7 @@ class NewBooking extends Component {
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
             if (this.state.status === 404) {
-                console.log("the error code:", response['code'])
+                console.log("the error code:",response['code'])
                 if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
                     this.setState({ showModal: true });
                     this.setState({ modalMethod: 'error' });
@@ -122,22 +125,26 @@ class NewBooking extends Component {
                     this.setState({ modalMsg: "booking_noslotavaialble" });
                     this.setState({ refNo: '' });
                 }
-            } else if (this.state.status === 200) {
+            }else if (this.state.status === 200) {
                 this.setState({ modalMethod: 'success' });
                 this.setState({ showModal: true });
                 this.setState({ modalMsg: "booking_success" });
                 this.setState({ refNo: response['tp-ref'] });
-            } else {
-
+            } else{
+                this.setState({ showModal: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "error" });
+                this.setState({ refNo: '' });
             }
         }).catch((error) => {
             this.setState({ modalMethod: 'error' });
             this.setState({ showModal: true });
-            this.setState({ modalMsg: "cancel_failure" });
+            this.setState({ modalMsg: "error" });
         });
     }
 
     reviewOrder(fields: any) {
+        //this.setState({ fields });
         this.setState({ orderStatus: 'review' });
     }
 
@@ -155,13 +162,20 @@ class NewBooking extends Component {
         this.setState({ fields });
     }
 
-    modalClosed(event: any) {
+    modalClosed(event: any){
         this.setState({ fields: _.cloneDeep(formControls), showModal: event });
-        this.backToChange();
+        //this.backToChange();
+        this.setState({ orderStatus: 'change' });
     }
 
     render() {
         const { t }: any = this.props;
+        if (this.state.navigate) {
+            console.log("test");
+            return (
+                 <Redirect to={'/captcha'} /> 
+              );
+        }else{
         return (
             <span>
                 {
@@ -202,6 +216,7 @@ class NewBooking extends Component {
                     onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
             </span>
         );
+        }
     }
 }
 

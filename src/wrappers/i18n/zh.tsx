@@ -1,10 +1,10 @@
 const zh = {
     captcha: {
-        header: '键入验证代码（大写字母)',
-        placeholder: '验证代码',
+        header: '輸入驗證碼（英文正楷',
+        placeholder: '輸入上面的文字:',
         button: '验证继续',
         selectOptions: {
-            English: 'EN',
+            English: '中文',
             Chinese: 'EN'
         },
         TechnicalError: '暫時未能提供服務，請稍後再試。如有不便，敬請原諒。',
@@ -36,41 +36,44 @@ const zh = {
         },
         booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
         booking_duplicatemobile: '手機號碼已登記此服務。每個手機號碼在每天只能預訂一套套裝新鈔票。請登記另一個領鈔日期或使用另一個手機號碼進行預訂。',
-        booking_noslotavaialble: '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。'
+        booking_noslotavaialble: '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。',
+        error: '我們未能處理您的指示。請稍後再試。'
     },
     update_booking: {
         mobile: '移动号码',
         email: '电子邮件地址',
         button: '提交',
         cancelbutton: '取消已選擇的預訂',
-        cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
-        norecordfound: 'The mobile number you entered is not registered for this service, please retry ',
+        cancel_success: '您选择的预订已被取消。短信确认将发送到您在此表格中提供的手机号码。',
+        norecordfound: '您输入的手机号码未注册此服务，请重试',
         cancel_failure: '我們未能處理您的指示。請稍後再試。'
-    },
-    forms: {
-        'SelectPlaceholder': 'Please Select...',
-        'Title': 'Title',
-        'LastName': 'Last Name',
-        'MobileNumber': 'Mobile Number',
-        'CollectionBranch': 'Collection Branch',
-        'CollectionDate': 'Collection Date',
-        'CollectionTimeslot': 'Collection Timeslot',
-        'Quantity': 'Quantity',
-        'Declaration': 'Declaration',
-        'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)',
+    },forms: {
+        'subtitle':'預訂資料',
+        'SelectPlaceholder': '请选择...',
+        'Title': '稱謂',
+        'LastName': '姓氏',
+        'MobileNumber': '手機號碼',
+        'CollectionBranch': '指定領鈔分行',
+        'CollectionDate': '領鈔日期',
+        'CollectionTimeslot': '領鈔時段',
+        'Quantity': '數量',
+        'Declaration': '聲明',
+        'QuantityText': '每套總價值：港幣$3,000 (面額: 港幣$20 x 100張, 港幣$50 x 20張)。 請預備現金作兌換。',
         'DeclarationPoints': {
-            1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
-            2: 'I have read, understood and agreed to the terms and conditions of this application'
+            1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
+            2: '我已閱讀、明白及同意本申請的條款和條件。'
         },
-        "regionThree": "---- New Territories ---- ",
-        "regionTwo": "---- Kowloon  ---- ",
-        "regionOne": "---- Hong Kong ----"
-    },
-    modal:{
-        'okbutton': 'Ok'
+        'QuantityValue':'一',
+        'countrycode':'八百五十二',
+        "regionThree": "---- 新界 ----",
+        "regionTwo": "---- 九龙 ----",
+        "regionOne": "----  香港  ---- ",
+        'ReviewDetails':'檢閱預訂資料'
     },
     review_orders: {
 
+    }, modal:{
+        'okbutton': '好的'
     },
     response: {
 

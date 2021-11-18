@@ -52,7 +52,7 @@ class Forms extends Component {
                 this.getTimeSlots(this.getValue('collectionDate'));
             }*/
         }).catch((err) => {
-			this.setState({ datesLoading: false })
+            this.setState({ datesLoading: false })
             this.setState({ datesLoaded: true });
             console.log(err);
         });
@@ -83,13 +83,13 @@ class Forms extends Component {
             this.setState({ [prop]: e });
             this.validation(field, fieldData.label);
             this.props.onChange(this.allFields);
-        } else if (fieldData) {
+        }else if (fieldData) {
             fieldData.value = e;
             this.validation(field, fieldData.label);
             this.props.onChange(this.allFields);
             if(field==='collectionDate'){
                 this.setState({ selectedDate: e })
-            }if(field==='collectionTimeslot'){
+            }else if(field==='collectionTimeslot'){
                 this.setState({ selectedTimeSlot: e })
             }
         }
@@ -107,6 +107,7 @@ class Forms extends Component {
     validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
+            console.log(e.target.value);
             this.setState({ mobile: e.target.value })
         }
     }
@@ -136,7 +137,7 @@ class Forms extends Component {
             if (this.getValue(field).length !== 8) {
                 validation[field] = `${title} should be 8 digits`;
             } else if (!Number(this.getValue(field))) {
-                validation[field] = `${title} should not be 0`;
+                validation[field] = `${title} must be valid number`;
             } else {
                 validation[field] = null;
             }   
@@ -158,7 +159,7 @@ class Forms extends Component {
                     this.state.datesLoading &&
                     <div id="loader" className="loader"></div>
                 }
-                <div className="title">Order Details</div>
+                <div className="title">{t('forms.subtitle')}</div>
                 <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')}>
                         <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} onFocus={() => this.setTouched('title')} onBlur={() => this.validation('title', t('forms.Title'))} onChange={(e) => this.setData(e, 'title')}>
@@ -171,15 +172,15 @@ class Forms extends Component {
                         }
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')}>
-                        <Input size="large" maxLength={30} placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
+                        <Input size="large" maxLength={18} placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
                             this.getMessage('lastName') && <span className="field-error">{this.getMessage('lastName')}</span>
                         }
                     </Form.Item>
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')}>
                         <Input.Group compact>
-                            <Input className='country-code' disabled={true} size="large" defaultValue="852" />
-                            <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} defaultValue={this.getValue('mobileNumber')} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} onChange={(e) => { this.setData(e.target.value, 'mobileNumber'); this.validate(e); }} />
+                            <Input className='country-code' disabled={true} size="large" defaultValue={t('forms.countrycode')} />
+                            <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} onChange={(e) => { this.validate(e); this.setData(e.target.value, 'mobileNumber');}} />
                         </Input.Group>
                         {
                             this.getMessage('mobileNumber') && <span className="field-error">{this.getMessage('mobileNumber')}</span>
@@ -205,7 +206,7 @@ class Forms extends Component {
                         <span className="field-error">{t('forms.noslotsavailable')}</span>
                     }
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')}>
-                        <DatePicker disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} value = {this.state.selectedDate} onFocus={() => this.setTouched('collectionDate')} onBlur={() => this.validation('collectionDate', t('forms.CollectionDate'))} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
+                        <DatePicker placeholder={t('forms.CollectionDate')} disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} value = {this.state.selectedDate} onFocus={() => this.setTouched('collectionDate')} onBlur={() => this.validation('collectionDate', t('forms.CollectionDate'))} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
                                 width: '100%',
                             }}
@@ -226,14 +227,14 @@ class Forms extends Component {
                     </Form.Item>
                     <Form.Item label={t('forms.Quantity')}>
                         <Space direction='vertical'>
-                            <span className="ant-form-text">1</span>
+                            <span className="ant-form-text">{t('forms.QuantityValue')}</span>
                             <span className="ant-form-text">{t('forms.QuantityText')}</span>
                         </Space>
                     </Form.Item>
                     <Form.Item label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
-                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
+                        <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
+                        <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
                         </Space>
                         {
                             this.getMessage('declaration') && <span className="field-error">{this.getMessage('declaration')}</span>

@@ -3,13 +3,14 @@ import i18n from '../wrappers/i18n/i18n';
 
 require('dotenv').config();
 
-
 const APPURL = `${process.env.REACT_APP_HOST_URL || 'http://localhost:9090'}/origination/api/v3/cnynotes`;
+const BASEURL = `${process.env.REACT_APP_BASE_URL || '/origination/hkcnybook/static'}`;
 export class CommonHttpService {
     language: any;
     uuid: any;
     get(url: string, uuid: any, lang: any) {
-        console.log("language from captcha is:" + this.language)
+        console.log("uuid", uuid)
+        console.log("lang", lang)
         return fetch(`${APPURL}${url}`, {
             method: 'GET',
             headers: this.headers(uuid, lang)
@@ -17,7 +18,6 @@ export class CommonHttpService {
     }
 
     post(url: string, body: any, uuid: any, lang: any) {
-        console.log("language from captcha is:" + this.language)
         return fetch(`${APPURL}${url}`, {
             method: 'POST',
             headers: this.headers(uuid, lang),
@@ -31,28 +31,19 @@ export class CommonHttpService {
         headers["Accept"] = "application/json";
         let SC_CLIENT_CONTEXT = {
             "reqId": `${uuidv4()}`,
-            "Channel": "Web",
+            "Channel": "MOBILE",
             "Country": "HK",
-            "Language": lang,
+            "Language": (lang || 'en').toUpperCase(),
             "AppName": "RCWB",
             "ClientId": "WEB",
             "RumDevice": "devicebrowserversion",
-            "appVersion": "1.0",
-            "userId": uuid,
-            "releaseVersion": "cnynotes"
+            "appVersion": "",
+            "userId": uuid || uuidv4(),
+            "releaseVersion": "iob3"
         };
         headers["SC-CLIENT-CONTEXT"] = JSON.stringify(SC_CLIENT_CONTEXT);
         return headers;
     };
-
-    get BASEURL(): string {
-        // Development
-        return process.env.REACT_APP_BASE_URL || '/assets';
-        // Internal Demo
-        // return process.env.REACT_APP_BASE_URL || '/scb/assets';
-        // UAT
-        // return process.env.REACT_APP_BASE_URL || '/origination/hkcnybook/static';
-    }
 
     setLanguage(lang: string) {
         this.language = lang;
@@ -62,5 +53,9 @@ export class CommonHttpService {
     setUUID(uuid: string) {
         this.uuid = uuid;
         i18n.changeLanguage(this.language);
+    }
+
+    get BASEURL() {
+        return BASEURL;
     }
 }

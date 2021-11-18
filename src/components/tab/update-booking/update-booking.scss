@@ -1,7 +1,6 @@
 .update-booking {
     padding: 5vh 5vh 0 5vh !important;
     margin-bottom: 2vh;
-
     .ant-form-item {
         margin: 0 !important;
 
@@ -34,7 +33,7 @@
     .submit-btn:disabled {
         background-color: #00a54680 !important;
     }
-
+    
 }
 .ant-table-empty {
     .ant-empty {
@@ -44,15 +43,15 @@
         }
     }
 }
-
 // Mobiles
 @media screen and (max-width: 426px) {
+
     .update-booking {
         .ant-form-item {
             .country-code {
                 width: 25%;
             }
-
+        
             .mobile-number {
                 width: 75%;
             }
@@ -61,4 +60,4 @@
             overflow-x: auto !important;
         }
     }
-}
+  }

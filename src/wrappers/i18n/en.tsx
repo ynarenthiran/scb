@@ -1,7 +1,7 @@
 const en = {
     captcha: {
-        header: 'Type the verification code (in Capital Letters)',
-        placeholder: 'Verification Code',
+        header: 'Type the verification code (in capital letters)',
+        placeholder: 'Type the characters above',
         button: 'Verify to Proceed',
         selectOptions: {
             English: '中文',
@@ -20,7 +20,7 @@ const en = {
         update_booking: 'Enquiry/Cancel'
     },
     importantNotes: {
-        title: 'Important Notes',
+        title: 'Important Notes:',
         1: ' All Online Pre-orders, once submitted, cannot be amended.',
         2: ' No express queue will be arranged for the collection of banknotes pre-ordered online.',
         3: 'Clients, when collecting the banknote(s), may instruct the Bank to debit the total sum from the his/her personal bank account or by exchanging the same amount of old banknote(s) (in Hong Kong currency) at the collection counters.',
@@ -40,7 +40,8 @@ const en = {
         refnumber: 'Your Reference Number is',
         booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
         booking_duplicatemobile: 'Same mobile number is registered.  Every mobile number can only register for 1 slot per day, please enter another mobile number or register with another collection date for the booking.',
-        booking_noslotavaialble: '* The quota is out for this branch, please pick another date or branch'
+        booking_noslotavaialble: '* The quota is out for this branch, please pick another date or branch',
+        error: 'We are unable to process your request right now. Please retry later.'
     },
     update_booking: {
         mobile: 'Mobile Number',
@@ -52,6 +53,7 @@ const en = {
         cancel_failure: 'We are unable to process your request right now. Please retry later.'
     },
     forms: {
+        'subtitle':'Order Details',
         'SelectPlaceholder': 'Please Select...',
         'Title': 'Title',
         'LastName': 'Last Name',
@@ -61,7 +63,7 @@ const en = {
         'CollectionTimeslot': 'Collection Timeslot',
         'Quantity': 'Quantity',
         'Declaration': 'Declaration',
-        'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs)',
+        'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs) Please prepare cash for exchange.',
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
@@ -72,8 +74,10 @@ const en = {
         "salutationOne": "Mr.",
         "salutationTwo": "Mrs.",
         "salutationThree": "Miss",
-        'noslotsavailable': 'All slots are full please select different branch'
-
+        'noslotsavailable': 'All slots are full please select different branch',
+        'countrycode':'852',
+        'QuantityValue':'1',
+        'ReviewDetails': 'Review of Order Details'
     },
     modal:{
         'okbutton': 'Ok'

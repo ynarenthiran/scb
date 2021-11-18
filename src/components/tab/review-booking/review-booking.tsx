@@ -41,7 +41,7 @@ class ReviewBooking extends Component {
         this.fields = _.reject(this.props.fields, 'hide');
         return (
             <div className='review-booking'>
-                <div className="title">Review Order Details</div>
+                <div className="title">{t('forms.ReviewDetails')}</div>
                 <div className='prop-list'>
                     {
                         this.fields.map((pf: any) => (
