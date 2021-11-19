@@ -46,7 +46,8 @@ const zh = {
         cancelbutton: '取消已選擇的預訂',
         cancel_success: '您选择的预订已被取消。短信确认将发送到您在此表格中提供的手机号码。',
         norecordfound: '您输入的手机号码未注册此服务，请重试',
-        cancel_failure: '我們未能處理您的指示。請稍後再試。'
+        cancel_failure: '我們未能處理您的指示。請稍後再試。',
+        subtitle:'查询/取消'
     },forms: {
         'subtitle':'預訂資料',
         'SelectPlaceholder': '请选择...',
@@ -63,14 +64,14 @@ const zh = {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
             2: '我已閱讀、明白及同意本申請的條款和條件。'
         },
-        'Note': 'Note',
-        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
         'QuantityValue':'一',
         'countrycode':'八百五十二',
         "regionThree": "---- 新界 ----",
         "regionTwo": "---- 九龙 ----",
         "regionOne": "----  香港  ---- ",
-        'ReviewDetails':'檢閱預訂資料'
+        'ReviewDetails':'檢閱預訂資料',
+        'Note': '笔记',
+        'Notes': `注意：以上輸入之資料（包括您的手機號碼）只會用於此服務的短訊通知，並且不會更新或儲存到客戶在本行的個人資料（如果您是銀行的現有客戶）。上述資料只會儲存至服務結束後一個月（至2022年2月28日）。`,
     },
     review_orders: {
 

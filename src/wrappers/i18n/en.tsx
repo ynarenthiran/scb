@@ -48,6 +48,7 @@ const en = {
         email: 'Email Address',
         button: 'Submit',
         cancelbutton: 'Cancel selected booking',
+        subtitle:'Review Or Cancel Order',
         cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
         norecordfound: 'The mobile number you entered is not registered for this service, please retry ',
         cancel_failure: 'We are unable to process your request right now. Please retry later.'
@@ -68,8 +69,6 @@ const en = {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
             2: 'I have read, understood and agreed to the terms and conditions of this application'
         },
-        'Note': 'Note',
-        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
         "regionThree": "---- New Territories ---- ",
         "regionTwo": "---- Kowloon  ---- ",
         "regionOne": "---- Hong Kong ----",
@@ -79,7 +78,9 @@ const en = {
         'noslotsavailable': 'All slots are full please select different branch',
         'countrycode':'852',
         'QuantityValue':'1',
-        'ReviewDetails': 'Review of Order Details'
+        'ReviewDetails': 'Review of Order Details',
+        'Note': 'Note',
+        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
     },
     modal:{
         'okbutton': 'Ok'

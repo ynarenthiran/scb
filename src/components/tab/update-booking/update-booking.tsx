@@ -49,7 +49,7 @@ class UpdateBooking extends Component {
                 "attributes": { "unique-id": this.props.uuid, "mobileNo":'852'+this.state.mobileNumber}
             }
         };
-        this.service.post('/appointments1', getAppointmentData,this.props.uuid,this.props.lang).then(res => {
+        this.service.post('/appointments', getAppointmentData,this.props.uuid,this.props.lang).then(res => {
             this.setState({
                 status:res.status,
             });
@@ -193,6 +193,7 @@ class UpdateBooking extends Component {
         const { t }: any = this.props;
         return (
             <div>
+                <div className="title">{t('update_booking.subtitle')}</div>
                 <Form className='update-booking' layout="horizontal">
                     <Space direction="vertical">
                         <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>

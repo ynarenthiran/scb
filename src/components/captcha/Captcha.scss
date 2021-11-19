@@ -5,15 +5,14 @@
 
   .ant-layout-header {
     height: 12vh !important;
-    width: 100%;
     display: flex !important;
     position: fixed !important;
     justify-content: flex-start !important;
     align-items: center !important;
     flex-direction: row !important;
     border-bottom: 1px groove #f2f2f2;
+    width: 100%;
     padding: 0 5vh !important;
-
     // .ant-row {
     //   display: flex;
     //   align-items: center;
@@ -154,7 +153,6 @@
 
   .captcha.ant-layout .ant-layout-header {
     padding: 0 4vh !important;
-    
     .sc-mobile-logo {
       margin-right: 3vh;
       display: initial !important;
@@ -162,8 +160,10 @@
 
     .header-title {
       width: 70% !important;
+      font-size: 20px;
+      font-weight: 700;
     }
-    
+
     .sc-logo {
       display: none !important;
     }
@@ -194,7 +194,6 @@
 
   .captcha.ant-layout .ant-layout-header {
     padding: 0 3vh !important;
-
     .sc-mobile-logo {
       margin-right: 3vh;
       display: initial !important;
@@ -202,7 +201,7 @@
 
     .header-title {
       width: 70% !important;
-      font-size: 15px;
+      font-size: 20px;
       font-weight: 700;
     }
 

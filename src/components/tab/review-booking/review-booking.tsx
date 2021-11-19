@@ -55,6 +55,7 @@ class ReviewBooking extends Component {
         this.fields = _.reject(this.props.fields, 'hide');
         return (
             <div className='review-booking'>
+            
                 <div className="title">{t('forms.ReviewDetails')}</div>
                 <div className='prop-list'>
                     {
@@ -67,6 +68,13 @@ class ReviewBooking extends Component {
                         ))
 
                     }
+                    <div className='prop-li'>
+                        <div className='pl-label'>{t('forms.Note')}</div>
+                        <div className='pl-divider'>:</div>
+                        <div className='pl-value'>
+                            {t('forms.Notes')}
+                        </div>
+                    </div>
                     <div className='prop-li'>
                         <div className='pl-label'>{t('forms.Quantity')}</div>
                         <div className='pl-divider'>:</div>
