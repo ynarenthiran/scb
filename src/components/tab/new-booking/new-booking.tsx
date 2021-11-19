@@ -38,8 +38,8 @@ class NewBooking extends Component {
         this.setState({ fields: this.props.fields});
     }
 
-    componentWillUnmount() {
-        // this.setState({ fields: formControls, orderStatus: "change" });
+    componentWillMount() {
+        // this.setState({ showModal: true, modalMethod: "success" });
     }
 
     componentDidMount() {
@@ -122,7 +122,7 @@ class NewBooking extends Component {
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
             if (this.state.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else if (this.state.status === 404) {
                 console.log("the error code:",response['code'])
                 if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
@@ -149,7 +149,7 @@ class NewBooking extends Component {
             }
         }).catch((error) => {
             if (error && error.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ modalMethod: 'error' });
                 this.setState({ showModal: true });
@@ -179,7 +179,6 @@ class NewBooking extends Component {
 
     modalClosed(event: any){
         this.setState({ fields: _.cloneDeep(formControls), showModal: event });
-        //this.backToChange();
         this.setState({ orderStatus: 'change' });
     }
 
