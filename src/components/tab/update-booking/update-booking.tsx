@@ -7,7 +7,6 @@ import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import * as _ from 'lodash';
 import ModalComponentTranslated from '../../modal';
-import { Redirect } from 'react-router-dom';
 
 let dateFormat = require('dateformat');
 
@@ -60,7 +59,7 @@ class UpdateBooking extends Component {
             console.log("status:"+this.state.status);
             console.log("status:"+this.state.showModal);
             if (this.state.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else if (this.state.status === 200) {
                 this.setState({ loadingAppointment: false });
                 console.log("status:"+this.state.showModal);
@@ -80,7 +79,7 @@ class UpdateBooking extends Component {
         }).catch((error) =>{
             console.log("test11",error);
             if (error && error.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ loadingAppointment: false });
                 this.setState({  modalMethod: 'error', showModal: true });
@@ -111,7 +110,7 @@ class UpdateBooking extends Component {
             this.setState({ verifyButtonLoader: false });
             console.log("result.status:"+result.status)
             if (result.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else if (result.status === 200) {
                 this.setState({ loadingAppointment: false });
                 this.setState({ modalMethod: 'success', showModal: true });
@@ -127,7 +126,7 @@ class UpdateBooking extends Component {
             }
         }).catch((error) =>{
             if (error && error.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ loadingAppointment: false });
                 this.setState({ modalMethod: 'error', showModal: true });

@@ -5,7 +5,6 @@ import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
-import { Redirect } from 'react-router-dom';
 const { OptGroup, Option } = Select;
 
 
@@ -32,7 +31,7 @@ class Forms extends Component {
         console.log("uuid is:" + this.props.uuid)
         this.service.get(`/branchlist/${this.props.uuid}`, this.props.uuid, this.props.lang).then((res) => {
             if (res.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ branchList: res });
                 if (this.getValue('collectionBranch')) {
@@ -42,7 +41,7 @@ class Forms extends Component {
         }).catch((err) => {
             console.log(err);
             if (err && err.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             }
         });
     }
@@ -53,7 +52,7 @@ class Forms extends Component {
         this.setState({ datesLoading: true })
         this.service.get(`/slots/${event.value}/${this.props.uuid}`, this.props.uuid , this.props.lang).then((res) => {
             if (res.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ datesLoading: false })
                 this.setState({ dateList: res.data.slots });
@@ -66,7 +65,7 @@ class Forms extends Component {
         }).catch((err) => {
             console.log(err);
             if (err && err.status === 401) {
-                return (<Redirect to="/captcha" />)
+                this.props.history.push('/captcha');
             } else {
                 this.setState({ datesLoading: false })
                 this.setState({ datesLoaded: true });
