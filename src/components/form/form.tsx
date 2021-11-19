@@ -189,13 +189,15 @@ class Forms extends Component {
                             <Option value="Miss">Miss</Option>
                         </Select>
                         {
-                            this.getMessage('title') && <span className="field-error">{this.getMessage('title')}</span>
+                            this.getMessage('title') && this.getMessage('title').includes('is required') &&
+                            <span className="field-error">{t('forms.TitleRequiredValidation')}</span>
                         }
                     </Form.Item>
                     <Form.Item name='lastName' label={t('forms.LastName')}>
                         <Input size="large" maxLength={18} placeholder={t('forms.LastName')} defaultValue={this.getValue('lastName')} onFocus={() => this.setTouched('lastName')} onBlur={() => this.validation('lastName', t('forms.LastName'))} onChange={(e) => this.setData(e.target.value, 'lastName')} />
                         {
-                            this.getMessage('lastName') && <span className="field-error">{this.getMessage('lastName')}</span>
+                            this.getMessage('lastName') && this.getMessage('lastName').includes('is required') &&
+                            <span className="field-error">{t('forms.LastNameRequiredValidation')}</span>
                         }
                     </Form.Item>
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')}>
@@ -204,7 +206,16 @@ class Forms extends Component {
                             <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} onChange={(e) => { this.validate(e); this.setData(e.target.value, 'mobileNumber');}} />
                         </Input.Group>
                         {
-                            this.getMessage('mobileNumber') && <span className="field-error">{this.getMessage('mobileNumber')}</span>
+                            this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('is required') &&
+                            <span className="field-error">{t('forms.MobileNumberRequiredValidation')}</span>
+                        }
+                        {
+                            this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('should be 8 digits') &&
+                            <span className="field-error">{t('forms.MobileNumberLengthValidation')}</span>
+                        }
+                        {
+                            this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('must be valid number') &&
+                            <span className="field-error">{t('forms.MobileNumberValidation')}</span>
                         }
                     </Form.Item>
                     <Form.Item name='collectionBranch' label={t('forms.CollectionBranch')}>
@@ -219,7 +230,8 @@ class Forms extends Component {
                             ))}
                         </Select>
                         {
-                            this.getMessage('collectionBranch') && <span className="field-error">{this.getMessage('collectionBranch')}</span>
+                            this.getMessage('collectionBranch') && this.getMessage('collectionBranch').includes('is required') &&
+                            <span className="field-error">{t('forms.CollectionBranchRequiredValidation')}</span>
                         }
                     </Form.Item>
                     {
@@ -233,7 +245,8 @@ class Forms extends Component {
                             }}
                         />
                         {
-                            this.getMessage('collectionDate') && <span className="field-error">{this.getMessage('collectionDate')}</span>
+                            this.getMessage('collectionDate') && this.getMessage('collectionDate').includes('is required') &&
+                            <span className="field-error">{t('forms.CollectionDateRequiredValidation')}</span>
                         }
                     </Form.Item>
                     <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')}>
@@ -243,7 +256,8 @@ class Forms extends Component {
                             ))}
                         </Select>
                         {
-                            this.getMessage('collectionTimeslot') && <span className="field-error">{this.getMessage('collectionTimeslot')}</span>
+                            this.getMessage('collectionTimeslot') && this.getMessage('collectionTimeslot').includes('is required') &&
+                            <span className="field-error">{t('forms.CollectionTimeslotRequiredValidation')}</span>
                         }
                     </Form.Item>
                     <Form.Item label={t('forms.Quantity')}>
@@ -261,7 +275,8 @@ class Forms extends Component {
                         <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
                         </Space>
                         {
-                            this.getMessage('declaration') && <span className="field-error">{this.getMessage('declaration')}</span>
+                            this.getMessage('declaration') && this.getMessage('declaration').includes('is required') &&
+                            <span className="field-error">{t('forms.DeclarationRequiredValidation')}</span>
                         }
                     </Form.Item>
                 </Form>

@@ -72,6 +72,15 @@ const zh = {
         'ReviewDetails':'檢閱預訂資料',
         'Note': '笔记',
         'Notes': `注意：以上輸入之資料（包括您的手機號碼）只會用於此服務的短訊通知，並且不會更新或儲存到客戶在本行的個人資料（如果您是銀行的現有客戶）。上述資料只會儲存至服務結束後一個月（至2022年2月28日）。`,
+        'TitleRequiredValidation': '需要标题',
+        'LastNameRequiredValidation': '需要姓氏',
+        'MobileNumberRequiredValidation': '需要移动号码',
+        'MobileNumberLengthValidation': '移动号码应该是 8 位数字',
+        'MobileNumberValidation': '移动号码必须是有效号码',
+        'CollectionBranchRequiredValidation': '需要指定收集分支机构',
+        'CollectionDateRequiredValidation': '需要收集日期',
+        'CollectionTimeslotRequiredValidation': '需要收集时间段',
+        'DeclarationRequiredValidation': '需要申报',
     },
     review_orders: {
 

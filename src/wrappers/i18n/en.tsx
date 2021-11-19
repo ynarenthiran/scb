@@ -81,6 +81,15 @@ const en = {
         'ReviewDetails': 'Review of Order Details',
         'Note': 'Note',
         'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
+        'TitleRequiredValidation': 'Title is required',
+        'LastNameRequiredValidation': 'Last Name is required',
+        'MobileNumberRequiredValidation': 'Mobile Number is required',
+        'MobileNumberLengthValidation': 'Mobile Number should be 8 digits',
+        'MobileNumberValidation': 'Mobile Number must be valid number',
+        'CollectionBranchRequiredValidation': 'Designated Collection Branch is required',
+        'CollectionDateRequiredValidation': 'Collection Date is required',
+        'CollectionTimeslotRequiredValidation': 'Collection Timeslot is required',
+        'DeclarationRequiredValidation': 'Declaration is required'
     },
     modal:{
         'okbutton': 'Ok'
