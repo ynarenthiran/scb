@@ -49,7 +49,7 @@ class Tab extends Component {
                     </div>
                 </Header>
                 <Content>
-                    <Tabs defaultActiveKey="new" onChange={(event: any) => this.setState({ tabChange: event === 'new' })}>
+                    <Tabs defaultActiveKey="new" onChange={(event: any) => this.setState({ tabChange: event !== 'new' })}>
                         <TabPane tab={t('tab.new_booking')} key="new">
                             <NewBooking {...this.props} tabChange={this.state.tabChange} />
                         </TabPane>

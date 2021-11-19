@@ -46,6 +46,15 @@ class NewBooking extends Component {
         console.log("component mounted");
     }
 
+    componentDidUpdate(props: any) {
+        let init: boolean = true;
+        if (props.tabChange && init) {
+            init = false;
+            console.log('Tab Change', props.tabChange);
+            this.setState({ fields: _.cloneDeep(formControls), orderStatus: 'change' });
+        }
+    }
+
     
     getValue(key: any) {
         const data: any = _.find(this.state.fields, ['name', key]);
@@ -208,7 +217,8 @@ class NewBooking extends Component {
                         {
                             this.state.orderStatus === 'change' &&
                             <Space align='end'>
-                                <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                <Button className='submit-btn' type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                {/* disabled={this.disableButton}  */}
                             </Space>
                         }
                     </Row>
