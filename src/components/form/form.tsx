@@ -5,6 +5,7 @@ import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
+import { Redirect } from 'react-router-dom';
 const { OptGroup, Option } = Select;
 
 
@@ -30,12 +31,19 @@ class Forms extends Component {
     getBranchList() {
         console.log("uuid is:" + this.props.uuid)
         this.service.get(`/branchlist/${this.props.uuid}`, this.props.uuid, this.props.lang).then((res) => {
-            this.setState({ branchList: res });
-            if (this.getValue('collectionBranch')) {
-                this.getDateList(this.getValue('collectionBranch'));
+            if (res.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ branchList: res });
+                if (this.getValue('collectionBranch')) {
+                    this.getDateList(this.getValue('collectionBranch'));
+                }
             }
         }).catch((err) => {
             console.log(err);
+            if (err && err.status === 401) {
+                return (<Redirect to="/captcha" />)
+            }
         });
     }
 
@@ -44,17 +52,25 @@ class Forms extends Component {
         this.setState({ selectedTimeSlot: null })
         this.setState({ datesLoading: true })
         this.service.get(`/slots/${event.value}/${this.props.uuid}`, this.props.uuid , this.props.lang).then((res) => {
-            this.setState({ datesLoading: false })
-            this.setState({ dateList: res.data.slots });
-            this.setState({ datesLoaded: true });
-            /*if (this.getValue('collectionDate')) {
-                this.setState({ selectedDate: this.getValue('collectionDate') });
-                this.getTimeSlots(this.getValue('collectionDate'));
-            }*/
+            if (res.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ datesLoading: false })
+                this.setState({ dateList: res.data.slots });
+                this.setState({ datesLoaded: true });
+                /*if (this.getValue('collectionDate')) {
+                    this.setState({ selectedDate: this.getValue('collectionDate') });
+                    this.getTimeSlots(this.getValue('collectionDate'));
+                }*/
+            }
         }).catch((err) => {
-            this.setState({ datesLoading: false })
-            this.setState({ datesLoaded: true });
             console.log(err);
+            if (err && err.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ datesLoading: false })
+                this.setState({ datesLoaded: true });
+            }
         });
     }
 

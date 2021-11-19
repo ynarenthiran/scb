@@ -7,6 +7,7 @@ import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
 import * as _ from 'lodash';
 import ModalComponentTranslated from '../../modal';
+import { Redirect } from 'react-router-dom';
 
 let dateFormat = require('dateformat');
 
@@ -58,7 +59,9 @@ class UpdateBooking extends Component {
             this.setState({ mobile: '' });
             console.log("status:"+this.state.status);
             console.log("status:"+this.state.showModal);
-            if (this.state.status === 200) {
+            if (this.state.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else if (this.state.status === 200) {
                 this.setState({ loadingAppointment: false });
                 console.log("status:"+this.state.showModal);
                 _.each(response, (el:any)  => {
@@ -75,10 +78,14 @@ class UpdateBooking extends Component {
                 this.setState({ modalMsg: "cancel_failure" });
             }
         }).catch((error) =>{
-            console.log("test11",error);     
-            this.setState({ loadingAppointment: false });
-            this.setState({  modalMethod: 'error', showModal: true });
-            this.setState({ modalMsg: "cancel_failure" });
+            console.log("test11",error);
+            if (error && error.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ loadingAppointment: false });
+                this.setState({  modalMethod: 'error', showModal: true });
+                this.setState({ modalMsg: "cancel_failure" });
+            }
         });
     }
 
@@ -103,7 +110,9 @@ class UpdateBooking extends Component {
         this.service.post('', cancelAppointment,this.props.uuid,this.props.lang).then((result) => {
             this.setState({ verifyButtonLoader: false });
             console.log("result.status:"+result.status)
-            if (result.status === 200) {
+            if (result.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else if (result.status === 200) {
                 this.setState({ loadingAppointment: false });
                 this.setState({ modalMethod: 'success', showModal: true });
                 this.setState({ modalMsg: "cancel_success" });
@@ -117,9 +126,13 @@ class UpdateBooking extends Component {
                 this.setState({ modalMsg: "cancel_failure" });
             }
         }).catch((error) =>{
-            this.setState({ loadingAppointment: false });
-            this.setState({ modalMethod: 'error', showModal: true });
-            this.setState({ modalMsg: "cancel_failure" });
+            if (error && error.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ loadingAppointment: false });
+                this.setState({ modalMethod: 'error', showModal: true });
+                this.setState({ modalMsg: "cancel_failure" });
+            }
         });
     }
 

@@ -112,7 +112,9 @@ class NewBooking extends Component {
             return result.json();
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
-            if (this.state.status === 404) {
+            if (this.state.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else if (this.state.status === 404) {
                 console.log("the error code:",response['code'])
                 if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
                     this.setState({ showModal: true });
@@ -137,9 +139,13 @@ class NewBooking extends Component {
                 this.setState({ refNo: '' });
             }
         }).catch((error) => {
-            this.setState({ modalMethod: 'error' });
-            this.setState({ showModal: true });
-            this.setState({ modalMsg: "error" });
+            if (error && error.status === 401) {
+                return (<Redirect to="/captcha" />)
+            } else {
+                this.setState({ modalMethod: 'error' });
+                this.setState({ showModal: true });
+                this.setState({ modalMsg: "error" });
+            }
         });
     }
 
