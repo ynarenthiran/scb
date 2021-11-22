@@ -30,6 +30,15 @@ class UpdateBooking extends Component {
         this.setState({ rowSelected: false });
     }
 
+    componentDidUpdate(props: any) {
+        let init: boolean = true;
+        if (props.cancelTabChange && init) {
+            init = false;
+            console.log('Cancel Tab Change', props.cancelTabChange);
+            this.setState(this.state);
+        }
+    }
+
     
     getAppointments() {
         this.setState({ loadingAppointment: true });

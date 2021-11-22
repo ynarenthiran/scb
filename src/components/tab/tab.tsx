@@ -20,7 +20,7 @@ class Tab extends Component {
         props = this.props;
     }
 
-    state = { tabChange: false, lang: 'en' };
+    state = { tabChange: false, cancelTabChange: false, lang: 'en' };
     service = new CommonHttpService();
 
     changeLanguageHandler(lang: any) {
@@ -49,12 +49,12 @@ class Tab extends Component {
                     </div>
                 </Header>
                 <Content>
-                    <Tabs defaultActiveKey="new" onChange={(event: any) => this.setState({ tabChange: event !== 'new' })}>
+                    <Tabs defaultActiveKey="new" onTabClick={(event: any) => { this.setState({ tabChange: event !== 'new' }); this.setState({ cancelTabChange: event !== 'cancellationAndEnquiries' }) }}>
                         <TabPane tab={t('tab.new_booking')} key="new">
                             <NewBooking {...this.props} tabChange={this.state.tabChange} />
                         </TabPane>
                         <TabPane tab={t('tab.update_booking')} key="cancellationAndEnquiries">
-                            <UpdateBooking {...this.props} />
+                            <UpdateBooking {...this.props} cancelTabChange={this.state.cancelTabChange} />
                         </TabPane>
                     </Tabs>
                 </Content>
