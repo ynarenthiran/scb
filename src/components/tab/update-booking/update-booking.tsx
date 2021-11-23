@@ -1,7 +1,7 @@
 import './update-booking.scss';
 
 import { Component } from "react";
-import { Button,  Form, Input, Space, Table,Empty } from 'antd';
+import { Button,  Form, Input, Table,Empty } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import { CommonHttpService } from '../../../services/common-http.service';
@@ -10,6 +10,24 @@ import ModalComponentTranslated from '../../modal';
 
 let dateFormat = require('dateformat');
 
+let columns = [
+    {
+        title: 'Collection Date',
+        dataIndex: 'appointmentdate'
+    },
+    {
+        title: 'Collection Branch',
+        dataIndex: 'branch-name'
+    },
+    {
+        title: 'Collection Timeslot',
+        dataIndex: 'appointment-slot'
+    },
+    {
+        title: 'Reference Number',
+        dataIndex: 'ref-id'
+    }
+]
 
 class UpdateBooking extends Component {
     state = { cancellationDone: false, modalMsg: '', refNo: '', modalMethod: null, showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
@@ -184,24 +202,7 @@ class UpdateBooking extends Component {
         console.log("uuid:"+this.props.uuid)
         this.validate = this.validate.bind(this);
     }
-    columns = [
-        {
-            title: 'Collection Date',
-            dataIndex: 'appointmentdate'
-        },
-        {
-            title: 'Collection Branch',
-            dataIndex: 'branch-name'
-        },
-        {
-            title: 'Collection Timeslot',
-            dataIndex: 'appointment-slot'
-        },
-        {
-            title: 'Reference Number',
-            dataIndex: 'ref-id'
-        }
-    ];
+    columns: any = [];
 
     data: any = [];
 
@@ -211,7 +212,13 @@ class UpdateBooking extends Component {
 
      
     render() {
-        const { t }: any = this.props;
+        const { t }: any = this.props;        
+        this.columns = [];
+        _.each(_.cloneDeep(columns), (c: any) => {
+            c.title = `${t(`forms.${c.title.replace(' ', '')}`)}`
+            this.columns.push(c);
+        })
+        console.log(this.columns);
         return (
             <div>
                 <div className="title">{t('update_booking.subtitle')}</div>

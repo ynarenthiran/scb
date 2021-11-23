@@ -64,6 +64,7 @@ const en = {
         'CollectionTimeslot': 'Collection Timeslot',
         'Quantity': 'Quantity',
         'Declaration': 'Declaration',
+        "ReferenceNumber": 'Reference Number',
         'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs) Please prepare cash for exchange.',
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',

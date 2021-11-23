@@ -59,6 +59,7 @@ const zh = {
         'CollectionTimeslot': '領鈔時段',
         'Quantity': '數量',
         'Declaration': '聲明',
+        "ReferenceNumber": '参考编号',
         'QuantityText': '每套總價值：港幣$3,000 (面額: 港幣$20 x 100張, 港幣$50 x 20張)。 請預備現金作兌換。',
         'DeclarationPoints': {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
