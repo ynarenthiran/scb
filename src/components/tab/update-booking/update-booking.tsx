@@ -216,7 +216,7 @@ class UpdateBooking extends Component {
             <div>
                 <div className="title">{t('update_booking.subtitle')}</div>
                 <Form className='update-booking' layout="horizontal">
-                    <Space direction="vertical">
+                    {/* <Space direction="vertical"> */}
                         <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>
                             <Input.Group compact>
                                 <Input className='country-code' disabled={true} size="large" defaultValue={t('forms.countrycode')} />
@@ -233,7 +233,7 @@ class UpdateBooking extends Component {
                                 <Button className='submit-btn' type="primary" icon={<ArrowRightOutlined />} onClick={() => this.cancelAppointment()}>{t('update_booking.cancelbutton')}</Button>
                             }
                         </div>
-                    </Space>
+                    {/* </Space> */}
                 </Form>
                 {
                     this.state.loadingAppointment &&

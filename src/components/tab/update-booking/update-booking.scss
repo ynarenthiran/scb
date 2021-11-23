@@ -1,8 +1,12 @@
 .update-booking {
     padding: 2vh 5vh 0 5vh !important;
     margin-bottom: 2vh;
+    width: 50% !important;
+
     .ant-form-item {
         margin: 0 !important;
+        margin-bottom: 2vh !important;
+        width: 100% !important;
 
         .submit-button.ant-col {
             display: flex !important;
@@ -31,9 +35,8 @@
     }
 
     .submit-btn:disabled {
-        background-color: #00a54680 !important;
+        background-color: #d4d4d4 !important;
     }
-    
 }
 .ant-table-empty {
     .ant-empty {
@@ -45,13 +48,12 @@
 }
 // Mobiles
 @media screen and (max-width: 426px) {
-
     .update-booking {
         .ant-form-item {
             .country-code {
                 width: 25%;
             }
-        
+
             .mobile-number {
                 width: 75%;
             }
@@ -60,4 +62,4 @@
             overflow-x: auto !important;
         }
     }
-  }
+}
