@@ -29,8 +29,8 @@ class ModalComponent extends Component {
                     {
                         this.props.title &&
                         <div className="modal-title">
-                        {this.props.title}
-                    </div>
+                            {this.props.title}
+                        </div>
                     }
                     {
                         this.props.message.map((pm: any) => (

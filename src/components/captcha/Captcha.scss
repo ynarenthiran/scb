@@ -54,7 +54,7 @@
       width: 1vh !important;
       margin: 0 5vh;
       height: 100% !important;
-      
+
       .border-top {
         background-color: #00a546;
         height: 100% !important;
@@ -187,7 +187,8 @@
   .captcha.ant-layout .ant-layout-content .block {
     width: 100% !important;
 
-    .ant-input, .ant-btn-block {
+    .ant-input,
+    .ant-btn-block {
       width: 70% !important;
     }
   }

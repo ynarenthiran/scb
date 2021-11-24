@@ -1,18 +1,18 @@
 const en = {
     captcha: {
         header: 'Type the verification code (in capital letters)',
-        placeholder: 'Type the characters above',
+        placeholder: 'Type the above characters:',
         button: 'Verify to Proceed',
         selectOptions: {
             English: '中文',
             Chinese: 'Chinese'
         },
         TechnicalError: 'This service is temporarily unavailable for system maintenance. Please try again later. Apologies for the'
-        +' inconvenience caused',
+            + ' inconvenience caused',
         Maintenance: 'This service is temporarily unavailable for system maintenance. Please try again later. Apologies for the'
-        +' inconvenience caused',
+            + ' inconvenience caused',
         Thankyou: 'Thank you for your interest for this service, however our new banknotes reservation are fully booked. Please visit our branches'
-        +' for assistance.',
+            + ' for assistance.',
         Error: 'The verification code you entered is incorrect, please retry.'
     },
     tab: {
@@ -35,26 +35,28 @@ const en = {
         button: {
             back: 'Back',
             submit: 'Submit',
-            review: 'Review Order'
+            review: 'Next'
         },
         refnumber: 'Your Reference Number is',
         booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
         booking_duplicatemobile: 'Same mobile number is registered.  Every mobile number can only register for 1 slot per day, please enter another mobile number or register with another collection date for the booking.',
         booking_noslotavaialble: '* The quota is out for this branch, please pick another date or branch',
-        error: 'We are unable to process your request right now. Please retry later.'
+        error: 'We are unable to process your request right now. Please retry later.',
+        sessionexpire: 'This session has timed out for security reasons. Please click "OK" to start registration again.'
     },
     update_booking: {
         mobile: 'Mobile Number',
         email: 'Email Address',
         button: 'Submit',
         cancelbutton: 'Cancel selected booking',
-        subtitle:'Review Or Cancel Order',
+        subtitle: 'Review Or Cancel Order',
         cancel_success: 'Your selected booking has been cancelled. A sms confirmation will be sent to your mobile number provided in this form.',
         norecordfound: 'The mobile number you entered is not registered for this service, please retry ',
-        cancel_failure: 'We are unable to process your request right now. Please retry later.'
+        cancel_failure: 'We are unable to process your request right now. Please retry later.',
+        sessionexpire: 'This session has timed out for security reasons. Please click "OK" to start registration again.'
     },
     forms: {
-        'subtitle':'Order Details',
+        'subtitle': 'Order Details',
         'SelectPlaceholder': 'Please Select...',
         'Title': 'Title',
         'LastName': 'Last Name',
@@ -62,9 +64,9 @@ const en = {
         'CollectionBranch': 'Designated Collection Branch',
         'CollectionDate': 'Collection Date',
         'CollectionTimeslot': 'Collection Timeslot',
-        'Quantity': 'Quantity',
-        'Declaration': 'Declaration',
+        'Quantity': 'Quantity ',
         "ReferenceNumber": 'Reference Number',
+        'Declaration': 'Declaration',
         'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs) Please prepare cash for exchange.',
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
@@ -73,26 +75,27 @@ const en = {
         "regionThree": "---- New Territories ---- ",
         "regionTwo": "---- Kowloon  ---- ",
         "regionOne": "---- Hong Kong ----",
+        'TitleRequiredValidation': 'Please enter the required information.',
+        'LastNameRequiredValidation': 'Please enter the required information.',
+        'MobileNumberRequiredValidation': 'Please enter the required information.',
+        'MobileNumberLengthValidation': 'Mobile Number should be 8 digits',
+        'MobileNumberValidation': 'The mobile number you entered is invalid. Please enter a valid mobile number and retry.',
+        'CollectionBranchRequiredValidation': 'Please enter the required information.',
+        'CollectionDateRequiredValidation': 'Please enter the required information.',
+        'CollectionTimeslotRequiredValidation': 'Please enter the required information.',
+        'DeclarationRequiredValidation': 'Please confirm you have have read, understood and agreed to the terms and conditions of this application.',
         "salutationOne": "Mr.",
         "salutationTwo": "Mrs.",
         "salutationThree": "Miss",
         'noslotsavailable': 'All slots are full please select different branch',
-        'countrycode':'852',
-        'QuantityValue':'1',
+        'countrycode': '852',
+        'QuantityValue': '1',
         'ReviewDetails': 'Review of Order Details',
         'Note': 'Note',
-        'Notes': `The above information(including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank's record(if you are an existing customer of the Bank). The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
-        'TitleRequiredValidation': 'Title is required',
-        'LastNameRequiredValidation': 'Last Name is required',
-        'MobileNumberRequiredValidation': 'Mobile Number is required',
-        'MobileNumberLengthValidation': 'Mobile Number should be 8 digits',
-        'MobileNumberValidation': 'Mobile Number must be valid number',
-        'CollectionBranchRequiredValidation': 'Designated Collection Branch is required',
-        'CollectionDateRequiredValidation': 'Collection Date is required',
-        'CollectionTimeslotRequiredValidation': 'Collection Timeslot is required',
-        'DeclarationRequiredValidation': 'Declaration is required'
+        'Notes': `A sms confirmation will be sent to your mobile number provided in this form, please review your mobile number before proceed. The above information (including your mobile number) will only be used for sending out notification of this service only and will not be updated to your Bank’s record (if you are an existing customer of the Bank).The above information will only be stored until 1 month after the notes exchange period (by 28 Feb 2022).`,
+        sessionexpire: 'This session has timed out for security reasons. Please click "OK" to start registration again.'
     },
-    modal:{
+    modal: {
         'okbutton': 'Ok'
     },
     review_orders: {

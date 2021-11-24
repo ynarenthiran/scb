@@ -1,12 +1,14 @@
 import './Captcha.scss';
 import { Component } from "react";
-import { Button,  Input, Layout } from 'antd';
+import { Button, Input, Layout } from 'antd';
 import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
 import { CommonHttpService } from '../../services/common-http.service';
 import TabTranslated from '../tab/tab';
 import ImportantNotesTranslated from '../important-notes/important-notes';
+import { withRouter } from 'react-router';
+
 const { Header, Content } = Layout;
 
 
@@ -20,6 +22,7 @@ class Captcha extends Component {
     }
 
     componentDidMount() {
+        console.log("load mount captcha");
         this.getStatus();
     }
 
@@ -31,13 +34,18 @@ class Captcha extends Component {
 
     getStatus() {
         this.service.get('/servicecheck', this.state.uuid, this.state.lang).then((result) => {
-            console.log("param value:", result.paramValue)
-            if (result.paramValue === undefined) {
+            this.setState({ bookingProgress: false });
+            this.setState({
+                status: result.status,
+            });
+            return result.json();
+        }).then((response) => {
+            if (response.paramValue === undefined) {
                 this.setState({ message: "Error" });
             } else {
-                this.setState({ message: result.paramValue });
+                this.setState({ message: response.paramValue });
             }
-            if (result.paramValue && result.paramValue.toLowerCase() === 'Up'.toLowerCase()) {
+            if (response.paramValue && response.paramValue.toLowerCase() === 'Up'.toLowerCase()) {
                 this.refreshCaptcha();
             }
         }).catch((error) => {
@@ -51,10 +59,16 @@ class Captcha extends Component {
         this.setState({ captchaInput: "" });
         this.setState({ captcha: null });
         this.service.get('/captcha', this.state.uuid, this.state.lang).then((result) => {
+            this.setState({ bookingProgress: false });
+            this.setState({
+                status: result.status,
+            });
+            return result.json();
+        }).then((response) => {
             this.setState({ reloadCaptchaLoader: false });
-            this.setState({ captcha: result.data.captcha });
-            this.setState({ uuid: result.data.uuid });
-            this.service.setUUID(result.data.uuid);
+            this.setState({ captcha: response.data.captcha });
+            this.setState({ uuid: response.data.uuid });
+            this.service.setUUID(response.data.uuid);
         }).catch((error) => {
             this.setState({ reloadCaptchaLoader: false });
             this.setState({ captcha: null });
@@ -67,7 +81,7 @@ class Captcha extends Component {
         const re = /^[0-9a-zA-Z\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
             this.setState({ captchaInput: e.target.value.toUpperCase() })
-            this.setState({captchainvalid: false})
+            this.setState({ captchainvalid: false })
         }
     }
 
@@ -90,6 +104,7 @@ class Captcha extends Component {
                 this.setState({ captchaInput: "" });
             } else if (result.status === 200) {
                 this.setState({ navigate: true });
+                this.setState({ message: '' });
             } else {
                 this.setState({ navigate: false });
                 this.setState({ captchainvalid: true });
@@ -116,15 +131,15 @@ class Captcha extends Component {
         }
         return (
             <Layout className="captcha">
-               <Header>
-               <img className='sc-logo' src={`${this.service.BASEURL}/images/sc-logo.svg`} alt="Logo" />
-               <img className='sc-mobile-logo' src={`${this.service.BASEURL}/images/sc-mobile-logo.svg`} alt="Logo" />
+                <Header>
+                    <img className='sc-logo' src={`${this.service.BASEURL}/images/sc-logo.svg`} alt="Logo" />
+                    <img className='sc-mobile-logo' src={`${this.service.BASEURL}/images/sc-mobile-logo.svg`} alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
                     </div>
                     <div className='header-title'>{t('new_booking.header')}
-                    <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
+                        <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
                     </div>
                 </Header>
                 <Content>
@@ -185,5 +200,5 @@ class Captcha extends Component {
         )
     }
 }
-const CaptchaTranslated = withTranslation()(Captcha);
-export default CaptchaTranslated;
+const CaptchaTranslated: any = withTranslation()(Captcha);
+export default withRouter(CaptchaTranslated);

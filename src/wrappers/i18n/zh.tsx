@@ -1,8 +1,8 @@
 const zh = {
     captcha: {
-        header: '輸入驗證碼（英文正楷',
-        placeholder: '輸入上面的文字:',
-        button: '验证继续',
+        header: '輸入驗證碼（英文正楷）',
+        placeholder: '輸入上面的文字：',
+        button: '驗證並繼續',
         selectOptions: {
             English: '中文',
             Chinese: 'EN'
@@ -13,8 +13,8 @@ const zh = {
         Error: "您所輸入的驗證碼不正確，請重新輸入。"
     },
     tab: {
-        new_booking: '预订',
-        update_booking: '查询/取消'
+        new_booking: '預訂',
+        update_booking: '查詢/取消'
     },
     importantNotes: {
         title: '重要事項:',
@@ -28,29 +28,33 @@ const zh = {
     },
     new_booking: {
         header: '網上預訂新鈔票',
-        hint: '请填写以下订购表以完成注册',
+        hint: '請填寫以下表格以完成登記',
         button: {
-            back: '返回',
+            back: '上一步',
             submit: '提交',
-            review: '审核订单'
+            review: '下一步'
         },
-        booking_success: 'Thanks for your submission of this pre-order form: A sms confirmation will be sent to your mobile number provided in this form.',
+        booking_success: '多謝閣下提交此預訂表格。 確認短信將發送至此表格中提供的手機號碼。',
         booking_duplicatemobile: '手機號碼已登記此服務。每個手機號碼在每天只能預訂一套套裝新鈔票。請登記另一個領鈔日期或使用另一個手機號碼進行預訂。',
         booking_noslotavaialble: '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。',
-        error: '我們未能處理您的指示。請稍後再試。'
+        error: '我們未能處理您的指示。請稍後再試。',
+        refnumber: '閣下的參考編號是',
+        sessionexpire: ' 基於保安理由，這次的使用時段已被結束。 請按[確定]重新開始登記。'
     },
     update_booking: {
-        mobile: '移动号码',
-        email: '电子邮件地址',
+        mobile: '手機號碼',
+        email: '電郵地址',
         button: '提交',
         cancelbutton: '取消已選擇的預訂',
-        cancel_success: '您选择的预订已被取消。短信确认将发送到您在此表格中提供的手机号码。',
-        norecordfound: '您输入的手机号码未注册此服务，请重试',
+        cancel_success: '我們已收到閣下的取消指示，多謝閣下使用此服務。確認短信將發送至此表格中提供的手機號碼。',
+        norecordfound: '您輸入的手提電話號碼並未登記此服務。請重新輸入。',
         cancel_failure: '我們未能處理您的指示。請稍後再試。',
-        subtitle:'查询/取消'
-    },forms: {
-        'subtitle':'預訂資料',
-        'SelectPlaceholder': '请选择...',
+        subtitle: '查詢/取消',
+        sessionexpire: ' 基於保安理由，這次的使用時段已被結束。 請按[確定]重新開始登記。'
+    },
+    forms: {
+        'subtitle': '預訂資料',
+        'SelectPlaceholder': '請選擇...',
         'Title': '稱謂',
         'LastName': '姓氏',
         'MobileNumber': '手機號碼',
@@ -59,34 +63,39 @@ const zh = {
         'CollectionTimeslot': '領鈔時段',
         'Quantity': '數量',
         'Declaration': '聲明',
-        "ReferenceNumber": '参考编号',
-        'QuantityText': '每套總價值：港幣$3,000 (面額: 港幣$20 x 100張, 港幣$50 x 20張)。 請預備現金作兌換。',
+        'QuantityText': '每套總價值：港幣$3,000 (面額: 港幣$20 x 100張, 港幣$50 x 20張)。請預備現金作兌換。',
+        "ReferenceNumber": '參考編號',
         'DeclarationPoints': {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
             2: '我已閱讀、明白及同意本申請的條款和條件。'
         },
-        'QuantityValue':'一',
-        'countrycode':'八百五十二',
+        'QuantityValue': '1',
+        'countrycode': '852',
         "regionThree": "---- 新界 ----",
-        "regionTwo": "---- 九龙 ----",
+        "regionTwo": "---- 九龍 ----",
         "regionOne": "----  香港  ---- ",
-        'ReviewDetails':'檢閱預訂資料',
-        'Note': '笔记',
-        'Notes': `注意：以上輸入之資料（包括您的手機號碼）只會用於此服務的短訊通知，並且不會更新或儲存到客戶在本行的個人資料（如果您是銀行的現有客戶）。上述資料只會儲存至服務結束後一個月（至2022年2月28日）。`,
-        'TitleRequiredValidation': '需要标题',
-        'LastNameRequiredValidation': '需要姓氏',
-        'MobileNumberRequiredValidation': '需要移动号码',
-        'MobileNumberLengthValidation': '移动号码应该是 8 位数字',
-        'MobileNumberValidation': '移动号码必须是有效号码',
-        'CollectionBranchRequiredValidation': '需要指定收集分支机构',
-        'CollectionDateRequiredValidation': '需要收集日期',
-        'CollectionTimeslotRequiredValidation': '需要收集时间段',
-        'DeclarationRequiredValidation': '需要申报',
+        'ReviewDetails': '檢閱預訂資料',
+        'Note': '注意',
+        'Notes': `確認短信將發送至此表格中提供的手機號碼，提交前請檢閱手機號碼。以上輸入之資料（包括您的手機號碼）只會用於此服務的短訊通知，並且不會更新或儲存到客戶在本行的個人資料（如果您是銀行的現有客戶）。上述資料只會儲存至服務結束後一個月（至2022年2月28日）。 `,
+        'TitleRequiredValidation': '注意',
+        'LastNameRequiredValidation': '請提供所需資料。',
+        'MobileNumberRequiredValidation': '請提供所需資料。',
+        'MobileNumberLengthValidation': '請輸入有效的電話號碼。',
+        'MobileNumberValidation': '您輸入的手提電話號碼無效。請重新輸入有效的手提電話號碼。',
+        'CollectionBranchRequiredValidation': '請提供所需資料。',
+        'CollectionDateRequiredValidation': '請提供所需資料。',
+        'CollectionTimeslotRequiredValidation': '請提供所需資料。',
+        'DeclarationRequiredValidation': '請確認您已閱讀、明白及同意本申請的條款和條件 。',
+        'noslotsavailable': '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。',
+        "salutationOne": "先生",
+        "salutationTwo": "太太",
+        "salutationThree": "小姐",
+        "sessionexpire": ' 基於保安理由，這次的使用時段已被結束。 請按[確定]重新開始登記。'
     },
     review_orders: {
 
-    }, modal:{
-        'okbutton': '好的'
+    }, modal: {
+        'okbutton': '回到主頁'
     },
     response: {
 

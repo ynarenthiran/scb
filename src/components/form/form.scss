@@ -60,17 +60,17 @@
                 .country-code {
                     width: 15%;
                 }
-    
+
                 .mobile-number {
                     width: 85%;
                 }
             }
         }
     }
-  }
-  
-  // Mobiles
-  @media screen and (max-width: 426px) {
+}
+
+// Mobiles
+@media screen and (max-width: 426px) {
     .form {
         height: auto !important;
 
@@ -82,11 +82,11 @@
                 .country-code {
                     width: 25%;
                 }
-    
+
                 .mobile-number {
                     width: 75%;
                 }
             }
         }
     }
-  }
+}

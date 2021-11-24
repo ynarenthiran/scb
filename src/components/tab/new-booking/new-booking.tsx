@@ -1,6 +1,6 @@
 import './new-booking.scss';
 
-import { Layout, Button, Row,  Space } from 'antd';
+import { Layout, Button, Row, Space } from 'antd';
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Component } from 'react';
 import FormsTranslated from '../../form/form';
@@ -27,7 +27,7 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { navigate: false, bookingProgress: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null , modalMethod: null};
+    state = { init: true, navigate: false, bookingProgress: false, sessionExpire: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null, modalMethod: null };
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -35,27 +35,21 @@ class NewBooking extends Component {
         props = this.props;
         console.log("lanaguge:" + this.props.lang)
         console.log("uuid:" + this.props.uuid)
-        this.setState({ fields: this.props.fields});
-    }
-
-    componentWillMount() {
-        // this.setState({ showModal: true, modalMethod: "success" });
-    }
-
-    componentDidMount() {
-        console.log("component mounted");
+        this.setState({ fields: this.props.fields });
     }
 
     componentDidUpdate(props: any) {
-        let init: boolean = true;
-        if (props.tabChange && init) {
-            init = false;
-            console.log('Tab Change', props.tabChange);
+        console.log("component did mount in new booking:", props.tabChange, this.state.init);
+        if (!props.tabChange && !this.state.init) {
+            this.setState({ init: true });
+        }
+        if (props.tabChange && this.state.init) {
             this.setState({ fields: _.cloneDeep(formControls), orderStatus: 'change' });
+            this.setState({ init: false });
+            return;
         }
     }
 
-    
     getValue(key: any) {
         const data: any = _.find(this.state.fields, ['name', key]);
         console.log("data is:", data);
@@ -86,7 +80,7 @@ class NewBooking extends Component {
         return '-';
     }
 
-    
+
     submitOrder() {
         this.setState({ status: null });
         this.setState({ bookingProgress: true });
@@ -113,48 +107,48 @@ class NewBooking extends Component {
                 }
             }
         };
-        this.service.post('', validateCaptcha, this.props.uuid, this.props.lang).then((result) => {
+        this.service.post('', validateCaptcha, '', this.props.lang).then((result) => {
             this.setState({ bookingProgress: false });
             this.setState({
                 status: result.status,
             });
-            return result.json();
+            if (result.status !== 401) {
+                return result.json();
+            }
         }).then((response) => {
             console.log("result.status:", this.state.status + ", ref", response['tp-ref'])
             if (this.state.status === 401) {
-                this.props.history.push('/captcha');
+                this.setState({ showModal: true, sessionExpire: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "sessionexpire" });
             } else if (this.state.status === 404) {
-                console.log("the error code:",response['code'])
-                if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES001'){
+                console.log("the error code:", response['code'])
+                if (response['code'] !== undefined && response['code'] === 'FORMS-API-CNYNOTES001') {
                     this.setState({ showModal: true });
                     this.setState({ modalMethod: 'error' });
                     this.setState({ modalMsg: "booking_duplicatemobile" });
                     this.setState({ refNo: '' });
-                }else if(response['code']!==undefined && response['code']==='FORMS-API-CNYNOTES003'){
+                } else if (response['code'] !== undefined && response['code'] === 'FORMS-API-CNYNOTES003') {
                     this.setState({ showModal: true });
                     this.setState({ modalMethod: 'error' });
                     this.setState({ modalMsg: "booking_noslotavaialble" });
                     this.setState({ refNo: '' });
                 }
-            }else if (this.state.status === 200) {
+            } else if (this.state.status === 200) {
                 this.setState({ modalMethod: 'success' });
                 this.setState({ showModal: true });
                 this.setState({ modalMsg: "booking_success" });
                 this.setState({ refNo: response['tp-ref'] });
-            } else{
+            } else {
                 this.setState({ showModal: true });
                 this.setState({ modalMethod: 'error' });
                 this.setState({ modalMsg: "error" });
                 this.setState({ refNo: '' });
             }
         }).catch((error) => {
-            if (error && error.status === 401) {
-                this.props.history.push('/captcha');
-            } else {
-                this.setState({ modalMethod: 'error' });
-                this.setState({ showModal: true });
-                this.setState({ modalMsg: "error" });
-            }
+            this.setState({ modalMethod: 'error' });
+            this.setState({ showModal: true });
+            this.setState({ modalMsg: "error" });
         });
     }
 
@@ -177,9 +171,13 @@ class NewBooking extends Component {
         this.setState({ fields });
     }
 
-    modalClosed(event: any){
+    modalClosed(event: any) {
         this.setState({ fields: _.cloneDeep(formControls), showModal: event });
+        //this.backToChange();
         this.setState({ orderStatus: 'change' });
+        if (this.state.sessionExpire) {
+            window.location.href = window.location.origin;
+        }
     }
 
     render() {
@@ -187,49 +185,49 @@ class NewBooking extends Component {
         if (this.state.navigate) {
             console.log("test");
             return (
-                 <Redirect to={'/captcha'} /> 
-              );
-        }else{
-        return (
-            <span>
-                {
-                    this.state.bookingProgress &&
-                    <div id="loader" className="loader"></div>
-                }
-                {
-                    this.state.orderStatus === 'change' &&
-                    <FormsTranslated {...this.props} form={this.form} fields={this.state.fields} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
-                }
-                {
-                    this.state.orderStatus === 'review' &&
-                    <ReviewBookingTranslated fields={this.state.fields} />
-                }
-                <Footer>
-                    <Row className='footer-row'>
-                        {
-                            this.state.orderStatus === 'review' &&
-                            <Space align='end'>
-                                <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>{t('new_booking.button.back')}</Button>
-                                <Button className='review-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder()}>{t('new_booking.button.submit')}</Button>
-                            </Space>
-                        }
-                        {
-                            this.state.orderStatus === 'change' &&
-                            <Space align='end'>
-                                <Button className='submit-btn'  disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
-                            </Space>
-                        }
-                    </Row>
-                </Footer>
-                <ModalComponentTranslated
-                    visible={this.state.showModal}
-                    // title={'Are you Sure?'}
-                    message={[this.state.modalMsg ? t('new_booking.' + this.state.modalMsg) : null, this.state.refNo ? `${t('new_booking.refnumber')}: ${this.state.refNo}` : null]}
-                    // Method: 'info' | 'error' | 'success'
-                    method={this.state.modalMethod}
-                    onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
-            </span>
-        );
+                <Redirect to={'/captcha'} />
+            );
+        } else {
+            return (
+                <span>
+                    {
+                        this.state.bookingProgress &&
+                        <div id="loader" className="loader"></div>
+                    }
+                    {
+                        this.state.orderStatus === 'change' &&
+                        <FormsTranslated {...this.props} form={this.form} fields={this.state.fields} onChange={(newFields: any) => { this.setState({ fields: newFields }); }} />
+                    }
+                    {
+                        this.state.orderStatus === 'review' &&
+                        <ReviewBookingTranslated fields={this.state.fields} />
+                    }
+                    <Footer>
+                        <Row className='footer-row'>
+                            {
+                                this.state.orderStatus === 'review' &&
+                                <Space align='end'>
+                                    <Button danger type='primary' icon={<ArrowLeftOutlined />} onClick={() => this.backToChange()}>{t('new_booking.button.back')}</Button>
+                                    <Button className='review-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.submitOrder()}>{t('new_booking.button.submit')}</Button>
+                                </Space>
+                            }
+                            {
+                                this.state.orderStatus === 'change' &&
+                                <Space align='end'>
+                                    <Button className='submit-btn' disabled={this.disableButton} type='primary' icon={<ArrowRightOutlined />} onClick={() => this.reviewOrder(this.state.fields)}>{t('new_booking.button.review')}</Button>
+                                </Space>
+                            }
+                        </Row>
+                    </Footer>
+                    <ModalComponentTranslated
+                        visible={this.state.showModal}
+                        // title={'Are you Sure?'}
+                        message={[this.state.modalMsg ? t('new_booking.' + this.state.modalMsg) : null, this.state.refNo ? `${t('new_booking.refnumber')}: ${this.state.refNo}` : null]}
+                        // Method: 'info' | 'error' | 'success'
+                        method={this.state.modalMethod}
+                        onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
+                </span>
+            );
         }
     }
 }

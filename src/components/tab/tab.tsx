@@ -1,12 +1,11 @@
 import './tab.scss';
 
-import { Button, Layout, Tabs } from 'antd';
+import { Layout, Tabs } from 'antd';
 import NewBooking from './new-booking/new-booking';
 import UpdateBooking from './update-booking/update-booking';
 import { withTranslation } from 'react-i18next';
 import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
-import { GlobalOutlined } from '@ant-design/icons';
 import i18n from '../../wrappers/i18n/i18n';
 
 const { Header, Content } = Layout;
@@ -45,7 +44,7 @@ class Tab extends Component {
                         <div className='border-bottom'></div>
                     </div>
                     <div className='header-title'>{t('new_booking.header')}
-                        <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
+                        {/* <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button> */}
                     </div>
                 </Header>
                 <Content>

@@ -8,22 +8,22 @@ const BASEURL = `${process.env.REACT_APP_BASE_URL || '/origination/hkcnybook/sta
 export class CommonHttpService {
     language: any;
     uuid: any;
-    get(url: string,uuid: any,lang: any) {
+    get(url: string, uuid: any, lang: any) {
         console.log("uuid", uuid)
         console.log("lang", lang)
         return fetch(`${APPURL}${url}`, {
             method: 'GET',
-            headers: this.headers(uuid,lang),
+            headers: this.headers(uuid, lang),
             credentials: "include"
-        }).then(response => response.json())
+        }).then(response => response)
     }
 
-    post(url: string, body: any, uuid: any,lang: any) {
+    post(url: string, body: any, uuid: any, lang: any) {
         let headers: any = {}
-        if(uuid === ''){
-            headers= this.headersWithOutUuid(lang)
-        }else{
-            headers= this.headers(uuid,lang)
+        if (uuid === '') {
+            headers = this.headersWithOutUuid(lang)
+        } else {
+            headers = this.headers(uuid, lang)
         }
         return fetch(`${APPURL}${url}`, {
             method: 'POST',
@@ -41,7 +41,7 @@ export class CommonHttpService {
             "reqId": `${uuidv4()}`,
             "Channel": "MOBILE",
             "Country": "HK",
-            "Language": (lang || 'en').toUpperCase(),
+            "Language": lang.toUpperCase(),
             "AppName": "RCWB",
             "ClientId": "WEB",
             "RumDevice": "devicebrowserversion",
@@ -61,7 +61,7 @@ export class CommonHttpService {
             "reqId": `${uuidv4()}`,
             "Channel": "MOBILE",
             "Country": "HK",
-            "Language": (lang || 'en').toUpperCase(),
+            "Language": lang.toUpperCase(),
             "AppName": "RCWB",
             "ClientId": "WEB",
             "RumDevice": "devicebrowserversion",
@@ -73,7 +73,7 @@ export class CommonHttpService {
     };
 
 
-   
+
 
     setLanguage(lang: string) {
         this.language = lang;
@@ -85,7 +85,7 @@ export class CommonHttpService {
         i18n.changeLanguage(this.language);
     }
 
-    get BASEURL(){
+    get BASEURL() {
         return BASEURL;
     }
 }

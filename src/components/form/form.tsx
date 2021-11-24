@@ -5,14 +5,17 @@ import { Component } from 'react';
 import { CommonHttpService } from '../../services/common-http.service';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router';
+import ModalComponentTranslated from '../modal';
 const { OptGroup, Option } = Select;
+
 
 
 class Forms extends Component {
     props: any = this.props;
     form: any;
     validationMessages: any = {};
-    state = { datesLoaded: false, selectedDate: null, selectedTimeSlot: null, datesLoading: false, info: false, termsCondition: false, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [], validation: this.validationMessages };
+    state = { showModal: false, modalMsg: null, modalMethod: null, sessionExpire: false, datesLoaded: false, selectedDate: null, status: null, selectedTimeSlot: null, datesLoading: false, info: false, termsCondition: false, mobile: '', branchList: {}, branchSelected: '', dateList: [], collectionTimeSlots: [], validation: this.validationMessages };
     service = new CommonHttpService();
 
     constructor(props?: any) {
@@ -27,22 +30,40 @@ class Forms extends Component {
         this.setState({ mobile: this.getValue('mobileNumber') });
     }
 
+    modalClosed(event: any) {
+        this.setState({ showModal: event })
+        console.log("this.state.sessionExpire", this.state.sessionExpire)
+        if (this.state.sessionExpire) {
+            window.location.href = window.location.origin;
+        }
+    }
+
     getBranchList() {
-        console.log("uuid is:" + this.props.uuid)
-        this.service.get(`/branchlist/${this.props.uuid}`, this.props.uuid, this.props.lang).then((res) => {
-            if (res.status === 401) {
-                this.props.history.push('/captcha');
-            } else {
-                this.setState({ branchList: res });
+        this.service.get(`/branchlist/${this.props.uuid}`, '', this.props.lang).then((result) => {
+            this.setState({ bookingProgress: false });
+            this.setState({
+                status: result.status,
+            });
+            if (result.status !== 401) {
+                return result.json();
+            }
+        }).then((response) => {
+            if (this.state.status === 401) {
+                this.setState({ showModal: true, sessionExpire: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "sessionexpire" });
+            } else if (this.state.status === 200) {
+                this.setState({ branchList: response });
                 if (this.getValue('collectionBranch')) {
                     this.getDateList(this.getValue('collectionBranch'));
                 }
+            } else {
+                this.setState({ showModal: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "error" });
             }
         }).catch((err) => {
             console.log(err);
-            if (err && err.status === 401) {
-                this.props.history.push('/captcha');
-            }
         });
     }
 
@@ -50,26 +71,38 @@ class Forms extends Component {
         this.setState({ selectedDate: null })
         this.setState({ selectedTimeSlot: null })
         this.setState({ datesLoading: true })
-        this.service.get(`/slots/${event.value}/${this.props.uuid}`, this.props.uuid , this.props.lang).then((res) => {
-            if (res.status === 401) {
-                this.props.history.push('/captcha');
-            } else {
-                this.setState({ datesLoading: false })
-                this.setState({ dateList: res.data.slots });
-                this.setState({ datesLoaded: true });
-                /*if (this.getValue('collectionDate')) {
-                    this.setState({ selectedDate: this.getValue('collectionDate') });
-                    this.getTimeSlots(this.getValue('collectionDate'));
-                }*/
+        this.setState({ dateList: [] })
+        this.service.get(`/slots/${event.value}/${this.props.uuid}`, '', this.props.lang).then((result) => {
+            this.setState({ bookingProgress: false });
+            this.setState({
+                status: result.status,
+            });
+            if (result.status !== 401) {
+                return result.json();
             }
+        }).then((response) => {
+            console.log("res.status:" + this.state.status)
+            this.setState({ datesLoaded: true, datesLoading: false });
+            if (this.state.status === 401) {
+                this.setState({ showModal: true, sessionExpire: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "sessionexpire" });
+            } else {
+                _.each(response.data.slots, (el: any) => {
+                    if (el["status"] === true) {
+                        this.setState({ dateList: response.data.slots });
+                        return;
+                    }
+                })
+            }
+            /*if (this.getValue('collectionDate')) {
+                this.setState({ selectedDate: this.getValue('collectionDate') });
+                this.getTimeSlots(this.getValue('collectionDate'));
+            }*/
         }).catch((err) => {
-            console.log(err);
-            if (err && err.status === 401) {
-                this.props.history.push('/captcha');
-            } else {
-                this.setState({ datesLoading: false })
-                this.setState({ datesLoaded: true });
-            }
+            console.log("error:");
+            this.setState({ datesLoading: false })
+            this.setState({ datesLoaded: true });
         });
     }
 
@@ -98,7 +131,7 @@ class Forms extends Component {
             this.setState({ [prop]: e });
             this.validation(field, fieldData.label);
             this.props.onChange(this.allFields);
-        }else if (fieldData) {
+        } else if (fieldData) {
             fieldData.value = e;
             if (field === 'collectionBranch') {
                 const branches: any = this.state.branchList;
@@ -107,13 +140,13 @@ class Forms extends Component {
             }
             this.validation(field, fieldData.label);
             this.props.onChange(this.allFields);
-            if(field==='collectionDate'){
+            if (field === 'collectionDate') {
                 this.setState({ selectedDate: e })
-            }else if(field==='collectionTimeslot'){
+            } else if (field === 'collectionTimeslot') {
                 this.setState({ selectedTimeSlot: e })
             }
         }
-        
+
     }
 
     setTouched(field: any) {
@@ -127,6 +160,7 @@ class Forms extends Component {
     validate(e: any) {
         const re = /^[0-9\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
+            console.log(e.target.value);
             this.setState({ mobile: e.target.value })
         }
     }
@@ -145,9 +179,9 @@ class Forms extends Component {
         if (!this.getValue(field)) {
             if (field === 'declaration') {
                 if (!this.getValue(field, 'info') || !this.getValue(field, 'termsCondition')) {
-                    validation[field] = `${title} is required.`;    
+                    validation[field] = `${title} is required.`;
                 } else {
-                    validation[field] = null;    
+                    validation[field] = null;
                 }
             } else {
                 validation[field] = `${title} is required.`;
@@ -159,8 +193,8 @@ class Forms extends Component {
                 validation[field] = `${title} must be valid number`;
             } else {
                 validation[field] = null;
-            }   
-        }else {
+            }
+        } else {
             validation[field] = null;
         }
         this.setState({ validation });
@@ -182,9 +216,9 @@ class Forms extends Component {
                 <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')}>
                         <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} onFocus={() => this.setTouched('title')} onBlur={() => this.validation('title', t('forms.Title'))} onChange={(e) => this.setData(e, 'title')}>
-                            <Option value="Mr.">Mr.</Option>
-                            <Option value="Mrs.">Mrs.</Option>
-                            <Option value="Miss">Miss</Option>
+                            <Option value="Mr.">{t('forms.salutationOne')}</Option>
+                            <Option value="Mrs.">{t('forms.salutationTwo')}</Option>
+                            <Option value="Miss">{t('forms.salutationThree')}</Option>
                         </Select>
                         {
                             this.getMessage('title') && this.getMessage('title').includes('is required') &&
@@ -201,7 +235,7 @@ class Forms extends Component {
                     <Form.Item name='mobileNumber' label={t('forms.MobileNumber')}>
                         <Input.Group compact>
                             <Input className='country-code' disabled={true} size="large" value={t('forms.countrycode')} />
-                            <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} onChange={(e) => { this.validate(e); this.setData(e.target.value, 'mobileNumber');}} />
+                            <Input className='mobile-number' maxLength={8} size="large" placeholder={t('forms.MobileNumber')} value={this.state.mobile} onFocus={() => this.setTouched('mobileNumber')} onBlur={() => this.validation('mobileNumber', t('forms.MobileNumber'))} onChange={(e) => { this.validate(e); this.setData(e.target.value, 'mobileNumber'); }} />
                         </Input.Group>
                         {
                             this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('is required') &&
@@ -237,7 +271,7 @@ class Forms extends Component {
                         <span className="field-error">{t('forms.noslotsavailable')}</span>
                     }
                     <Form.Item name='collectionDate' label={t('forms.CollectionDate')}>
-                        <DatePicker placeholder={t('forms.CollectionDate')} disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} value = {this.state.selectedDate} onFocus={() => this.setTouched('collectionDate')} onBlur={() => this.validation('collectionDate', t('forms.CollectionDate'))} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
+                        <DatePicker placeholder={t('forms.CollectionDate')} disabled={_.size(this.state.dateList) < 1} size="large" format={'DD/MM/YYYY'} defaultValue={this.getValue('collectionDate')} value={this.state.selectedDate} onFocus={() => this.setTouched('collectionDate')} onBlur={() => this.validation('collectionDate', t('forms.CollectionDate'))} disabledDate={(e) => this.disabledDate(e)} onChange={(e) => { this.getTimeSlots(e); this.setData(e, 'collectionDate'); }}
                             style={{
                                 width: '100%',
                             }}
@@ -248,7 +282,7 @@ class Forms extends Component {
                         }
                     </Form.Item>
                     <Form.Item name='collectionTimeslot' label={t('forms.CollectionTimeslot')}>
-                        <Select size="large" disabled={_.size(this.state.dateList) < 1} placeholder={t('forms.SelectPlaceholder')} value = {this.state.selectedTimeSlot} defaultValue={this.getValue('collectionTimeslot')} onFocus={() => this.setTouched('collectionTimeslot')} onBlur={() => this.validation('collectionTimeslot', t('forms.CollectionTimeslot'))} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
+                        <Select size="large" disabled={_.size(this.state.dateList) < 1} placeholder={t('forms.SelectPlaceholder')} value={this.state.selectedTimeSlot} defaultValue={this.getValue('collectionTimeslot')} onFocus={() => this.setTouched('collectionTimeslot')} onBlur={() => this.validation('collectionTimeslot', t('forms.CollectionTimeslot'))} onChange={(e) => this.setData(e, 'collectionTimeslot')}>
                             {this.state.collectionTimeSlots.map((dt) => (
                                 <Option value={dt['slot-time']}>{dt['slot-time']}</Option>
                             ))}
@@ -264,13 +298,13 @@ class Forms extends Component {
                             <span className="ant-form-text">{t('forms.QuantityText')}</span>
                         </Space>
                     </Form.Item>
-                    <Form.Item label={`${t('forms.Note')}:`}>
+                    <Form.Item label={`${t('forms.Note')}`}>
                         {t('forms.Notes')}
                     </Form.Item>
                     <Form.Item label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                        <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
-                        <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
+                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
+                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
                         </Space>
                         {
                             this.getMessage('declaration') && this.getMessage('declaration').includes('is required') &&
@@ -278,9 +312,16 @@ class Forms extends Component {
                         }
                     </Form.Item>
                 </Form>
+                <ModalComponentTranslated
+                    visible={this.state.showModal}
+                    // title={'Are you Sure?'}
+                    message={[this.state.modalMsg ? t('new_booking.' + this.state.modalMsg) : null]}
+                    // Method: 'info' | 'error' | 'success'
+                    method={this.state.modalMethod}
+                    onChange={(event: any) => this.modalClosed(event)}></ModalComponentTranslated>
             </div>
         )
     }
 }
 const FormsTranslated: any = withTranslation()(Forms);
-export default FormsTranslated;
+export default withRouter(FormsTranslated);
