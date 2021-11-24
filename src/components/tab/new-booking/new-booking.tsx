@@ -27,7 +27,7 @@ const formControls = [
 
 class NewBooking extends Component {
     form: any;
-    state = { init: true, navigate: false, bookingProgress: false, sessionExpire: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null, modalMethod: null };
+    state = { init: true, navigate: false, bookingProgress: false, sessionExpire: false, status: null, refNo: '', fields: _.cloneDeep(formControls), orderStatus: "change", showModal: false, modalMsg: null, modalMethod: null, tabChange: false };
     props: any = this.props;
     service = new CommonHttpService();
     constructor(props?: any) {
@@ -44,7 +44,7 @@ class NewBooking extends Component {
             this.setState({ init: true });
         }
         if (props.tabChange && this.state.init) {
-            this.setState({ fields: _.cloneDeep(formControls), orderStatus: 'change' });
+            this.setState({ fields: _.cloneDeep(formControls), orderStatus: 'change', tabChange: props.tabChange });
             this.setState({ init: false });
             return;
         }
