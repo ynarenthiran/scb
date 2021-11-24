@@ -47,7 +47,17 @@ class Forms extends Component {
               this.setState({ init: true });
           }
           if (prevProps && this.props && prevProps.tabChange === this.props.tabChange && this.state.init) {
-              this.setState({ ..._.cloneDeep(this.formFields), init: false });
+              const formFields = _.cloneDeep(this.formFields);
+              _.each(this.props.fields, (pf) => {
+                  if (pf.name === 'declaration') {
+                    formFields[pf.name]['info'] = pf.info;
+                    formFields[pf.name]['termsCondition'] = pf.termsCondition;
+                  }
+                  if (pf.value) {
+                      formFields[pf.name] = pf.value;
+                  }
+              })
+              this.setState({ ...formFields, init: false });
           }
       }
 
