@@ -94,8 +94,10 @@
     background-color: #ffffff !important;
 
     .ant-tabs {
-      margin-top: 13vh;
+      // margin-top: 13vh;
       height: 80vh !important;
+      position: fixed;
+      top: 11vh;
 
       .ant-tabs-tab {
         padding: 0 2vh;
@@ -133,6 +135,7 @@
 
         .ant-tabs-content {
           height: 100% !important;
+          overflow-y: auto !important;
 
           .ant-tabs-tabpane-active {
             height: 100% !important;
@@ -147,6 +150,9 @@
 @media screen and (min-width: 426px) and (max-width: 769px) {
   .ant-layout .ant-layout-content .ant-tabs {
     height: 87vh !important;
+
+    position: fixed;
+    top: 13vh;
 
     .ant-tabs-content {
       height: auto !important;
@@ -175,8 +181,12 @@
 // Mobiles
 @media screen and (max-width: 426px) {
   .ant-layout .ant-layout-content .ant-tabs {
-    margin-top: 16vh !important;
-    height: 84vh !important;
+    // margin-top: 16vh !important;
+    // height: 84vh !important;
+
+    height: 87vh !important;
+    position: fixed;
+    top: 13vh;
 
     .ant-tabs-content {
       height: auto !important;
