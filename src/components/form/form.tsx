@@ -168,8 +168,7 @@ class Forms extends Component {
                 const branches: any = this.state.branchList;
                 const branchList = [...branches['regionOne'], ...branches['regionTwo'], ...branches['regionThree']]
                 fieldData.data = _.find(branchList, ['code', e.value]) || {};
-            } else if (field !== 'mobileNumber') {
-                console.log(field);
+            } else if (field !== 'mobileNumber' || (field === 'mobileNumber' && !e)) {
                 this.setState({ [field]: e })
             }
             this.validation(field, fieldData.label);
