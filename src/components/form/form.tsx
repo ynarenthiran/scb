@@ -41,25 +41,25 @@ class Forms extends Component {
         this.getBranchList();
         this.setState({ mobileNumber: this.getValue('mobileNumber') });
     }
-      
-      componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
-          if (prevProps && this.props && prevProps.tabChange !== this.props.tabChange && !this.state.init) {
-              this.setState({ init: true });
-          }
-          if (prevProps && this.props && prevProps.tabChange === this.props.tabChange && this.state.init) {
-              const formFields = _.cloneDeep(this.formFields);
-              _.each(this.props.fields, (pf) => {
-                  if (pf.name === 'declaration') {
+
+    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+        if (prevProps && this.props && prevProps.tabChange !== this.props.tabChange && !this.state.init) {
+            this.setState({ init: true });
+        }
+        if (prevProps && this.props && prevProps.tabChange === this.props.tabChange && this.state.init) {
+            const formFields = _.cloneDeep(this.formFields);
+            _.each(this.props.fields, (pf) => {
+                if (pf.name === 'declaration') {
                     formFields[pf.name]['info'] = pf.info;
                     formFields[pf.name]['termsCondition'] = pf.termsCondition;
-                  }
-                  if (pf.value) {
-                      formFields[pf.name] = pf.value;
-                  }
-              })
-              this.setState({ ...formFields, init: false });
-          }
-      }
+                }
+                if (pf.value) {
+                    formFields[pf.name] = pf.value;
+                }
+            })
+            this.setState({ ...formFields, init: false });
+        }
+    }
 
     modalClosed(event: any) {
         this.setState({ showModal: event })
@@ -193,8 +193,9 @@ class Forms extends Component {
 
     validate(e: any) {
         const re = /^[0-9\b]+$/;
-        if (e.target.value && re.test(e.target.value)) {
-            console.log(e.target.value);
+        if (e.target.value && (e.target.value.startsWith('0') || e.target.value.startsWith('1') || e.target.value.startsWith('2'))) {
+            this.setState({ mobileNumber: this.state.mobileNumber });
+        } else if (e.target.value && re.test(e.target.value)) {
             this.setState({ mobileNumber: e.target.value })
         }
     }
@@ -221,7 +222,9 @@ class Forms extends Component {
                 validation[field] = `${title} is required.`;
             }
         } else if (field === 'mobileNumber') {
-            if (this.getValue(field).length !== 8) {
+            if (this.getValue(field) && (this.getValue(field).startsWith('0') || this.getValue(field).startsWith('1') || this.getValue(field).startsWith('2'))) {
+                validation[field] = `${title} should not starts with 0,1,2`;
+            } else if (this.getValue(field).length !== 8) {
                 validation[field] = `${title} should be 8 digits`;
             } else if (!Number(this.getValue(field))) {
                 validation[field] = `${title} must be valid number`;
@@ -276,6 +279,10 @@ class Forms extends Component {
                             <span className="field-error">{t('forms.MobileNumberRequiredValidation')}</span>
                         }
                         {
+                            this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('should not starts with') &&
+                            <span className="field-error">{t('forms.MobileNumberStartsWithValidation')}</span>
+                        }
+                        {
                             this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('should be 8 digits') &&
                             <span className="field-error">{t('forms.MobileNumberLengthValidation')}</span>
                         }
@@ -326,11 +333,15 @@ class Forms extends Component {
                             <span className="field-error">{t('forms.CollectionTimeslotRequiredValidation')}</span>
                         }
                     </Form.Item>
-                    <Form.Item label={t('forms.Quantity')}>
-                        <Space direction='vertical'>
+                    <Form.Item className='no-margin' label={t('forms.Quantity')}>
+                        <span className="ant-form-text">{t('forms.QuantityValue')}</span>
+                        {/* <Space direction='vertical'>
                             <span className="ant-form-text">{t('forms.QuantityValue')}</span>
                             <span className="ant-form-text">{t('forms.QuantityText')}</span>
-                        </Space>
+                        </Space> */}
+                    </Form.Item>
+                    <Form.Item>
+                        <span className="ant-form-text">{t('forms.QuantityText')}</span>
                     </Form.Item>
                     <Form.Item label={`${t('forms.Note')}`}>
                         {t('forms.Notes')}

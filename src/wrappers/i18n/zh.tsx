@@ -81,6 +81,7 @@ const zh = {
         'LastNameRequiredValidation': '請提供所需資料。',
         'MobileNumberRequiredValidation': '請提供所需資料。',
         'MobileNumberLengthValidation': '請輸入有效的電話號碼。',
+        'MobileNumberStartsWithValidation': '手机号码不应以0，1，2开头。',
         'MobileNumberValidation': '您輸入的手提電話號碼無效。請重新輸入有效的手提電話號碼。',
         'CollectionBranchRequiredValidation': '請提供所需資料。',
         'CollectionDateRequiredValidation': '請提供所需資料。',

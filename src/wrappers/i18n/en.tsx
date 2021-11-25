@@ -79,6 +79,7 @@ const en = {
         'LastNameRequiredValidation': 'Please enter the required information.',
         'MobileNumberRequiredValidation': 'Please enter the required information.',
         'MobileNumberLengthValidation': 'Mobile Number should be 8 digits',
+        'MobileNumberStartsWithValidation': 'Mobile Number should not starts with 0,1,2',
         'MobileNumberValidation': 'The mobile number you entered is invalid. Please enter a valid mobile number and retry.',
         'CollectionBranchRequiredValidation': 'Please enter the required information.',
         'CollectionDateRequiredValidation': 'Please enter the required information.',
