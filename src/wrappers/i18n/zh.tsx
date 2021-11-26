@@ -67,7 +67,7 @@ const zh = {
         "ReferenceNumber": '參考編號',
         'DeclarationPoints': {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
-            2: '我已閱讀、明白及同意本申請的條款和條件。'
+            2: '本人已阅读、明白及同意本申请<a target="_blank" href="https://www.google.com">条款及条件</a>'
         },
         'QuantityValue': '1',
         'countrycode': '852',

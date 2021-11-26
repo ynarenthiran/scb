@@ -17,6 +17,12 @@
             }
         }
 
+        .declaration {
+            .ant-space-horizontal {
+                align-items: start !important;
+            }
+        }
+
         .ant-form-item {
             margin-bottom: 3vh;
             width: 100% !important;

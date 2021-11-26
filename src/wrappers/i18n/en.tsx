@@ -70,7 +70,7 @@ const en = {
         'QuantityText': 'Total value per pack: HK$3,000. (Denomination: HK$20 x 100pcs, HK$50 x 20pcs) Please prepare cash for exchange.',
         'DeclarationPoints': {
             1: 'I confirm the above information is accurate to my knowledge. No amendment is allowed once the form is submitted',
-            2: 'I have read, understood and agreed to the terms and conditions of this application'
+            2: 'I have read, understood and agreed to the <a target="_blank" href="https://www.google.com">terms and conditions</a> of this application'
         },
         "regionThree": "---- New Territories ---- ",
         "regionTwo": "---- Kowloon  ---- ",

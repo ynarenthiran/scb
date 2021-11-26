@@ -345,10 +345,14 @@ class Forms extends Component {
                     <Form.Item label={`${t('forms.Note')}`}>
                         {t('forms.Notes')}
                     </Form.Item>
-                    <Form.Item label={t('forms.Declaration')}>
+                    <Form.Item className='declaration' label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}>{t('forms.DeclarationPoints.1')}</Checkbox>
-                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}>{t('forms.DeclarationPoints.2')}</Checkbox>
+                        <Space direction='horizontal'>
+                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}></Checkbox><span>{t('forms.DeclarationPoints.1')}</span>
+                        </Space>
+                        <Space direction='horizontal'>
+                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}></Checkbox><span dangerouslySetInnerHTML={{__html: t('forms.DeclarationPoints.2')}}></span>
+                        </Space>
                         </Space>
                         {
                             this.getMessage('declaration') && this.getMessage('declaration').includes('is required') &&
