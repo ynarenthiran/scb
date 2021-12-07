@@ -31,7 +31,7 @@ let columns = [
 ]
 
 class UpdateBooking extends Component {
-    state = { sessionExpire: false, init: true, cancellationDone: false, modalMsg: '', refNo: '', modalMethod: null, showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
+    state = { sessionExpire: false, init: true, cancellationDone: false, modalMsg: '', refNo: '', modalMethod: null, showModal: false, mobile: '', mobileNumber: '', rowSelected: false, selectedRowKeys: [], selectedRows: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null, lastName: '' };
     service = new CommonHttpService();
     
     
@@ -76,7 +76,7 @@ class UpdateBooking extends Component {
             {
                 "id": 0,
                 "type": "APPOINTMENT",
-                "attributes": { "unique-id": this.props.uuid, "mobileNo":'852'+this.state.mobileNumber}
+                "attributes": { "unique-id": this.props.uuid, "mobileNo":'852'+this.state.mobileNumber, "lastName": this.state.lastName }
             }
         };
         this.service.post('/appointments', getAppointmentData,'',this.props.lang).then((res) => {
@@ -211,7 +211,7 @@ class UpdateBooking extends Component {
     data: any = [];
 
     get disableButton(): boolean {
-        return ((this.state.mobile && this.state.mobile.length !== 8) || !Number(this.state.mobile));
+        return ((this.state.mobile && this.state.mobile.length !== 8) || !Number(this.state.mobile)) || !this.state.lastName;
     }
 
      
@@ -228,6 +228,9 @@ class UpdateBooking extends Component {
                 <div className="title">{t('update_booking.subtitle')}</div>
                 <Form className='update-booking' layout="horizontal">
                     { /* <Space direction="vertical">  */ }
+                    <Form.Item name='lastName' label={t('forms.LastName')}>
+                        <Input size="large" maxLength={18} placeholder={t('forms.LastName')} value={this.state.lastName} />
+                    </Form.Item>
                         <Form.Item name='mobileNumber' label={t('update_booking.mobile')}>
                             <Input.Group compact>
                                 <Input className='country-code' disabled={true} size="large" defaultValue={t('forms.countrycode')} />
