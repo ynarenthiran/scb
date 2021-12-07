@@ -24,13 +24,13 @@ class ModalComponent extends Component {
                 <div className='modal-content-data'>
                     {
                         (this.props.method === 'info' || this.props.method === 'error' || this.props.method === 'success') &&
-                        <Empty image={`${this.service.BASEURL}/images/${this.props.method}.svg`} description={false} />
+                        <Empty image={`${this.service.BASEURL}/static/images/${this.props.method}.svg`} description={false} />
                     }
                     {
                         this.props.title &&
                         <div className="modal-title">
-                            {this.props.title}
-                        </div>
+                        {this.props.title}
+                    </div>
                     }
                     {
                         this.props.message.map((pm: any) => (

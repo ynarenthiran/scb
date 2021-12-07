@@ -42,21 +42,22 @@
 
             .prop-li {
                 padding: 0 20vh;
-
+    
                 .pl-label {
                     width: 30%;
                 }
-
+    
                 .pl-value {
                     width: 70%;
                 }
             }
         }
     }
-}
-
-// Mobiles
-@media screen and (max-width: 426px) {
+    
+  }
+  
+  // Mobiles
+  @media screen and (max-width: 426px) {
     .review-booking {
         height: auto !important;
 
@@ -66,15 +67,16 @@
 
             .prop-li {
                 padding: 0 5vh;
-
+    
                 .pl-label {
                     width: 40%;
                 }
-
+    
                 .pl-value {
                     width: 60%;
                 }
             }
         }
     }
-}
+    
+  }

@@ -54,7 +54,7 @@
       width: 1vh !important;
       margin: 0 5vh;
       height: 100% !important;
-
+      
       .border-top {
         background-color: #00a546;
         height: 100% !important;
@@ -67,7 +67,7 @@
         height: 100% !important;
         width: 100% !important;
         border-bottom-left-radius: 5px;
-        border-bottom-right-radius: 5px;
+        border-bottom-right-radius: 5px;        
       }
     }
   }
@@ -75,7 +75,7 @@
   .ant-layout-content {
     margin: 12vh 0 0 0 !important;
     height: 88vh !important;
-
+    
     .captcha-validation {
       height: 40vh;
       margin: 0 !important;
@@ -84,6 +84,7 @@
       align-items: center;
       justify-content: center;
       position: relative !important;
+      //background-image: url('https://av.sc.com/hk/content/images/hk-online-banking-banner-digital-banking-lucky-draw-756-180-en.png');
     }
 
     .block {
@@ -187,8 +188,7 @@
   .captcha.ant-layout .ant-layout-content .block {
     width: 100% !important;
 
-    .ant-input,
-    .ant-btn-block {
+    .ant-input, .ant-btn-block {
       width: 70% !important;
     }
   }

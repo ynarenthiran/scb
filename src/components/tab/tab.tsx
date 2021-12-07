@@ -37,8 +37,8 @@ class Tab extends Component {
                     <div className='hint'>{t('new_booking.hint')}</div>
                 </Header> */}
                 <Header>
-                    <img className='sc-logo' src={`${this.service.BASEURL}/images/sc-logo.svg`} alt="Logo" />
-                    <img className='sc-mobile-logo' src={`${this.service.BASEURL}/images/sc-mobile-logo.svg`} alt="Logo" />
+                    <img className='sc-logo' src={`${this.service.BASEURL}/static/images/sc-logo.svg`} alt="Logo" />
+                    <img className='sc-mobile-logo' src={`${this.service.BASEURL}/static/images/sc-mobile-logo.svg`} alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
@@ -48,7 +48,7 @@ class Tab extends Component {
                     </div>
                 </Header>
                 <Content>
-                    <Tabs defaultActiveKey="new" onTabClick={(event: any) => { this.setState({ tabChange: event !== 'new' }); this.setState({ cancelTabChange: event !== 'cancellationAndEnquiries' }) }}>
+                <Tabs defaultActiveKey="new" onTabClick={(event: any) => { this.setState({ tabChange: event !== 'new' }); this.setState({ cancelTabChange: event !== 'cancellationAndEnquiries' }) }}>
                         <TabPane tab={t('tab.new_booking')} key="new">
                             <NewBooking {...this.props} tabChange={this.state.tabChange} />
                         </TabPane>

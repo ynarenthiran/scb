@@ -1,8 +1,29 @@
-.ant-modal {
+
+:root {
+
+}
+
+.loader {
+    position: fixed;
+    z-index: 999999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: white;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-image: url("./styles/images/loader.gif");
+  }
+
+  .ant-modal {
     width: 400px !important;
+    margin-top: 10vh;
 
     .ant-modal-content {
-        // border-top: 5px solid #757575;
+       // border-top: 5px solid #757575;
 
         .ant-modal-header {
             display: none;
@@ -24,13 +45,15 @@
                     margin-top: 5vh;
                 }
 
+                
+
                 .modal-title {
                     margin-top: 1vh;
                     text-align: center;
+                    color: #555;
                     font-size: 30px;
                     font-weight: 300;
                 }
-
                 .modal-message {
                     margin-top: 1vh;
                     text-align: center;
@@ -38,28 +61,22 @@
                 }
             }
         }
+    }
 
         .ant-modal-footer {
             border: none;
             display: flex;
             justify-content: center;
             // border-radius: 0 0 10px 10px !important;
-
             .ant-btn {
                 width: 100%;
                 background-color: #00a546;
             }
         }
-
         .anticon {
             display: none !important;
         }
-
-        .ant-modal-confirm-content {
-            margin: 0 !important;
-        }
-    }
-}
+} 
 
 .error {
     .ant-modal-content {

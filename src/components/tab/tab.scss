@@ -46,7 +46,7 @@
     }
 
     .header-title {
-      // width: 80%;
+      //width: 80%;
       font-size: 20px;
       font-weight: 700;
       line-height: initial;
@@ -94,7 +94,7 @@
     background-color: #ffffff !important;
 
     .ant-tabs {
-      // margin-top: 13vh;
+      //margin-top: 13vh;
       height: 80vh !important;
       position: fixed;
       top: 13vh;
@@ -138,7 +138,7 @@
           height: auto;
           overflow-y: auto !important;
           max-height: 90%;
-
+          overflow-y: auto !important;
           .ant-tabs-tabpane-active {
             height: 100% !important;
           }
@@ -152,10 +152,9 @@
 @media screen and (min-width: 426px) and (max-width: 769px) {
   .ant-layout .ant-layout-content .ant-tabs {
     height: 87vh !important;
-
     position: fixed;
     top: 13vh;
-
+    width: 100%;
     .ant-tabs-content {
       height: auto !important;
       overflow-y: auto !important;
@@ -183,12 +182,10 @@
 // Mobiles
 @media screen and (max-width: 426px) {
   .ant-layout .ant-layout-content .ant-tabs {
-    // margin-top: 16vh !important;
-    // height: 84vh !important;
-
     height: 87vh !important;
     position: fixed;
     top: 13vh;
+    width: 100%;
 
     .ant-tabs-content {
       height: auto !important;
@@ -217,7 +214,7 @@
     }
 
     .header-title {
-      // width: 70% !important;
+      //width: 70% !important;
       font-size: 15px;
       font-weight: 700;
     }

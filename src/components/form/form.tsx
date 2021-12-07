@@ -33,7 +33,6 @@ class Forms extends Component {
     constructor(props?: any) {
         super(props);
         props = this.props;
-        console.log("uuid in constructor:" + this.props.uuid)
     }
 
 
@@ -41,37 +40,36 @@ class Forms extends Component {
         this.getBranchList();
         this.setState({ mobileNumber: this.getValue('mobileNumber') });
     }
-
-    componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
-        if (prevProps && this.props && prevProps.tabChange !== this.props.tabChange && !this.state.init) {
-            this.setState({ init: true });
-        }
-        if (prevProps && this.props && prevProps.tabChange === this.props.tabChange && this.state.init) {
+      
+      componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
+          if (prevProps && this.props && prevProps.tabChange !== this.props.tabChange && !this.state.init) {
+              this.setState({ init: true });
+          }
+          if (prevProps && this.props && prevProps.tabChange === this.props.tabChange && this.state.init) {
             const formFields = _.cloneDeep(this.formFields);
             _.each(this.props.fields, (pf) => {
                 if (pf.name === 'declaration') {
-                    formFields[pf.name]['info'] = pf.info;
-                    formFields[pf.name]['termsCondition'] = pf.termsCondition;
+                  formFields[pf.name]['info'] = pf.info;
+                  formFields[pf.name]['termsCondition'] = pf.termsCondition;
                 }
                 if (pf.value) {
                     formFields[pf.name] = pf.value;
                 }
             })
             this.setState({ ...formFields, init: false });
-        }
-    }
+          }
+      }
 
     modalClosed(event: any) {
         this.setState({ showModal: event })
-        console.log("this.state.sessionExpire", this.state.sessionExpire)
         if (this.state.sessionExpire) {
-            window.location.href = window.location.origin;
+            window.location.href = window.location.origin+this.service.BASEURL;
         }
     }
 
     getBranchList() {
         this.service.get(`/branchlist/${this.props.uuid}`, '', this.props.lang).then((result) => {
-            this.setState({ bookingProgress: false });
+            this.setState({ datesLoading: false });
             this.setState({
                 status: result.status,
             });
@@ -95,6 +93,9 @@ class Forms extends Component {
             }
         }).catch((err) => {
             console.log(err);
+            this.setState({ showModal: true });
+            this.setState({ modalMethod: 'error' });
+            this.setState({ modalMsg: "error" });
         });
     }
 
@@ -103,7 +104,7 @@ class Forms extends Component {
         this.setState({ collectionTimeSlot: null })
         this.setState({ datesLoading: true })
         this.setState({ dateList: [] })
-        this.service.get(`/slots/${event.value}/${this.props.uuid}`, '', this.props.lang).then((result) => {
+        this.service.get(`/slots/${event.value}/${this.props.uuid}`,'', this.props.lang).then((result) => {
             this.setState({ bookingProgress: false });
             this.setState({
                 status: result.status,
@@ -118,13 +119,19 @@ class Forms extends Component {
                 this.setState({ showModal: true, sessionExpire: true });
                 this.setState({ modalMethod: 'error' });
                 this.setState({ modalMsg: "sessionexpire" });
-            } else {
+                this.setState({ datesLoaded: false });
+            } else if (this.state.status === 200){
                 _.each(response.data.slots, (el: any) => {
                     if (el["status"] === true) {
                         this.setState({ dateList: response.data.slots });
                         return;
                     }
                 })
+            }else{
+                this.setState({ datesLoaded: false });
+                this.setState({ showModal: true });
+                this.setState({ modalMethod: 'error' });
+                this.setState({ modalMsg: "error" });
             }
             /*if (this.getValue('collectionDate')) {
                 this.setState({ collectionDate: this.getValue('collectionDate') });
@@ -133,7 +140,10 @@ class Forms extends Component {
         }).catch((err) => {
             console.log("error:");
             this.setState({ datesLoading: false })
-            this.setState({ datesLoaded: true });
+            this.setState({ datesLoaded: false });
+            this.setState({ showModal: true });
+            this.setState({ modalMethod: 'error' });
+            this.setState({ modalMsg: "error" });
         });
     }
 
@@ -168,7 +178,9 @@ class Forms extends Component {
                 const branches: any = this.state.branchList;
                 const branchList = [...branches['regionOne'], ...branches['regionTwo'], ...branches['regionThree']]
                 fieldData.data = _.find(branchList, ['code', e.value]) || {};
+                this.setState({ [field]: e })
             } else if (field !== 'mobileNumber' || (field === 'mobileNumber' && !e)) {
+                console.log(field);
                 this.setState({ [field]: e })
             }
             this.validation(field, fieldData.label);
@@ -192,9 +204,11 @@ class Forms extends Component {
 
     validate(e: any) {
         const re = /^[0-9\b]+$/;
-        if (e.target.value && (e.target.value.startsWith('0') || e.target.value.startsWith('1') || e.target.value.startsWith('2'))) {
+        console.log("e.target.value:",e.target.value)
+        if (e.target.value.startsWith('0') || e.target.value.startsWith('1') || e.target.value.startsWith('2')) {
             this.setState({ mobileNumber: this.state.mobileNumber });
-        } else if (e.target.value && re.test(e.target.value)) {
+        }else if (e.target.value && re.test(e.target.value)) {
+            console.log(e.target.value);
             this.setState({ mobileNumber: e.target.value })
         }
     }
@@ -221,9 +235,7 @@ class Forms extends Component {
                 validation[field] = `${title} is required.`;
             }
         } else if (field === 'mobileNumber') {
-            if (this.getValue(field) && (this.getValue(field).startsWith('0') || this.getValue(field).startsWith('1') || this.getValue(field).startsWith('2'))) {
-                validation[field] = `${title} should not starts with 0,1,2`;
-            } else if (this.getValue(field).length !== 8) {
+            if (this.getValue(field).length !== 8) {
                 validation[field] = `${title} should be 8 digits`;
             } else if (!Number(this.getValue(field))) {
                 validation[field] = `${title} must be valid number`;
@@ -252,9 +264,9 @@ class Forms extends Component {
                 <Form layout="vertical">
                     <Form.Item name='title' label={t('forms.Title')}>
                         <Select size="large" placeholder={t('forms.SelectPlaceholder')} defaultValue={this.getValue('title')} value={this.state.title} onFocus={() => this.setTouched('title')} onBlur={() => this.validation('title', t('forms.Title'))} onChange={(e) => this.setData(e, 'title')}>
-                            <Option value="Mr.">{t('forms.salutationOne')}</Option>
-                            <Option value="Mrs.">{t('forms.salutationTwo')}</Option>
-                            <Option value="Miss">{t('forms.salutationThree')}</Option>
+                            <Option value={t('forms.salutationOne')}>{t('forms.salutationOne')}</Option>
+                            <Option value={t('forms.salutationTwo')}>{t('forms.salutationTwo')}</Option>
+                            <Option value={t('forms.salutationThree')}>{t('forms.salutationThree')}</Option>
                         </Select>
                         {
                             this.getMessage('title') && this.getMessage('title').includes('is required') &&
@@ -276,10 +288,6 @@ class Forms extends Component {
                         {
                             this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('is required') &&
                             <span className="field-error">{t('forms.MobileNumberRequiredValidation')}</span>
-                        }
-                        {
-                            this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('should not starts with') &&
-                            <span className="field-error">{t('forms.MobileNumberStartsWithValidation')}</span>
                         }
                         {
                             this.getMessage('mobileNumber') && this.getMessage('mobileNumber').includes('should be 8 digits') &&
@@ -332,27 +340,23 @@ class Forms extends Component {
                             <span className="field-error">{t('forms.CollectionTimeslotRequiredValidation')}</span>
                         }
                     </Form.Item>
-                    <Form.Item className='no-margin' label={t('forms.Quantity')}>
-                        <span className="ant-form-text">{t('forms.QuantityValue')}</span>
-                        {/* <Space direction='vertical'>
-                            <span className="ant-form-text">{t('forms.QuantityValue')}</span>
+                    <Form.Item label={t('forms.Quantity')}>
+                        <Space direction='vertical'>
+                            <Input className='country-code' disabled={true} size="large" value={t('forms.QuantityValue')} />
                             <span className="ant-form-text">{t('forms.QuantityText')}</span>
-                        </Space> */}
+                        </Space>
                     </Form.Item>
-                    <Form.Item>
-                        <span className="ant-form-text">{t('forms.QuantityText')}</span>
-                    </Form.Item>
-                    <Form.Item label={`${t('forms.Note')}`}>
+                    <Form.Item label={`${t('forms.Note')}`} className='boldLabel'>
                         {t('forms.Notes')}
                     </Form.Item>
                     <Form.Item className='declaration' label={t('forms.Declaration')}>
                         <Space direction='vertical'>
-                        <Space direction='horizontal'>
-                            <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}></Checkbox><span>{t('forms.DeclarationPoints.1')}</span>
-                        </Space>
-                        <Space direction='horizontal'>
-                            <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}></Checkbox><span dangerouslySetInnerHTML={{__html: t('forms.DeclarationPoints.2')}}></span>
-                        </Space>
+                            <Space direction='horizontal'>
+                                <Checkbox checked={this.getValue('declaration', 'info')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'info')}></Checkbox><span>{t('forms.DeclarationPoints.1')}</span>
+                            </Space>
+                            <Space direction='horizontal'>
+                                <Checkbox checked={this.getValue('declaration', 'termsCondition')} onChange={(e) => this.setData(e.target.checked, 'declaration', 'termsCondition')}></Checkbox><span dangerouslySetInnerHTML={{__html: t('forms.DeclarationPoints.2')}}></span>
+                            </Space>
                         </Space>
                         {
                             this.getMessage('declaration') && this.getMessage('declaration').includes('is required') &&

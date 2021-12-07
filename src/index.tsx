@@ -7,6 +7,7 @@ import "./wrappers/i18n/i18n";
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

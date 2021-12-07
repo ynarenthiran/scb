@@ -9,7 +9,7 @@ import moment from 'moment'
 class ReviewBooking extends Component {
     state = { mobile: '', selectedRowKeys: [], mobileSearch: null, loadingAppointment: false, appointmentData: null, status: null };
     service = new CommonHttpService();
-
+    
     fields: any = [];
 
     componentWillUnmount() {
@@ -55,7 +55,7 @@ class ReviewBooking extends Component {
         this.fields = _.reject(this.props.fields, 'hide');
         return (
             <div className='review-booking'>
-
+            
                 <div className="title">{t('forms.ReviewDetails')}</div>
                 <div className='prop-list'>
                     {
@@ -69,18 +69,18 @@ class ReviewBooking extends Component {
 
                     }
                     <div className='prop-li'>
-                        <div className='pl-label'>{t('forms.Note')}</div>
-                        <div className='pl-divider'>:</div>
-                        <div className='pl-value'>
-                            {t('forms.Notes')}
-                        </div>
-                    </div>
-                    <div className='prop-li'>
                         <div className='pl-label'>{t('forms.Quantity')}</div>
                         <div className='pl-divider'>:</div>
                         <div className='pl-value'>
                             <div className="ant-form-text">1</div>
                             <div className="ant-form-text">{t('forms.QuantityText')}</div>
+                        </div>
+                    </div>
+                    <div className='prop-li'>
+                        <div className='pl-label'>{t('forms.Note')}</div>
+                        <div className='pl-divider'>:</div>
+                        <div className='pl-value'>
+                            {t('forms.Notes')}
                         </div>
                     </div>
                 </div>

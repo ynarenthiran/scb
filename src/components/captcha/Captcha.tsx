@@ -1,6 +1,6 @@
 import './Captcha.scss';
 import { Component } from "react";
-import { Button, Input, Layout } from 'antd';
+import { Button,  Input, Layout } from 'antd';
 import { GlobalOutlined, ReloadOutlined } from '@ant-design/icons';
 import { withTranslation } from 'react-i18next';
 import i18n from '../../wrappers/i18n/i18n';
@@ -81,7 +81,7 @@ class Captcha extends Component {
         const re = /^[0-9a-zA-Z\b]+$/;
         if (e.target.value === '' || re.test(e.target.value)) {
             this.setState({ captchaInput: e.target.value.toUpperCase() })
-            this.setState({ captchainvalid: false })
+            this.setState({captchainvalid: false})
         }
     }
 
@@ -131,15 +131,15 @@ class Captcha extends Component {
         }
         return (
             <Layout className="captcha">
-                <Header>
-                    <img className='sc-logo' src={`${this.service.BASEURL}/images/sc-logo.svg`} alt="Logo" />
-                    <img className='sc-mobile-logo' src={`${this.service.BASEURL}/images/sc-mobile-logo.svg`} alt="Logo" />
+               <Header>
+               <img className='sc-logo' src={`${this.service.BASEURL}/static/images/sc-logo.svg`} alt="Logo" />
+               <img className='sc-mobile-logo' src={`${this.service.BASEURL}/static/images/sc-mobile-logo.svg`} alt="Logo" />
                     <div className='border'>
                         <div className='border-top'></div>
                         <div className='border-bottom'></div>
                     </div>
                     <div className='header-title'>{t('new_booking.header')}
-                        <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
+                    <Button icon={<GlobalOutlined />} shape="round" className='lang' onClick={() => this.changeLanguageHandler(this.state.lang === 'en' ? 'zh' : 'en')}>{t(`captcha.selectOptions.${this.state.lang === 'en' ? 'English' : 'Chinese'}`)}</Button>
                     </div>
                 </Header>
                 <Content>
@@ -180,7 +180,7 @@ class Captcha extends Component {
                                     </div>
                                 }
 
-                                <Input placeholder={t('captcha.placeholder')} size="large" maxLength={6} value={this.state.captchaInput} autoFocus onChange={(e) => { this.validate(e); }} onPressEnter={() => this.verifyCaptcha()} />
+                                <Input placeholder={t('captcha.placeholder')} size="large" maxLength={6} value={this.state.captchaInput} onChange={(e) => { this.validate(e); }} onPressEnter={() => this.verifyCaptcha()} />
                                 {
                                     !this.state.reloadCaptchaLoader && this.state.captcha && this.state.captchainvalid &&
                                     <div className='captcha-error'>

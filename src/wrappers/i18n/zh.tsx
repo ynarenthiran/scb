@@ -49,11 +49,10 @@ const zh = {
         cancel_success: '我們已收到閣下的取消指示，多謝閣下使用此服務。確認短信將發送至此表格中提供的手機號碼。',
         norecordfound: '您輸入的手提電話號碼並未登記此服務。請重新輸入。',
         cancel_failure: '我們未能處理您的指示。請稍後再試。',
-        subtitle: '查詢/取消',
+        subtitle:'查詢/取消',
         sessionexpire: ' 基於保安理由，這次的使用時段已被結束。 請按[確定]重新開始登記。'
-    },
-    forms: {
-        'subtitle': '預訂資料',
+    },forms: {
+        'subtitle':'預訂資料',
         'SelectPlaceholder': '請選擇...',
         'Title': '稱謂',
         'LastName': '姓氏',
@@ -67,27 +66,26 @@ const zh = {
         "ReferenceNumber": '參考編號',
         'DeclarationPoints': {
             1: '本人確認以上資料均為屬實準確。表格提交後不得修改。',
-            2: '本人已阅读、明白及同意本申请<a target="_blank" href="https://www.google.com">条款及条件</a>'
+            2: '我已閱讀、明白及同意本申請的<a target="_blank" href="https://av.sc.com/hk/content/docs/hk-cny-tandc-2022.pdf">條款和條件</a>。'
         },
-        'QuantityValue': '1',
-        'countrycode': '852',
+        'QuantityValue':'1',
+        'countrycode':'852',
         "regionThree": "---- 新界 ----",
         "regionTwo": "---- 九龍 ----",
         "regionOne": "----  香港  ---- ",
-        'ReviewDetails': '檢閱預訂資料',
+        'ReviewDetails':'檢閱預訂資料',
         'Note': '注意',
         'Notes': `確認短信將發送至此表格中提供的手機號碼，提交前請檢閱手機號碼。以上輸入之資料（包括您的手機號碼）只會用於此服務的短訊通知，並且不會更新或儲存到客戶在本行的個人資料（如果您是銀行的現有客戶）。上述資料只會儲存至服務結束後一個月（至2022年2月28日）。 `,
         'TitleRequiredValidation': '注意',
         'LastNameRequiredValidation': '請提供所需資料。',
         'MobileNumberRequiredValidation': '請提供所需資料。',
         'MobileNumberLengthValidation': '請輸入有效的電話號碼。',
-        'MobileNumberStartsWithValidation': '手机号码不应以0，1，2开头。',
         'MobileNumberValidation': '您輸入的手提電話號碼無效。請重新輸入有效的手提電話號碼。',
         'CollectionBranchRequiredValidation': '請提供所需資料。',
         'CollectionDateRequiredValidation': '請提供所需資料。',
         'CollectionTimeslotRequiredValidation': '請提供所需資料。',
         'DeclarationRequiredValidation': '請確認您已閱讀、明白及同意本申請的條款和條件 。',
-        'noslotsavailable': '* 此分行的網上配額已被全部預訂，請選擇其他日期或分行。',
+        'noslotsavailable': '此分行的網上配額已被全部預訂，請選擇其他分行。',
         "salutationOne": "先生",
         "salutationTwo": "太太",
         "salutationThree": "小姐",
@@ -95,7 +93,7 @@ const zh = {
     },
     review_orders: {
 
-    }, modal: {
+    }, modal:{
         'okbutton': '回到主頁'
     },
     response: {

@@ -7,26 +7,27 @@
         width: 100%;
         overflow: hidden;
 
-        .no-margin {
-            margin-bottom: 0 !important;
-            flex-direction: row;
-
-            .ant-form-item-label {
-                padding-bottom: 0 !important;
-                margin-right: 2vh;
+        
+        .boldLabel{
+            .ant-form-item-label{
+                font-weight: bold;
             }
         }
-
+        
         .declaration {
+            label{
+             font-weight: bold;
+            }
             .ant-space-horizontal {
                 align-items: start !important;
             }
         }
 
         .ant-form-item {
-            margin-bottom: 3vh;
+            margin-bottom: 3vh !important;
             width: 100% !important;
-
+               
+            
             .country-code {
                 width: 10%;
             }
@@ -76,17 +77,17 @@
                 .country-code {
                     width: 15%;
                 }
-
+    
                 .mobile-number {
                     width: 85%;
                 }
             }
         }
     }
-}
-
-// Mobiles
-@media screen and (max-width: 426px) {
+  }
+  
+  // Mobiles
+  @media screen and (max-width: 426px) {
     .form {
         height: auto !important;
 
@@ -98,11 +99,11 @@
                 .country-code {
                     width: 25%;
                 }
-
+    
                 .mobile-number {
                     width: 75%;
                 }
             }
         }
     }
-}
+  }
